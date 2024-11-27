@@ -12,7 +12,7 @@ import { catalogo_get } from "../../services/catalogo.service";
 import { ficha } from "../../services/var.ficha";
 import { catalogo } from "../../services/var.catalogo";
 import { Portada } from "../../services/var.portada";
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 
 export function PortadaComponent() {
   const navigate = useNavigate();

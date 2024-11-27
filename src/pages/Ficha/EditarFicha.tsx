@@ -4,7 +4,7 @@ import { ficha_get, ficha_put } from "../../services/ficha.services";
 import { Boton } from "../../components/Botones/Botones";
 import Swal from "sweetalert2";
 import LogoImg from "../../assets/Tlaxcala.png";
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 import "sweetalert2/src/sweetalert2.scss";
 
 interface Ficha {

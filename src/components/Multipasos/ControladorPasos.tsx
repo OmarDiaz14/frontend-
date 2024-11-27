@@ -1,5 +1,5 @@
 import React from "react";
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 import { Boton_AyS } from "../Botones/Boton_AyS";
 
 interface ControladorPasosProps {

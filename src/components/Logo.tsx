@@ -1,5 +1,5 @@
 import Logo_Tlaxcala from "../assets/Tlaxcala.png";
-import "../Styles/Styles.css";
+import "../styles/Styles.css";
 
 export function Logo() {
   return (

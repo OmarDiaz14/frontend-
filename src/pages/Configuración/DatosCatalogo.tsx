@@ -1,4 +1,4 @@
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 import Logo from "../../assets/Tlaxcala.png";
 import { Boton } from "../../components/Botones/Botones";
 import { useState } from "react";

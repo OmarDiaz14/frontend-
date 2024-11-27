@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Importa useNavigate en lugar de useHistory
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 import Logo_Tlaxcala from "../../assets/Tlaxcala.png";
 import Icono_Usuario from "../../assets/Usuario.png";
 import Icono_Contraseña from "../../assets/Contraseña.png";

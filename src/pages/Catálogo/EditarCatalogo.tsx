@@ -11,7 +11,7 @@ import { Boton } from "../../components/Botones/Botones";
 import { destino, type, valor } from "../../services/var.catalogo";
 import Swal from "sweetalert2";
 import LogoImg from "../../assets/Tlaxcala.png";
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 import "sweetalert2/src/sweetalert2.scss";
 
 interface CatalogoBase {

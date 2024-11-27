@@ -1,4 +1,4 @@
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 

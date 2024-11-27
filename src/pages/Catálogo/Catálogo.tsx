@@ -14,7 +14,7 @@ import {
 } from "../../services/cuadro.service";
 import { seccion, serie, SubSerie } from "../../Producto";
 import { valor, type, destino } from "../../services/var.catalogo";
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
 import LogoImg from "../../assets/Tlaxcala.png";
