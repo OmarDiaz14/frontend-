@@ -23,7 +23,7 @@ export function Catálogo() {
   const navigate = useNavigate();
   const [id_catalogo] = useState("");
   const [catalogo, setCatalogo] = useState("");
-  const [archivo_tramite, setArchivoTramite] = useState("");
+  const [archivo_tramite, setArchivoTramite] = useState("Durante su Vigencia");
   const [archivo_concentracion, setArchivoConcentracion] = useState(
     "Durante su vigencia"
   );
@@ -32,7 +32,7 @@ export function Catálogo() {
   const [valores_documentales, setValoresDocumentales] = useState("");
   const [observaciones, setObservaciones] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [setUserInfo] = useState<any>(null);
+  const [userInfo, setUserInfo] = useState<any>(null);
 
   const [id_seccion, setIdSeccion] = useState("");
   const [id_serie, setIdSerie] = useState("");

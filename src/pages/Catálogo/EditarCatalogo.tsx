@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   catalogo_get,
@@ -262,7 +262,8 @@ export const EditarCatalogo: React.FC = () => {
             name === "id_seccion" ||
             name === "id_serie" ||
             name === "id_subserie" ||
-            name === "catalogo"
+            name === "catalogo" ||
+            name === "archivo_tramite"
           }
         />
       ) : (

@@ -21,11 +21,12 @@ import { GuiaDocu } from "../pages/Guia_Documental/GuiaDocu";
 import { hasRole } from "../services/auth.service.ts";
 import { Roles } from "../models/enums/roles_enum";
 import { PDFUpload } from "../carga";
-import { DocumentoList } from "../show.data"; 
+import { DocumentoList } from "../show.data";
 import { Subir_Documentos } from "../pages/Subir_Documentos/Subir_Documentos";
-import { EditarCatalogo } from "../pages/Catálogo/EditarCatalogo";
-import { EditarPortada } from "../pages/Portada/EditarPortada";
-import { EditarFicha } from "../pages/Ficha/EditarFicha";
+import { EditarCatalogo } from "../pages/Catálogo/EditarCatalogo.tsx";
+import { EditarPortada } from "../pages/Portada/EditarPortada.tsx";
+import { EditarFicha } from "../pages/Ficha/EditarFicha.tsx";
+
 import { TableGuia } from "../pages/Guia_Documental/TableGuia";
 
 export function Rutas() {
@@ -233,7 +234,39 @@ export function Rutas() {
           )
         }
       />
-      
+
+      <Route
+        path="/Editar_Portada/:id"
+        element={
+          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+            <EditarPortada />
+          ) : (
+            <Navigate to="/Home" />
+          )
+        }
+      />
+
+      <Route
+        path="/Editar_Ficha/:id"
+        element={
+          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+            <EditarFicha />
+          ) : (
+            <Navigate to="/Home" />
+          )
+        }
+      />
+
+      <Route
+        path="/Editar_Catálogo/:id"
+        element={
+          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+            <EditarCatalogo />
+          ) : (
+            <Navigate to="/Home" />
+          )
+        }
+      />
     </Routes>
   );
 }

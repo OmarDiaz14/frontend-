@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { portada_get, portada_put } from "../../services/portada.services";
 import { Boton } from "../../components/Botones/Botones";

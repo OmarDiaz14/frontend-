@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ficha_get, ficha_put } from "../../services/ficha.services";
 import { Boton } from "../../components/Botones/Botones";
