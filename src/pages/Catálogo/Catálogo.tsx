@@ -224,10 +224,13 @@ export function Catálogo() {
                               <select
                                 className="form-control form-select"
                                 value={id_serie}
-                                onChange={(e) => setIdSerie(e.target.value)}
+                                onChange={(e) => {
+                                  setIdSerie(e.target.value);
+                                  setIdSubserie("");
+                                }}
                               >
                                 <option value="">Seleccione una opción</option>
-                                {serie.map((s) => (
+                                {filteredSeries.map((s) => (
                                   <option value={s.serie}>{s.serie}</option>
                                 ))}
                               </select>
@@ -242,7 +245,7 @@ export function Catálogo() {
                                 onChange={(e) => setIdSubserie(e.target.value)}
                               >
                                 <option value="">Seleccione una opción</option>
-                                {subserie.map((sub) => (
+                                {filteredSubseries.map((sub) => (
                                   <option value={sub.SubSerie}>
                                     {sub.SubSerie}
                                   </option>
@@ -362,58 +365,6 @@ export function Catálogo() {
                                 ))}
                               </select>
                               <label>Destino del expediente</label>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row mb-3">
-                          <div className="col-md-4">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                id="inputSeccion"
-                                type="text"
-                                placeholder="Seccion"
-                                value={id_seccion}
-                                disabled
-                                readOnly
-                              />
-                              <label>ID Sección</label>
-                            </div>
-                          </div>
-                          <div className="col-md-4">
-                            <div className="form-floating">
-                              <select
-                                className="form-control form-select"
-                                value={id_serie}
-                                onChange={(e) => {
-                                  setIdSerie(e.target.value);
-                                  setIdSubserie("");
-                                }}
-                              >
-                                <option value="">Seleccione una opción</option>
-                                {filteredSeries.map((s) => (
-                                  <option value={s.serie}>{s.serie}</option>
-                                ))}
-                              </select>
-                              <label>ID Serie</label>
-                            </div>
-                          </div>
-                          <div className="col-md-4">
-                            <div className="form-floating">
-                              <select
-                                className="form-control form-select"
-                                value={id_subserie}
-                                onChange={(e) => setIdSubserie(e.target.value)}
-                              >
-                                <option value="">Seleccione una opción</option>
-                                {filteredSubseries.map((sub) => (
-                                  <option value={sub.SubSerie}>
-                                    {sub.SubSerie}
-                                  </option>
-                                ))}
-                              </select>
-                              <label>ID Subserie</label>
                             </div>
                           </div>
                         </div>
