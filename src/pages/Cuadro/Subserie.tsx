@@ -1,14 +1,9 @@
 import { useState, useEffect } from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box } from "@mui/material";
 import Logo from "../../assets/Tlaxcala.png";
 import { Boton } from "../../components/Botones/Botones";
-import {
-  serie_get,
-  subserie_get,
-  subserie_post,
-} from "../../services/cuadro.service";
-import { serie, SubSerie } from "../../Producto";
+import { serie_get, subserie_post } from "../../services/cuadro.service";
+import { serie } from "../../Producto";
+import { TableSubserie } from "./TableSubSerie";
 import Swal from "sweetalert2";
 
 export function Subserie() {
@@ -16,7 +11,7 @@ export function Subserie() {
   const [Serie, setSerie] = useState("");
   const [SerieGet, setSerieGet] = useState<serie[]>([]);
   const [subserie, setsubserie] = useState("");
-  const [SubSerie, setSubSerie] = useState<SubSerie[]>([]);
+  const [refreshTable, setRefreshTable] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -26,19 +21,6 @@ export function Subserie() {
     };
     fetchSerie();
   }, []);
-
-  useEffect(() => {
-    const fetchSubserie = async () => {
-      const SubSerie = await subserie_get();
-      setSubSerie(SubSerie);
-    };
-    fetchSubserie();
-  }, []);
-
-  const rowsWithIds = SubSerie.map((row, index) => ({
-    ...row,
-    id: index, // Añade un id único basado en el índice
-  }));
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -73,8 +55,7 @@ export function Subserie() {
       setDescripcion("");
       setSerie("");
 
-      const updatedSubserie = await subserie_get();
-      setSubSerie(updatedSubserie);
+      setRefreshTable((prev) => prev + 1);
     } catch (error) {
       console.error("Error:", error);
 
@@ -87,30 +68,6 @@ export function Subserie() {
       setIsLoading(false);
     }
   };
-
-  const columns: GridColDef[] = [
-    {
-      field: "descripcion",
-      headerName: "Código de la Sub-serie",
-      flex: 1,
-      minWidth: 150,
-      headerClassName: "table-header",
-    },
-    {
-      field: "SubSerie",
-      headerName: "Nombre de la subserie",
-      flex: 1,
-      minWidth: 150,
-      headerClassName: "table-header",
-    },
-    {
-      field: "serie",
-      headerName: "Serie Asociada ",
-      flex: 1,
-      minWidth: 150,
-      headerClassName: "table-header",
-    },
-  ];
 
   return (
     <body>
@@ -197,53 +154,7 @@ export function Subserie() {
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="container-fluid mt-5">
-              <div className="row justify-content-center">
-                <div className="col-lg-7">
-                  <div className="card shadow-lg border-0 rounded-lg">
-                    <div className="card-body">
-                      <Box
-                        sx={{
-                          height: 400,
-                          width: "100%",
-                          "& .table-header": {
-                            backgroundColor: "#f8fafc",
-                            color: "#1f2937",
-                            fontWeight: 600,
-                          },
-                          "& .MuiDataGrid-root": {
-                            border: "none",
-                            "& .MuiDataGrid-cell": {
-                              borderBottom: "1px solid #f1f5f9",
-                            },
-                            "& .MuiDataGrid-columnHeaders": {
-                              borderBottom: "2px solid #e2e8f0",
-                            },
-                            "& .MuiDataGrid-virtualScroller": {
-                              backgroundColor: "#ffffff",
-                            },
-                          },
-                        }}
-                      >
-                        <DataGrid
-                          rows={rowsWithIds}
-                          columns={columns}
-                          disableRowSelectionOnClick
-                          density="comfortable"
-                          initialState={{
-                            pagination: {
-                              paginationModel: { pageSize: 5 },
-                            },
-                          }}
-                          pageSizeOptions={[5, 10, 25]}
-                        />
-                      </Box>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <TableSubserie key={refreshTable}></TableSubserie>
             </div>
           </main>
         </div>

@@ -1,38 +1,50 @@
-import { Inventario } from "../../services/var.inven";
+import { iInventario } from "../../services/var.inven";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import {
   inventario_get,
   inventario_delete,
 } from "../../services/inventario.services";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
+import SearchFilteriInventario from "./SearchInventario";
 
 export function TableInventory() {
-  const [inventario, setInventario] = useState<Inventario[]>([]);
+  const [iInventario, setiInventario] = useState<iInventario[]>([]);
   const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
-  const [filteredInventory, setFilteredInventory] = useState<Inventario[]>([]);
+  const [filteredInventory, setFilteredInventory] = useState<iInventario[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchInventory = async () => {
-    const items = await inventario_get();
-    setInventario(items);
+    setIsLoading(true);
+    try {
+      const items = await inventario_get();
+      setiInventario(items);
+      setFilteredInventory(items);
+    } catch (error) {
+      console.error("Error fetching inventory:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudieron cargar los datos del inventario",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
-    const fetchInventory = async () => {
-      const items = await inventario_get();
-      setInventario(items);
-      setFilteredInventory(items);
-    };
     fetchInventory();
   }, []);
 
-  const handleFilterChange = (filteredData: Inventario[]) => {
-    setFilteredInventory(filteredData);
-  };
+  const handleFilterChange = useCallback(
+    (filteredData: iInventario[]): void => {
+      setFilteredInventory(filteredData);
+    },
+    []
+  );
 
   const handleView = () => {
     const selectedId = selectedRows[0];
@@ -259,10 +271,10 @@ export function TableInventory() {
             </div>
           </div>
 
-          {/*<SearchFilter_Ficha
-                onFilterChange={handleFilterChange}
-                ficha={inventario}
-              />*/}
+          <SearchFilteriInventario
+            onFilterChange={handleFilterChange}
+            iInventario={iInventario}
+          />
 
           <Box
             sx={{
@@ -303,6 +315,7 @@ export function TableInventory() {
               pageSizeOptions={[5, 10, 25, 50]}
               className="w-full"
               checkboxSelection
+              loading={isLoading}
             />
           </Box>
         </div>

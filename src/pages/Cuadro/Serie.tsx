@@ -1,14 +1,9 @@
 import { useEffect, useState } from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box } from "@mui/material";
 import Logo from "../../assets/Tlaxcala.png";
 import { Boton } from "../../components/Botones/Botones";
-import {
-  Seccion_get,
-  serie_get,
-  serie_post,
-} from "../../services/cuadro.service";
-import { seccion, serie } from "../../Producto";
+import { Seccion_get, serie_post } from "../../services/cuadro.service";
+import { seccion } from "../../Producto";
+import { TableSerie } from "./TableSerie";
 import Swal from "sweetalert2";
 
 export function Serie() {
@@ -17,8 +12,8 @@ export function Serie() {
   const [Descripcion, setDescripcion] = useState("");
   const [ID_seccion, setId_seccion] = useState("");
   const [secciones, setSeccion] = useState<seccion[]>([]);
-  const [SerieGet, setSerieGet] = useState<serie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [refreshTable, setRefreshTable] = useState(0);
 
   useEffect(() => {
     const fetchSeccion = async () => {
@@ -30,14 +25,6 @@ export function Serie() {
       }
     };
     fetchSeccion();
-  }, []);
-
-  useEffect(() => {
-    const fetchSerie = async () => {
-      const SerieGet = await serie_get();
-      setSerieGet(SerieGet);
-    };
-    fetchSerie();
   }, []);
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
@@ -80,8 +67,7 @@ export function Serie() {
       setDescripcion("");
       setId_seccion("");
 
-      const updatedItems = await serie_get();
-      setSerieGet(updatedItems);
+      setRefreshTable((prev) => prev + 1);
     } catch (error) {
       console.error("Error:", error);
 
@@ -94,30 +80,6 @@ export function Serie() {
       setIsLoading(false);
     }
   };
-
-  const columns: GridColDef[] = [
-    {
-      field: "codigo_serie",
-      headerName: "Código de la Serie",
-      flex: 1,
-      minWidth: 150,
-      headerClassName: "table-header",
-    },
-    {
-      field: "descripcion",
-      headerName: "Nombre de la Serie",
-      flex: 2,
-      minWidth: 250,
-      headerClassName: "table-header",
-    },
-    {
-      field: "id_seccion",
-      headerName: "Sección Asociada",
-      flex: 1.5,
-      minWidth: 150,
-      headerClassName: "table-header",
-    },
-  ];
 
   return (
     <body>
@@ -223,54 +185,7 @@ export function Serie() {
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="container-fluid mt-5">
-              <div className="row justify-content-center">
-                <div className="col-lg-7">
-                  <div className="card shadow-lg border-0 rounded-lg">
-                    <div className="card-body">
-                      <Box
-                        sx={{
-                          height: 400,
-                          width: "100%",
-                          "& .table-header": {
-                            backgroundColor: "#f8fafc",
-                            color: "#1f2937",
-                            fontWeight: 600,
-                          },
-                          "& .MuiDataGrid-root": {
-                            border: "none",
-                            "& .MuiDataGrid-cell": {
-                              borderBottom: "1px solid #f1f5f9",
-                            },
-                            "& .MuiDataGrid-columnHeaders": {
-                              borderBottom: "2px solid #e2e8f0",
-                            },
-                            "& .MuiDataGrid-virtualScroller": {
-                              backgroundColor: "#ffffff",
-                            },
-                          },
-                        }}
-                      >
-                        <DataGrid
-                          rows={SerieGet}
-                          columns={columns}
-                          getRowId={(x) => x.serie}
-                          disableRowSelectionOnClick
-                          density="comfortable"
-                          initialState={{
-                            pagination: {
-                              paginationModel: { pageSize: 5 },
-                            },
-                          }}
-                          pageSizeOptions={[5, 10, 25]}
-                        />
-                      </Box>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <TableSerie key={refreshTable}></TableSerie>
             </div>
           </main>
         </div>

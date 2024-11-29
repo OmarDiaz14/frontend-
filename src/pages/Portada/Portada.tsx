@@ -23,6 +23,7 @@ export function PortadaComponent() {
   const [id_ficha, setIdFicha] = useState<ficha[]>([]);
   const [id_catalogo, setIdCatalogo] = useState<catalogo[]>([]);
   const [userInfo, setUserInfo] = useState<any>(null);
+  const [filteredSeries, setFilteredSeries] = useState<serie[]>([]);
 
   useEffect(() => {
     try {
@@ -39,6 +40,13 @@ export function PortadaComponent() {
       console.log("Error al cargar los datos del usuario:", error);
     }
   }, []);
+
+  useEffect(() => {
+    if (portada.seccion) {
+      const filtered = id_serie.filter((s) => s.id_seccion === portada.seccion);
+      setFilteredSeries(filtered);
+    }
+  }, [portada.seccion, id_serie]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -313,7 +321,7 @@ export function PortadaComponent() {
                               name="serie"
                             >
                               <option value="">Seleccione una opción</option>
-                              {id_serie.map((serie) => (
+                              {filteredSeries.map((serie) => (
                                 <option value={serie.serie}>
                                   {serie.serie}
                                 </option>

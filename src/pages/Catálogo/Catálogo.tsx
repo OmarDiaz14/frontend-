@@ -44,6 +44,9 @@ export function Catálogo() {
   const [serie, setSerie] = useState<serie[]>([]);
   const [subserie, setSubSerie] = useState<SubSerie[]>([]);
 
+  const [filteredSeries, setFilteredSeries] = useState<serie[]>([]);
+  const [filteredSubseries, setFilteredSubseries] = useState<SubSerie[]>([]);
+
   useEffect(() => {
     const userDataStr = localStorage.getItem("user");
     if (userDataStr) {
@@ -53,6 +56,20 @@ export function Catálogo() {
       setIdSeccion(user.unidad_admi);
     }
   }, []);
+
+  useEffect(() => {
+    if (id_seccion) {
+      const filtered = serie.filter((s) => s.id_seccion === id_seccion);
+      setFilteredSeries(filtered);
+    }
+  }, [id_seccion, serie]);
+
+  useEffect(() => {
+    if (id_serie) {
+      const filtered = subserie.filter((sub) => sub.serie === id_serie);
+      setFilteredSubseries(filtered);
+    }
+  }, [id_serie, subserie]);
 
   // Fetch data effects remain the same...
   useEffect(() => {
@@ -320,10 +337,13 @@ export function Catálogo() {
                               <select
                                 className="form-control form-select"
                                 value={id_serie}
-                                onChange={(e) => setIdSerie(e.target.value)}
+                                onChange={(e) => {
+                                  setIdSerie(e.target.value);
+                                  setIdSubserie("");
+                                }}
                               >
                                 <option value="">Seleccione una opción</option>
-                                {serie.map((s) => (
+                                {filteredSeries.map((s) => (
                                   <option value={s.serie}>{s.serie}</option>
                                 ))}
                               </select>
@@ -338,7 +358,7 @@ export function Catálogo() {
                                 onChange={(e) => setIdSubserie(e.target.value)}
                               >
                                 <option value="">Seleccione una opción</option>
-                                {subserie.map((sub) => (
+                                {filteredSubseries.map((sub) => (
                                   <option value={sub.SubSerie}>
                                     {sub.SubSerie}
                                   </option>

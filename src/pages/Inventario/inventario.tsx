@@ -5,6 +5,7 @@ import { Portada } from "../../services/var.portada";
 import { serie } from "../../Producto";
 import { portada_get } from "../../services/portada.services";
 import { serie_get } from "../../services/cuadro.service";
+import { getUser } from "../../services/auth.service";
 import Swal from "sweetalert2";
 import { Boton } from "../../components/Botones/Botones";
 import Logo from "../../assets/Tlaxcala.png";
@@ -13,6 +14,8 @@ import { TableInventory } from "../Inventario/TableInventario";
 export function Inventory() {
   const initialUserState = new Inventario();
   const [inventario, setInventario] = useState<Inventario>(initialUserState);
+
+  const [refreshTable, setRefreshTable] = useState(0);
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -25,9 +28,25 @@ export function Inventory() {
     }));
   };
 
+  const [filteredSeries, setFilteredSeries] = useState<serie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [Portada, setPortada] = useState<Portada[]>([]);
   const [Serie, setSerie] = useState<serie[]>([]);
+
+  useEffect(() => {
+    const user = getUser();
+    if (user && user.unidad_admi) {
+      const filtered = Serie.filter((s) => s.id_seccion === user.unidad_admi);
+      setFilteredSeries(filtered);
+
+      if (filtered.length === 1) {
+        setInventario((prev) => ({
+          ...prev,
+          serie: filtered[0].serie,
+        }));
+      }
+    }
+  }, [Serie]);
 
   useEffect(() => {
     const fetchPortada = async () => {
@@ -74,6 +93,8 @@ export function Inventory() {
         timer: 1500,
         showConfirmButton: false,
       });
+
+      setRefreshTable((prev) => prev + 1);
 
       setInventario(initialUserState);
     } catch (error) {
@@ -125,7 +146,7 @@ export function Inventory() {
                                 name="serie"
                               >
                                 <option value="">Seleccione la Serie</option>
-                                {Serie.map((serie) => (
+                                {filteredSeries.map((serie) => (
                                   <option value={serie.serie}>
                                     {serie.serie}
                                   </option>
@@ -218,7 +239,7 @@ export function Inventory() {
                   </div>
                 </div>
               </div>
-              <TableInventory></TableInventory>
+              <TableInventory key={refreshTable}></TableInventory>
             </div>
           </main>
         </div>

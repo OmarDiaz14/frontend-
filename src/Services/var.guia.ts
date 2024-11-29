@@ -5,8 +5,6 @@ export interface iGuia {
     ubicacion_fisica: string;
     num_expediente: string;
     inventario: string;
-    /*serie: string;
-    seccion: string;*/
 }
 
 
@@ -17,6 +15,4 @@ export class Guia implements iGuia {
     ubicacion_fisica: string = "";
     num_expediente: string = "";
     inventario: string = "";
-    /*serie: string = "";
-    seccion: string = "";*/
 }

@@ -1,39 +1,44 @@
-import { Guia } from "../../services/var.guia";
+import { iGuia } from "../../services/var.guia";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
-import {
-  inventario_get,
-  inventario_delete,
-} from "../../services/inventario.services";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 import { guia_delete, guia_get } from "../../services/gui.service";
+import SearchFilteriGuia from "./SearchGuia";
 
 export function TableGuia() {
-  const [Guia, setGuia] = useState<Guia[]>([]);
+  const [iGuia, setiGuia] = useState<iGuia[]>([]);
   const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
-  const [filteredGuia, setFilteredGuia] = useState<Guia[]>([]);
+  const [filteredGuia, setFilteredGuia] = useState<iGuia[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchGuia = async () => {
-    const items = await guia_get();
-    setGuia(items);
+    setIsLoading(true);
+    try {
+      const items = await guia_get();
+      setiGuia(items);
+      setFilteredGuia(items);
+    } catch (error) {
+      console.error("Error fetching inventory", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudieron cargar los datos del inventario",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
-    const fetchGuia = async () => {
-      const items = await guia_get();
-      setGuia(items);
-      setFilteredGuia(items);
-    };
     fetchGuia();
   }, []);
 
-  const handleFilterChange = (filteredData: Guia[]) => {
+  const handleFilterChange = useCallback((filteredData: iGuia[]) => {
     setFilteredGuia(filteredData);
-  };
+  }, []);
 
   const handleView = () => {
     const selectedId = selectedRows[0];
@@ -218,10 +223,10 @@ export function TableGuia() {
             </div>
           </div>
 
-          {/*<SearchFilter_Ficha
-                onFilterChange={handleFilterChange}
-                ficha={inventario}
-              />*/}
+          <SearchFilteriGuia
+            onFilterChange={handleFilterChange}
+            iGuia={iGuia}
+          />
 
           <Box
             sx={{
@@ -262,6 +267,7 @@ export function TableGuia() {
               pageSizeOptions={[5, 10, 25, 50]}
               className="w-full"
               checkboxSelection
+              loading={isLoading}
             />
           </Box>
         </div>

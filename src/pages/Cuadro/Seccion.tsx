@@ -1,43 +1,17 @@
-import { useEffect, useState } from "react";
-import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
-import { Box, IconButton, Tooltip } from "@mui/material";
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import { useState } from "react";
 import Logo from "../../assets/Tlaxcala.png";
 import { Boton } from "../../components/Botones/Botones";
-import { seccion_post, Seccion_get } from "../../services/cuadro.service";
-import { seccion } from "../../Producto";
+import { seccion_post } from "../../services/cuadro.service";
+import { TableSeccion } from "./TableSeccion";
 import Swal from "sweetalert2";
 
 export function Seccion() {
   const [ID, setID] = useState("");
   const [Codigo, setCode] = useState("");
   const [Descripcion, setDescripcion] = useState("");
+  const [refreshTable, setRefreshTable] = useState(0);
+
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
-  const [seccion, setSeccion] = useState<seccion[]>([]);
-
-  const fetchSeccion = async () => {
-    const items = await Seccion_get();
-    setSeccion(items);
-  };
-
-  useEffect(() => {
-    const fetchSeccion = async () => {
-      const items = await Seccion_get();
-      setSeccion(items);
-    };
-    fetchSeccion();
-  }, []);
-
-  const handleView = () => {
-    const selectedId = selectedRows[0];
-    console.log("Viewing item", selectedId);
-  };
-
-  const handleEdit = () => {
-    const selectedId = selectedRows[0];
-    console.log("Editing item", selectedId);
-  };
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -71,9 +45,7 @@ export function Seccion() {
       setID("");
       setCode("");
       setDescripcion("");
-
-      const updatedItems = await Seccion_get();
-      setSeccion(updatedItems);
+      setRefreshTable((prev) => prev + 1);
     } catch (error) {
       console.error("Error:", error);
 
@@ -86,31 +58,6 @@ export function Seccion() {
       setIsLoading(false);
     }
   };
-
-  const columns: GridColDef[] = [
-    /*{
-      field: "id_seccion",
-      headerName: "Código de la Sección ",
-      flex: 1,
-      minWidth: 150,
-      headerClassName: "table-header",
-    },*/
-    {
-      field: "codigo",
-      headerName: "Código de la Sección ",
-      flex: 1.5,
-      minWidth: 200,
-      headerClassName: "table-header",
-    },
-    {
-      field: "descripcion",
-      headerName: "Nombre de la Sección",
-      flex: 2,
-      minWidth: 250,
-      headerClassName: "table-header",
-    },
-  ];
-
   return (
     <body>
       <link
@@ -187,93 +134,7 @@ export function Seccion() {
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="container-fluid mt-5">
-              <div className="row justify-content-center">
-                <div className="col-lg-7">
-                  <div className="card shadow-lg border-0 rounded-lg">
-                    <div className="card-body">
-                      {/* Toolbar */}
-                      <div className="p-4 border-b flex justify-between items-center bg-white-50">
-                        <div className="flex gap-2">
-                          <Tooltip title="Ver detalles">
-                            <span>
-                              <IconButton
-                                onClick={handleView}
-                                size="small"
-                                className="text-blue-600 hover:text-blue-800"
-                                disabled={
-                                  selectedRows.length !== 1 || isLoading
-                                }
-                              >
-                                <Eye className="h-5 w-5" />
-                              </IconButton>
-                            </span>
-                          </Tooltip>
-
-                          <Tooltip title="Editar">
-                            <span>
-                              <IconButton
-                                onClick={handleEdit}
-                                size="small"
-                                className="text-green-600 hover:text-green-800"
-                                disabled={
-                                  selectedRows.length !== 1 || isLoading
-                                }
-                              >
-                                <Pencil className="h-5 w-5" />
-                              </IconButton>
-                            </span>
-                          </Tooltip>
-                        </div>
-                      </div>
-
-                      <Box
-                        sx={{
-                          height: 400,
-                          width: "100%",
-                          "& .table-header": {
-                            backgroundColor: "#f8fafc",
-                            color: "#1f2937",
-                            fontWeight: 600,
-                          },
-                          "& .MuiDataGrid-root": {
-                            border: "none",
-                            "& .MuiDataGrid-cell": {
-                              borderBottom: "1px solid #f1f5f9",
-                            },
-                            "& .MuiDataGrid-columnHeaders": {
-                              borderBottom: "2px solid #e2e8f0",
-                            },
-                            "& .MuiDataGrid-virtualScroller": {
-                              backgroundColor: "#ffffff",
-                            },
-                          },
-                        }}
-                      >
-                        <DataGrid
-                          rows={seccion}
-                          columns={columns}
-                          getRowId={(x) => x.id_seccion}
-                          onRowSelectionModelChange={(newSelection) => {
-                            setSelectedRows(newSelection);
-                          }}
-                          density="comfortable"
-                          initialState={{
-                            pagination: {
-                              paginationModel: { pageSize: 10 },
-                            },
-                          }}
-                          pageSizeOptions={[5, 10, 25]}
-                          className="w-full"
-                          checkboxSelection
-                        />
-                      </Box>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <TableSeccion key={refreshTable}></TableSeccion>
             </div>
           </main>
         </div>
