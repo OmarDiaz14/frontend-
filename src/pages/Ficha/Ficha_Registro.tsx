@@ -167,6 +167,13 @@ export function Ficha_Registro(): JSX.Element {
       headerClassName: "table-header",
     },
     {
+      field: "id_serie",
+      headerName: "Serie ",
+      flex: 1.2,
+      minWidth: 150,
+      headerClassName: "table-header",
+    },
+    {
       field: "descripcion",
       headerName: "Descripción",
       flex: 1.5,
@@ -187,6 +194,7 @@ export function Ficha_Registro(): JSX.Element {
       minWidth: 150,
       headerClassName: "table-header",
     },
+
     /*  {
       field: "soporte_docu",
       headerName: "Soporte Documental (Formato)",
@@ -198,13 +206,6 @@ export function Ficha_Registro(): JSX.Element {
     /* {
       field: "id_seccion",
       headerName: "Sección a la que pertenece",
-      flex: 1.2,
-      minWidth: 150,
-      headerClassName: "table-header",
-    },
-    {
-      field: "id_serie",
-      headerName: "Serie a la que pertenece",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
