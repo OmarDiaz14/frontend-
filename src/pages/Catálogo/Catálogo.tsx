@@ -14,7 +14,7 @@ import {
 } from "../../services/cuadro.service";
 import { seccion, serie, SubSerie } from "../../Producto";
 import { valor, type, destino } from "../../services/var.catalogo";
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
 import LogoImg from "../../assets/Tlaxcala.png";
@@ -23,7 +23,7 @@ export function Catálogo() {
   const navigate = useNavigate();
   const [id_catalogo] = useState("");
   const [catalogo, setCatalogo] = useState("");
-  const [archivo_tramite, setArchivoTramite] = useState("");
+  const [archivo_tramite, setArchivoTramite] = useState("Durante su Vigencia");
   const [archivo_concentracion, setArchivoConcentracion] = useState(
     "Durante su vigencia"
   );
@@ -205,6 +205,55 @@ export function Catálogo() {
                     <div className="card-body">
                       <form onSubmit={handleSubmit}>
                         <div className="row mb-3">
+                          <div className="col-md-4">
+                            <div className="form-floating">
+                              <input
+                                className="form-control"
+                                id="inputSeccion"
+                                type="text"
+                                placeholder="Seccion"
+                                value={id_seccion}
+                                disabled
+                                readOnly
+                              />
+                              <label>ID Sección</label>
+                            </div>
+                          </div>
+                          <div className="col-md-4">
+                            <div className="form-floating">
+                              <select
+                                className="form-control form-select"
+                                value={id_serie}
+                                onChange={(e) => setIdSerie(e.target.value)}
+                              >
+                                <option value="">Seleccione una opción</option>
+                                {serie.map((s) => (
+                                  <option value={s.serie}>{s.serie}</option>
+                                ))}
+                              </select>
+                              <label>ID Serie</label>
+                            </div>
+                          </div>
+                          <div className="col-md-4">
+                            <div className="form-floating">
+                              <select
+                                className="form-control form-select"
+                                value={id_subserie}
+                                onChange={(e) => setIdSubserie(e.target.value)}
+                              >
+                                <option value="">Seleccione una opción</option>
+                                {subserie.map((sub) => (
+                                  <option value={sub.SubSerie}>
+                                    {sub.SubSerie}
+                                  </option>
+                                ))}
+                              </select>
+                              <label>ID Subserie</label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row mb-3">
                           <div className="col-md-6">
                             <div className="form-floating">
                               <input
@@ -214,7 +263,7 @@ export function Catálogo() {
                                 value={catalogo}
                                 onChange={(e) => setCatalogo(e.target.value)}
                               />
-                              <label>ID Catálogo</label>
+                              <label>Nombre del Catálogo</label>
                             </div>
                           </div>
                           <div className="col-md-6">

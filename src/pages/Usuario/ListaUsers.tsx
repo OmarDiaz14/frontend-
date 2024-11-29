@@ -1,6 +1,6 @@
 import { Logo } from "../../components/Logo";
 import { useState, useEffect } from "react";
-import { user } from "../../services/var.user.services";
+//import { user } from "../../services/var.user.services";
 import { user_profile } from "../../services/user.services";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 

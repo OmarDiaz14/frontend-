@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from "react";
 import { Card, CardBody, Table, Input } from "reactstrap";
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 /*import { ImSearch } from "react-icons/im";*/
 
 /*Falta extraer la información*/

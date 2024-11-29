@@ -1,4 +1,4 @@
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 import Logo from "../../assets/Tlaxcala.png";
 import Usuarios from "../../assets/Usuarios.png";
 import { Boton } from "../../components/Botones/Botones";
@@ -91,11 +91,11 @@ export function Usuario() {
               </a>
             </li>
 
-            <li className="Contra">
+            {/*}   <li className="Contra">
               <a href="" className="Pass">
                 Contraseña
               </a>
-            </li>
+            </li>*/}
           </ul>
         </div>
       </section>

@@ -18,18 +18,20 @@ import { DatosCatalogo } from "../pages/Configuración/DatosCatalogo";
 import { Portada_Registro } from "../pages/Portada/Portada_Registro";
 import { Inventory } from "../pages/Inventario/inventario";
 import { GuiaDocu } from "../pages/Guia_Documental/GuiaDocu";
-import { hasRole } from "../services/auth.service";
+import { hasRole } from "../services/auth.service.ts";
 import { Roles } from "../models/enums/roles_enum";
-import { TableInventory } from "../pages/Inventario/TableInventario";
-import { MiComponente } from "../pages/Inventario/test";
+import { PDFUpload } from "../carga";
+import { DocumentoList } from "../show.data";
 import { Subir_Documentos } from "../pages/Subir_Documentos/Subir_Documentos";
-import { EditarCatalogo } from "../pages/Catálogo/EditarCatalogo";
-import { EditarPortada } from "../pages/Portada/EditarPortada";
-import { EditarFicha } from "../pages/Ficha/EditarFicha";
+import { EditarCatalogo } from "../pages/Catálogo/EditarCatalogo.tsx";
+import { EditarPortada } from "../pages/Portada/EditarPortada.tsx";
+import { EditarFicha } from "../pages/Ficha/EditarFicha.tsx";
+
 import { TableGuia } from "../pages/Guia_Documental/TableGuia";
 import { TableSeccion } from "../pages/Cuadro/TableSeccion";
 import { TableSerie } from "../pages/Cuadro/TableSerie";
 import { TableSubserie } from "../pages/Cuadro/TableSubSerie";
+import { ImprimirPortada } from "../pages/Portada/ImprimirPortada.tsx";
 
 export function Rutas() {
   return (
@@ -214,10 +216,10 @@ export function Rutas() {
       />
 
       <Route
-        path="/TableInventario"
+        path="/Carga"
         element={
           hasRole([Roles.Admin, Roles.JefeArea]) ? (
-            <TableInventory />
+            <PDFUpload />
           ) : (
             <Navigate to="/Home" />
           )
@@ -225,15 +227,38 @@ export function Rutas() {
       />
 
       <Route
-        path="/Test"
+        path="/ShowData"
         element={
           hasRole([Roles.Admin, Roles.JefeArea]) ? (
-            <MiComponente />
+            <DocumentoList />
           ) : (
             <Navigate to="/Home" />
           )
         }
       />
+
+      <Route
+        path="/Editar_Portada/:id"
+        element={
+          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+            <EditarPortada />
+          ) : (
+            <Navigate to="/Home" />
+          )
+        }
+      />
+
+      <Route
+        path="/Editar_Ficha/:id"
+        element={
+          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+            <EditarFicha />
+          ) : (
+            <Navigate to="/Home" />
+          )
+        }
+      />
+
       <Route
         path="/Editar_Catálogo/:id"
         element={
@@ -245,30 +270,10 @@ export function Rutas() {
         }
       />
       <Route
-        path="/Editar_Portada/:id"
+        path="/ImprimirPortada/:id"
         element={
           hasRole([Roles.Admin, Roles.JefeArea]) ? (
-            <EditarPortada />
-          ) : (
-            <Navigate to="/Home" />
-          )
-        }
-      />
-      <Route
-        path="/Editar_Ficha/:id"
-        element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
-            <EditarFicha />
-          ) : (
-            <Navigate to="/Home" />
-          )
-        }
-      />
-      <Route
-        path="/TableGuia"
-        element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
-            <TableGuia />
+            <ImprimirPortada />
           ) : (
             <Navigate to="/Home" />
           )

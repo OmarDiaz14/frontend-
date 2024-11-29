@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   catalogo_get,
@@ -11,7 +11,7 @@ import { Boton } from "../../components/Botones/Botones";
 import { destino, type, valor } from "../../services/var.catalogo";
 import Swal from "sweetalert2";
 import LogoImg from "../../assets/Tlaxcala.png";
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 import "sweetalert2/src/sweetalert2.scss";
 
 interface CatalogoBase {
@@ -262,7 +262,8 @@ export const EditarCatalogo: React.FC = () => {
             name === "id_seccion" ||
             name === "id_serie" ||
             name === "id_subserie" ||
-            name === "catalogo"
+            name === "catalogo" ||
+            name === "archivo_tramite"
           }
         />
       ) : (

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ficha_post } from "../../services/ficha.services";
 import { seccion, serie, SubSerie } from "../../Producto";
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
 import {
@@ -159,7 +159,7 @@ export function Ficha() {
                             value={id_ficha}
                             onChange={(e) => setID(e.target.value)}
                           />
-                          <label htmlFor="inputIdFicha">ID Ficha</label>
+                          <label htmlFor="inputIdFicha">Nombre Ficha</label>
                         </div>
 
                         <div className="form-floating mb-3">

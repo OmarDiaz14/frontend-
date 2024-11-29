@@ -1,4 +1,4 @@
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 import Logo from "../../assets/Tlaxcala.png";
 import { Boton } from "../../components/Botones/Botones";
 import React, { useEffect, useState } from "react";
@@ -224,7 +224,10 @@ export function AgregarUsuario() {
                                 <option value={Roles.JefeArea}>
                                   Jefe de Area
                                 </option>
-                                <option value={Roles.Personal}>Personal</option>
+                                <option value={Roles.Personal}>
+                                  Personal</option>
+                                <option value={Roles.Lectura}>
+                                  Lectura</option>
                               </select>
                             </div>
                           </div>
