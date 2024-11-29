@@ -224,10 +224,13 @@ export function Catálogo() {
                               <select
                                 className="form-control form-select"
                                 value={id_serie}
-                                onChange={(e) => setIdSerie(e.target.value)}
+                                onChange={(e) => {
+                                  setIdSerie(e.target.value);
+                                  setIdSubserie("");
+                                }}
                               >
                                 <option value="">Seleccione una opción</option>
-                                {serie.map((s) => (
+                                {filteredSeries.map((s) => (
                                   <option value={s.serie}>{s.serie}</option>
                                 ))}
                               </select>
@@ -242,7 +245,7 @@ export function Catálogo() {
                                 onChange={(e) => setIdSubserie(e.target.value)}
                               >
                                 <option value="">Seleccione una opción</option>
-                                {subserie.map((sub) => (
+                                {filteredSubseries.map((sub) => (
                                   <option value={sub.SubSerie}>
                                     {sub.SubSerie}
                                   </option>
