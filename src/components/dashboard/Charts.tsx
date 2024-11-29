@@ -2,7 +2,7 @@ import React from "react";
 import { Pie } from "react-chartjs-2";
 import { Card, CardBody, CardTitle } from "reactstrap";
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 
 Chart.register(ArcElement, Tooltip, Legend);
 

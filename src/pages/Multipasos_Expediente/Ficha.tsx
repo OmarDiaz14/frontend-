@@ -1,4 +1,4 @@
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 
 export const Ficha = () => {
   return (

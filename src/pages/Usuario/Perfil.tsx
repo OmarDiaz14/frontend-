@@ -1,4 +1,4 @@
-import "../../Styles/Styles.css";
+import "../../styles/Styles.css";
 import Logo from "../../assets/Tlaxcala.png";
 import Usuarios from "../../assets/Usuarios.png";
 import { Boton } from "../../components/Botones/Botones";

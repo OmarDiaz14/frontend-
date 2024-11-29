@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Iconotipo_Tlaxcala from "../../assets/Iconotipo_Tlaxcala.png";
-import "../../Styles/Styles.css";
-import { Variables } from "../../Styles/Variables";
+import "../../styles/Styles.css";
+import { Variables } from "../../styles/Variables";
 import {
   AiOutlineHome,
   AiOutlineUser,
