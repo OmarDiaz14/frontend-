@@ -131,10 +131,9 @@ export function Ficha_Registro(): JSX.Element {
             text: "La ficha ha sido eliminada exitosamente.",
             timer: 1500,
             showConfirmButton: false,
-          }).then(() => {
-            fetchFicha();
-            setSelectedRows([]);
           });
+          await fetchFicha();
+          setSelectedRows([]);
         } else {
           Swal.fire({
             icon: "error",
