@@ -58,11 +58,29 @@ export function PortadaComponent() {
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
-    setPortada((prevPortada) => ({
-      ...prevPortada,
-      [name]: value,
-    }));
+  
+    if (name === "serie") {
+      const selectedSerie = id_serie.find((serie) => serie.serie === value);
+  
+      if (selectedSerie) {
+        const year = new Date(portada.fecha_apertura || new Date()).getFullYear();
+        const count = Math.floor(Math.random() * 1000) + 1; // Simula un contador único desde el backend
+        const numExpediente = `${selectedSerie.codigo_serie}-${year}-${count.toString().padStart(4, "0")}`;
+  
+        setPortada((prevPortada) => ({
+          ...prevPortada,
+          num_expediente: numExpediente,
+          serie: value,
+        }));
+      }
+    } else {
+      setPortada((prevPortada) => ({
+        ...prevPortada,
+        [name]: value,
+      }));
+    }
   };
+  
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -147,20 +165,7 @@ export function PortadaComponent() {
                     <div className="card-body">
                       <form onSubmit={handleSubmit}>
                         <div className="row mb-3">
-                          <div className="col-md-6">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                type="text"
-                                placeholder="Número de Expediente"
-                                value={portada.num_expediente}
-                                onChange={handleInputChange}
-                                name="num_expediente"
-                              />
-                              <label>Número de Expediente</label>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
+                          <div className="form-row mt-4">
                             <div className="form-floating">
                               <input
                                 className="form-control"
