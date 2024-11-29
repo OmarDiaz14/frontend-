@@ -42,9 +42,33 @@ export function Portada_Registro(): JSX.Element {
     setFilteredIPortada(filteredData);
   }, []);
 
+  //Edición en construcción :pppppp
+
   const handleView = (): void => {
-    const selectedId = selectedRows[0];
-    console.log("Viewing item:", selectedId);
+    if (!selectedRows || selectedRows.length === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Error",
+        text: "Por favor, seleccione un elemento para ver",
+      });
+      return;
+    }
+
+    const selectedId = selectedRows[0] as string;
+    const itemToView = filteredIPortada.find(
+      (item) => item.id_expediente === selectedId
+    );
+
+    if (!itemToView) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se encontró el elemento seleccionado",
+      });
+      return;
+    }
+    localStorage.setItem("ImprimirPortada", JSON.stringify(itemToView));
+    navigate(`/ImprimirPortada/${selectedId}`);
   };
 
   const handleEdit = async (): Promise<void> => {

@@ -143,7 +143,7 @@ export function Ficha() {
                             value={id_ficha}
                             onChange={(e) => setID(e.target.value)}
                           />
-                          <label htmlFor="inputIdFicha">ID Ficha</label>
+                          <label htmlFor="inputIdFicha">Nombre Ficha</label>
                         </div>
 
                         <div className="form-floating mb-3">

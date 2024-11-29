@@ -91,11 +91,11 @@ export function Usuario() {
               </a>
             </li>
 
-            <li className="Contra">
+            {/*}   <li className="Contra">
               <a href="" className="Pass">
                 Contraseña
               </a>
-            </li>
+            </li>*/}
           </ul>
         </div>
       </section>

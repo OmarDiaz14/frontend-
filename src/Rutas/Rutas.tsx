@@ -28,6 +28,7 @@ import { EditarPortada } from "../pages/Portada/EditarPortada.tsx";
 import { EditarFicha } from "../pages/Ficha/EditarFicha.tsx";
 
 import { TableGuia } from "../pages/Guia_Documental/TableGuia";
+import { ImprimirPortada } from "../pages/Portada/ImprimirPortada.tsx";
 
 export function Rutas() {
   return (
@@ -262,6 +263,16 @@ export function Rutas() {
         element={
           hasRole([Roles.Admin, Roles.JefeArea]) ? (
             <EditarCatalogo />
+          ) : (
+            <Navigate to="/Home" />
+          )
+        }
+      />
+      <Route
+        path="/ImprimirPortada/:id"
+        element={
+          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+            <ImprimirPortada />
           ) : (
             <Navigate to="/Home" />
           )

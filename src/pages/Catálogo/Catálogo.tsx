@@ -188,6 +188,55 @@ export function Catálogo() {
                     <div className="card-body">
                       <form onSubmit={handleSubmit}>
                         <div className="row mb-3">
+                          <div className="col-md-4">
+                            <div className="form-floating">
+                              <input
+                                className="form-control"
+                                id="inputSeccion"
+                                type="text"
+                                placeholder="Seccion"
+                                value={id_seccion}
+                                disabled
+                                readOnly
+                              />
+                              <label>ID Sección</label>
+                            </div>
+                          </div>
+                          <div className="col-md-4">
+                            <div className="form-floating">
+                              <select
+                                className="form-control form-select"
+                                value={id_serie}
+                                onChange={(e) => setIdSerie(e.target.value)}
+                              >
+                                <option value="">Seleccione una opción</option>
+                                {serie.map((s) => (
+                                  <option value={s.serie}>{s.serie}</option>
+                                ))}
+                              </select>
+                              <label>ID Serie</label>
+                            </div>
+                          </div>
+                          <div className="col-md-4">
+                            <div className="form-floating">
+                              <select
+                                className="form-control form-select"
+                                value={id_subserie}
+                                onChange={(e) => setIdSubserie(e.target.value)}
+                              >
+                                <option value="">Seleccione una opción</option>
+                                {subserie.map((sub) => (
+                                  <option value={sub.SubSerie}>
+                                    {sub.SubSerie}
+                                  </option>
+                                ))}
+                              </select>
+                              <label>ID Subserie</label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row mb-3">
                           <div className="col-md-6">
                             <div className="form-floating">
                               <input
@@ -197,7 +246,7 @@ export function Catálogo() {
                                 value={catalogo}
                                 onChange={(e) => setCatalogo(e.target.value)}
                               />
-                              <label>ID Catálogo</label>
+                              <label>Nombre del Catálogo</label>
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -296,55 +345,6 @@ export function Catálogo() {
                                 ))}
                               </select>
                               <label>Destino del expediente</label>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row mb-3">
-                          <div className="col-md-4">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                id="inputSeccion"
-                                type="text"
-                                placeholder="Seccion"
-                                value={id_seccion}
-                                disabled
-                                readOnly
-                              />
-                              <label>ID Sección</label>
-                            </div>
-                          </div>
-                          <div className="col-md-4">
-                            <div className="form-floating">
-                              <select
-                                className="form-control form-select"
-                                value={id_serie}
-                                onChange={(e) => setIdSerie(e.target.value)}
-                              >
-                                <option value="">Seleccione una opción</option>
-                                {serie.map((s) => (
-                                  <option value={s.serie}>{s.serie}</option>
-                                ))}
-                              </select>
-                              <label>ID Serie</label>
-                            </div>
-                          </div>
-                          <div className="col-md-4">
-                            <div className="form-floating">
-                              <select
-                                className="form-control form-select"
-                                value={id_subserie}
-                                onChange={(e) => setIdSubserie(e.target.value)}
-                              >
-                                <option value="">Seleccione una opción</option>
-                                {subserie.map((sub) => (
-                                  <option value={sub.SubSerie}>
-                                    {sub.SubSerie}
-                                  </option>
-                                ))}
-                              </select>
-                              <label>ID Subserie</label>
                             </div>
                           </div>
                         </div>
