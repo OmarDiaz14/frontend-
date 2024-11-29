@@ -14,6 +14,8 @@ export function GuiaDocu() {
   const initialUserState = new Guia();
   const [guia, setGuia] = useState<Guia>(initialUserState);
 
+  const [refreshTable, setRefreshTable] = useState(0);
+
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -82,6 +84,8 @@ export function GuiaDocu() {
         timer: 1500,
         showConfirmButton: false,
       });
+
+      setRefreshTable((prev) => prev + 1);
 
       setGuia(initialUserState);
     } catch (error) {
@@ -206,7 +210,7 @@ export function GuiaDocu() {
                   </div>
                 </div>
               </div>
-              <TableGuia></TableGuia>
+              <TableGuia key={refreshTable}></TableGuia>
             </div>
           </main>
         </div>

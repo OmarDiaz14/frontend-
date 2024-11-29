@@ -44,6 +44,9 @@ export function Catálogo() {
   const [serie, setSerie] = useState<serie[]>([]);
   const [subserie, setSubSerie] = useState<SubSerie[]>([]);
 
+  const [filteredSeries, setFilteredSeries] = useState<serie[]>([]);
+  const [filteredSubseries, setFilteredSubseries] = useState<SubSerie[]>([]);
+
   useEffect(() => {
     const userDataStr = localStorage.getItem("user");
     if (userDataStr) {
@@ -53,6 +56,20 @@ export function Catálogo() {
       setIdSeccion(user.unidad_admi);
     }
   }, []);
+
+  useEffect(() => {
+    if (id_seccion) {
+      const filtered = serie.filter((s) => s.id_seccion === id_seccion);
+      setFilteredSeries(filtered);
+    }
+  }, [id_seccion, serie]);
+
+  useEffect(() => {
+    if (id_serie) {
+      const filtered = subserie.filter((sub) => sub.serie === id_serie);
+      setFilteredSubseries(filtered);
+    }
+  }, [id_serie, subserie]);
 
   // Fetch data effects remain the same...
   useEffect(() => {
@@ -345,6 +362,58 @@ export function Catálogo() {
                                 ))}
                               </select>
                               <label>Destino del expediente</label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row mb-3">
+                          <div className="col-md-4">
+                            <div className="form-floating">
+                              <input
+                                className="form-control"
+                                id="inputSeccion"
+                                type="text"
+                                placeholder="Seccion"
+                                value={id_seccion}
+                                disabled
+                                readOnly
+                              />
+                              <label>ID Sección</label>
+                            </div>
+                          </div>
+                          <div className="col-md-4">
+                            <div className="form-floating">
+                              <select
+                                className="form-control form-select"
+                                value={id_serie}
+                                onChange={(e) => {
+                                  setIdSerie(e.target.value);
+                                  setIdSubserie("");
+                                }}
+                              >
+                                <option value="">Seleccione una opción</option>
+                                {filteredSeries.map((s) => (
+                                  <option value={s.serie}>{s.serie}</option>
+                                ))}
+                              </select>
+                              <label>ID Serie</label>
+                            </div>
+                          </div>
+                          <div className="col-md-4">
+                            <div className="form-floating">
+                              <select
+                                className="form-control form-select"
+                                value={id_subserie}
+                                onChange={(e) => setIdSubserie(e.target.value)}
+                              >
+                                <option value="">Seleccione una opción</option>
+                                {filteredSubseries.map((sub) => (
+                                  <option value={sub.SubSerie}>
+                                    {sub.SubSerie}
+                                  </option>
+                                ))}
+                              </select>
+                              <label>ID Subserie</label>
                             </div>
                           </div>
                         </div>

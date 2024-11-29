@@ -28,6 +28,9 @@ import { EditarPortada } from "../pages/Portada/EditarPortada.tsx";
 import { EditarFicha } from "../pages/Ficha/EditarFicha.tsx";
 
 import { TableGuia } from "../pages/Guia_Documental/TableGuia";
+import { TableSeccion } from "../pages/Cuadro/TableSeccion";
+import { TableSerie } from "../pages/Cuadro/TableSerie";
+import { TableSubserie } from "../pages/Cuadro/TableSubSerie";
 import { ImprimirPortada } from "../pages/Portada/ImprimirPortada.tsx";
 
 export function Rutas() {
@@ -48,7 +51,7 @@ export function Rutas() {
       <Route
         path="/Expediente"
         element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <Expediente />
           ) : (
             <Navigate to="/Home" />
@@ -79,13 +82,7 @@ export function Rutas() {
       />
       <Route
         path="/Seccion"
-        element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
-            <Seccion />
-          ) : (
-            <Navigate to="/Home" />
-          )
-        }
+        element={hasRole([Roles.Admin]) ? <Seccion /> : <Navigate to="/Home" />}
       />
       <Route
         path="/Serie"
@@ -110,7 +107,7 @@ export function Rutas() {
       <Route
         path="/Crear_Expediente"
         element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <Crear_Expediente />
           ) : (
             <Navigate to="/Home" />
@@ -120,7 +117,7 @@ export function Rutas() {
       <Route
         path="/Crear_Ficha"
         element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <Ficha />
           ) : (
             <Navigate to="/Home" />
@@ -130,7 +127,7 @@ export function Rutas() {
       <Route
         path="/Ficha"
         element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <Ficha_Registro />
           ) : (
             <Navigate to="/Home" />
@@ -140,7 +137,7 @@ export function Rutas() {
       <Route
         path="/Crear_Catálogo"
         element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <Catálogo />
           ) : (
             <Navigate to="/Home" />
@@ -150,7 +147,7 @@ export function Rutas() {
       <Route
         path="/Crear_Portada"
         element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <PortadaComponent />
           ) : (
             <Navigate to="/Home" />
@@ -160,7 +157,7 @@ export function Rutas() {
       <Route
         path="/Catálogo"
         element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <Catálogo_Registro />
           ) : (
             <Navigate to="/Home" />
@@ -170,13 +167,17 @@ export function Rutas() {
       <Route
         path="/Datos_Catalogo"
         element={
-          hasRole([Roles.Admin]) ? <DatosCatalogo /> : <Navigate to="/Home" />
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
+            <DatosCatalogo />
+          ) : (
+            <Navigate to="/Home" />
+          )
         }
       />
       <Route
         path="/Portada"
         element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <Portada_Registro />
           ) : (
             <Navigate to="/Home" />
@@ -186,7 +187,7 @@ export function Rutas() {
       <Route
         path="/Inventario"
         element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <Inventory />
           ) : (
             <Navigate to="/Home" />
@@ -196,7 +197,7 @@ export function Rutas() {
       <Route
         path="/GuiaDocu"
         element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <GuiaDocu />
           ) : (
             <Navigate to="/Home" />
@@ -206,7 +207,7 @@ export function Rutas() {
       <Route
         path="/Subir_Documentos"
         element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <Subir_Documentos />
           ) : (
             <Navigate to="/Home" />
@@ -273,6 +274,32 @@ export function Rutas() {
         element={
           hasRole([Roles.Admin, Roles.JefeArea]) ? (
             <ImprimirPortada />
+          ) : (
+            <Navigate to="/Home" />
+          )
+        }
+      />
+      <Route
+        path="/TableSeccion"
+        element={
+          hasRole([Roles.JefeArea, Roles.Personal]) ? (
+            <TableSeccion />
+          ) : (
+            <Navigate to="/Home" />
+          )
+        }
+      />
+      <Route
+        path="/TableSerie"
+        element={
+          hasRole([Roles.Personal]) ? <TableSerie /> : <Navigate to="/Home" />
+        }
+      />
+      <Route
+        path="/TableSubserie"
+        element={
+          hasRole([Roles.Personal]) ? (
+            <TableSubserie />
           ) : (
             <Navigate to="/Home" />
           )

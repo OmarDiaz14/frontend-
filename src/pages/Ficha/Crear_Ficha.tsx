@@ -26,8 +26,24 @@ export function Ficha() {
   const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState<any>(null);
 
+  const [filteredSeries, setFilteredSeries] = useState<serie[]>([]);
+  const [filteredSubseries, setFilteredSubseries] = useState<SubSerie[]>([]);
   const [serie, setSerie] = useState<serie[]>([]);
   const [subserie, setSubSerie] = useState<SubSerie[]>([]);
+
+  useEffect(() => {
+    if (id_seccion) {
+      const filtered = serie.filter((s) => s.id_seccion === id_seccion);
+      setFilteredSeries(filtered);
+    }
+  }, [id_seccion, serie]);
+
+  useEffect(() => {
+    if (id_serie) {
+      const filtered = subserie.filter((sub) => sub.serie === id_serie);
+      setFilteredSubseries(filtered);
+    }
+  }, [id_serie, subserie]);
 
   useEffect(() => {
     const userDataStr = localStorage.getItem("user");
@@ -222,10 +238,13 @@ export function Ficha() {
                                 className="form-select"
                                 id="inputSerie"
                                 value={id_serie}
-                                onChange={(e) => setIdSerie(e.target.value)}
+                                onChange={(e) => {
+                                  setIdSerie(e.target.value);
+                                  setIdSubserie("");
+                                }}
                               >
                                 <option value="">Seleccione una opción</option>
-                                {serie.map((s) => (
+                                {filteredSeries.map((s) => (
                                   <option key={s.serie} value={s.serie}>
                                     {s.serie}
                                   </option>
@@ -244,7 +263,7 @@ export function Ficha() {
                                 onChange={(e) => setIdSubserie(e.target.value)}
                               >
                                 <option value="">Seleccione una opción</option>
-                                {subserie.map((sub) => (
+                                {filteredSubseries.map((sub) => (
                                   <option
                                     key={sub.SubSerie}
                                     value={sub.SubSerie}
