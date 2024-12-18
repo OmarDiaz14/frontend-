@@ -40,18 +40,15 @@ export const Subir_Documentos: React.FC = () => {
     },
   ]);
 
-  // Estados para el manejo de la subida de archivos
   const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Estados para el diálogo de subida
   const [uploadDialogOpen, setUploadDialogOpen] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [anio, setAnio] = useState<string>("");
   const [expediente, setExpediente] = useState<string>("");
 
-  // Validación de archivos
   const validateFile = (file: File): boolean => {
     const allowedTypes = ["pdf", "docx", "txt", "jpg", "png"];
     const maxSize = 10 * 1024 * 1024; // 10MB
@@ -71,7 +68,6 @@ export const Subir_Documentos: React.FC = () => {
     return true;
   };
 
-  // Manejo de selección de archivo
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && validateFile(file)) {
@@ -80,9 +76,7 @@ export const Subir_Documentos: React.FC = () => {
     }
   };
 
-  // Manejo de subida de archivo
   const handleFileUpload = async () => {
-    // Validaciones
     if (!selectedFile) {
       setErrorMessage("No se ha seleccionado un archivo");
       return;
@@ -101,13 +95,11 @@ export const Subir_Documentos: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // Preparar FormData
       const formData = new FormData();
       formData.append("file", selectedFile);
       formData.append("anio", anio);
       formData.append("expediente", expediente);
 
-      // Llamada a la API
       const response = await axios.post(
         "http://169.47.93.83:8082/api/documents/guardar",
         formData,
@@ -119,7 +111,6 @@ export const Subir_Documentos: React.FC = () => {
         }
       );
 
-      // Procesar respuesta
       if (response.status >= 200 && response.status < 300) {
         const result = response.data;
 
@@ -133,10 +124,8 @@ export const Subir_Documentos: React.FC = () => {
           expediente: expediente,
         };
 
-        // Actualizar lista de documentos
         setDocumentos((prevDocs) => [...prevDocs, newDoc]);
 
-        // Resetear estados
         setUploadDialogOpen(false);
         setSelectedFile(null);
         setAnio("");
@@ -145,7 +134,6 @@ export const Subir_Documentos: React.FC = () => {
         throw new Error("Error al subir el documento");
       }
     } catch (error: any) {
-      // Manejo de errores
       console.error("Error al subir documento:", error);
 
       if (axios.isAxiosError(error)) {
@@ -168,7 +156,6 @@ export const Subir_Documentos: React.FC = () => {
     }
   };
 
-  // Columnas para el DataGrid
   const columns: GridColDef[] = [
     {
       field: "nombre",

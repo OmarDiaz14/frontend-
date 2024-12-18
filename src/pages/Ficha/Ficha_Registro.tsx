@@ -43,8 +43,30 @@ export function Ficha_Registro(): JSX.Element {
   }, []);
 
   const handleView = (): void => {
-    const selectedId = selectedRows[0];
-    console.log("Viewing item:", selectedId);
+    if (!selectedRows || selectedRows.length === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Error",
+        text: "Por favor, seleccione un elemento para ver",
+      });
+      return;
+    }
+
+    const selectedId = selectedRows[0] as string;
+    const itemToView = filteredFicha.find(
+      (item) => item.id_ficha === selectedId
+    );
+
+    if (!itemToView) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se encontró el elemento seleccionado",
+      });
+      return;
+    }
+    localStorage.setItem("ImprimirFicha", JSON.stringify(itemToView));
+    navigate(`/ImprimirFicha/${selectedId}`);
   };
 
   const handleEdit = async (): Promise<void> => {

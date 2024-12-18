@@ -32,6 +32,7 @@ import { TableSeccion } from "../pages/Cuadro/TableSeccion";
 import { TableSerie } from "../pages/Cuadro/TableSerie";
 import { TableSubserie } from "../pages/Cuadro/TableSubSerie";
 import { ImprimirPortada } from "../pages/Portada/ImprimirPortada.tsx";
+import { ImprimirFicha } from "../pages/Ficha/imprimir_ficha.tsx";
 
 export function Rutas() {
   return (
@@ -274,6 +275,16 @@ export function Rutas() {
         element={
           hasRole([Roles.Admin, Roles.JefeArea]) ? (
             <ImprimirPortada />
+          ) : (
+            <Navigate to="/Home" />
+          )
+        }
+      />
+      <Route
+        path="/ImprimirFicha/:id"
+        element={
+          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+            <ImprimirFicha />
           ) : (
             <Navigate to="/Home" />
           )
