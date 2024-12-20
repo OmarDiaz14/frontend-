@@ -6,13 +6,13 @@ import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import { getUser } from "../../services/auth.service";
 
-const user = getUser();
+interface User {
+  first_name: string;
+  last_name: string;
+  role?: string;
+}
 
-const NombreUsuario = user
-  ? `${user.first_name} ${user.last_name}`
-  : "Usuario no Identificado";
-
-interface ficha {
+interface Ficha {
   id_ficha: string;
   area_resgurdante: string;
   area_intervienen: string;
@@ -22,13 +22,26 @@ interface ficha {
   id_seccion: string;
   id_serie: string;
   id_subserie: string;
+  created_by?: User;
+  created_at?: string;
 }
 
 export const ImprimirFicha: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [ficha, setFicha] = useState<ficha | null>(null);
+  const [ficha, setFicha] = useState<Ficha | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const user = getUser();
+    if (user) {
+      setCurrentUser({
+        first_name: user.first_name,
+        last_name: user.last_name,
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const fetchFicha = async () => {
@@ -40,17 +53,6 @@ export const ImprimirFicha: React.FC = () => {
       try {
         setIsLoading(true);
 
-        const storedFicha = localStorage.getItem("ImprimirFicha");
-        if (storedFicha) {
-          const parsedFicha = JSON.parse(storedFicha);
-
-          if (String(parsedFicha.id_ficha) === String(id)) {
-            setFicha(parsedFicha);
-            setIsLoading(false);
-            return;
-          }
-        }
-
         const response = await ficha_get();
 
         if (!response || response.length === 0) {
@@ -58,7 +60,7 @@ export const ImprimirFicha: React.FC = () => {
         }
 
         const item = response.find(
-          (port: ficha) => String(port.id_ficha) === String(id)
+          (port: Ficha) => String(port.id_ficha) === String(id)
         );
 
         if (!item) {
@@ -73,7 +75,6 @@ export const ImprimirFicha: React.FC = () => {
         }
 
         setFicha(item);
-        localStorage.setItem("ImprimirFicha", JSON.stringify(item));
       } catch (error) {
         const errorMessage =
           error instanceof Error
@@ -99,31 +100,28 @@ export const ImprimirFicha: React.FC = () => {
   }, [id, navigate]);
 
   const generarPDF = () => {
-    if (!ficha) return;
+    if (!ficha || !currentUser) return;
 
     try {
       const doc = new jsPDF("landscape");
 
       // Configuración de colores y fuentes
-      const primaryColor: [number, number, number] = [41, 128, 185]; // Azul profesional
-      const textColor: [number, number, number] = [0, 0, 0]; // Negro
-      const grayColor: [number, number, number] = [128, 128, 128]; // Gris
+      const primaryColor: [number, number, number] = [41, 128, 185];
+      const textColor: [number, number, number] = [0, 0, 0];
 
       // Título principal
       doc.setFontSize(22);
-      doc.setTextColor(...(primaryColor as [number, number, number]));
+      doc.setTextColor(...primaryColor);
       doc.text(
         "FICHA TÉCNICA DE VALORACIÓN DOCUMENTAL",
         doc.internal.pageSize.width / 2,
         30,
-        {
-          align: "center",
-        }
+        { align: "center" }
       );
 
-      // Número de Expediente (elemento más grande)
+      // Número de Expediente
       doc.setFontSize(32);
-      doc.setTextColor(...(textColor as [number, number, number]));
+      doc.setTextColor(...textColor);
       doc.text(
         `Ficha: ${ficha.id_ficha}`,
         doc.internal.pageSize.width / 2,
@@ -132,7 +130,7 @@ export const ImprimirFicha: React.FC = () => {
       );
 
       // Línea separadora
-      doc.setDrawColor(...(primaryColor as [number, number, number]));
+      doc.setDrawColor(...primaryColor);
       doc.line(15, 60, doc.internal.pageSize.width - 15, 60);
 
       // Información distribuida
@@ -142,7 +140,7 @@ export const ImprimirFicha: React.FC = () => {
       const lineHeight = 10;
 
       doc.setFontSize(12);
-      doc.setTextColor(...(textColor as [number, number, number]));
+      doc.setTextColor(...textColor);
 
       // Columna Izquierda
       const leftColumnData = [
@@ -157,6 +155,7 @@ export const ImprimirFicha: React.FC = () => {
         `Tipología: ${ficha.topologia}`,
         `Sección: ${ficha.id_seccion}`,
         `Serie: ${ficha.id_serie}`,
+        `Subserie: ${ficha.id_subserie}`,
       ];
 
       // Renderizar columnas
@@ -168,23 +167,32 @@ export const ImprimirFicha: React.FC = () => {
         doc.text(text, rightColumn, startY + index * lineHeight);
       });
 
-      // Agregar sección de firmas
       const signaturesStartY = 150;
       const signatureWidth = 60;
-      const signatureSpacing = 90;
 
-      // Configurar posiciones de firmas
       const signatures = [
-        { name: "Elaboró", person: NombreUsuario, x: 30 },
-        { name: "Revisó", person: "Wilson Sánchez", x: 120 },
-        { name: "Autorizó", person: "", x: 210 },
+        {
+          name: "Elaboró",
+          person: `${currentUser.first_name} ${currentUser.last_name}`,
+          x: 30,
+        },
+        {
+          name: "Revisó",
+          person: "Wilson Sánchez",
+          x: 120,
+        },
+        {
+          name: "Autorizó",
+          person: "",
+          x: 210,
+        },
       ];
 
       doc.setDrawColor(0, 0, 0);
       doc.setFontSize(10);
 
       signatures.forEach((signature) => {
-        // Dibujar línea de firma
+        // Línea de firma
         doc.line(
           signature.x,
           signaturesStartY,
@@ -192,23 +200,33 @@ export const ImprimirFicha: React.FC = () => {
           signaturesStartY
         );
 
-        // Agregar nombre debajo de la línea
+        // Nombre del firmante
         doc.text(
-          signature.name,
+          signature.person,
           signature.x + signatureWidth / 2,
           signaturesStartY + 10,
           { align: "center" }
         );
 
-        if (signature.person) {
-          doc.text(
-            signature.person,
-            signature.x + signatureWidth / 2,
-            signaturesStartY + 20,
-            { align: "center" }
-          );
-        }
+        // Tipo de firma
+        doc.setFontSize(9);
+        doc.text(
+          signature.name,
+          signature.x + signatureWidth / 2,
+          signaturesStartY + 30,
+          { align: "center" }
+        );
       });
+
+      // Metadatos y fecha de generación
+      const currentDate = new Date().toLocaleString();
+      doc.setFontSize(8);
+      doc.text(
+        `Generado el: ${currentDate}`,
+        doc.internal.pageSize.width - 20,
+        doc.internal.pageSize.height - 10,
+        { align: "right" }
+      );
 
       // Guardar PDF
       doc.save(`Ficha_${ficha.id_ficha || "sin_numero"}.pdf`);
@@ -236,7 +254,7 @@ export const ImprimirFicha: React.FC = () => {
 
   return (
     <div className="p-4 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-12 ">
+      <h1 className="text-3xl font-bold mb-12">
         Ficha Técnica de Valoración Documental
       </h1>
       <div className="border rounded-lg p-4 shadow-sm bg-white">
@@ -246,10 +264,7 @@ export const ImprimirFicha: React.FC = () => {
             { label: "Área Resguardante", value: ficha.area_resgurdante },
             { label: "Áreas que Intervienen", value: ficha.area_intervienen },
             { label: "Descripción", value: ficha.descripcion },
-            {
-              label: "Soporte Documental",
-              value: ficha.soporte_docu,
-            },
+            { label: "Soporte Documental", value: ficha.soporte_docu },
             { label: "Tipología", value: ficha.topologia },
             { label: "Sección", value: ficha.id_seccion },
             { label: "Serie", value: ficha.id_serie },

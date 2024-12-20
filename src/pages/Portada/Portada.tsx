@@ -105,9 +105,7 @@ export function PortadaComponent() {
       !portada.fecha_apertura.trim() ||
       !portada.fecha_cierre.trim() ||
       !portada.seccion.trim() ||
-      !portada.serie.trim() ||
-      !portada.ficha.trim() ||
-      !portada.catalogo.trim()
+      !portada.serie.trim()
     ) {
       Swal.fire({
         icon: "warning",
