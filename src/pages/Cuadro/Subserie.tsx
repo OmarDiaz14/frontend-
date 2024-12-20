@@ -145,7 +145,7 @@ export function Subserie() {
                         <div className="mt-4 mb-0">
                           <div className="d-grid">
                             <Boton disabled={isLoading}>
-                              {isLoading ? "Enviando..." : "Enviar"}
+                              {isLoading ? "Creando..." : "Crear"}
                             </Boton>
                           </div>
                         </div>
