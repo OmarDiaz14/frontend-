@@ -66,15 +66,19 @@ export function PortadaComponent() {
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
-  
+
     if (name === "serie") {
       const selectedSerie = id_serie.find((serie) => serie.serie === value);
-  
+
       if (selectedSerie) {
-        const year = new Date(portada.fecha_apertura || new Date()).getFullYear();
+        const year = new Date(
+          portada.fecha_apertura || new Date()
+        ).getFullYear();
         const count = Math.floor(Math.random() * 1000) + 1; // Simula un contador único desde el backend
-        const numExpediente = `${selectedSerie.codigo_serie}-${year}-${count.toString().padStart(4, "0")}`;
-  
+        const numExpediente = `${selectedSerie.codigo_serie}-${year}-${count
+          .toString()
+          .padStart(4, "0")}`;
+
         setPortada((prevPortada) => ({
           ...prevPortada,
           num_expediente: numExpediente,
@@ -88,7 +92,6 @@ export function PortadaComponent() {
       }));
     }
   };
-  
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -337,7 +340,7 @@ export function PortadaComponent() {
 
                         <div className="text-center mt-4">
                           <Boton disabled={isLoading}>
-                            {isLoading ? "Enviando..." : "Enviar"}
+                            {isLoading ? "Creando..." : "Crear"}
                           </Boton>
                         </div>
                       </form>

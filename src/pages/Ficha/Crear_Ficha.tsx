@@ -294,7 +294,7 @@ export function Ficha() {
 
                         <div className="mt-4">
                           <Boton disabled={isLoading}>
-                            {isLoading ? "Enviando..." : "Enviar"}
+                            {isLoading ? "Creando..." : "Crear"}
                           </Boton>
                         </div>
                       </form>

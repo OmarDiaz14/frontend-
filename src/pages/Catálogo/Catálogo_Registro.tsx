@@ -112,7 +112,7 @@ export function Catálogo_Registro(): JSX.Element {
     try {
       const result = await Swal.fire({
         title: "Editar Catálogo",
-        text: `¿Desea editar el catálogo ${itemToEdit.catalogo}?`,
+        text: `¿Desea editar el catálogo ${itemToEdit.id_catalogo}?`,
         icon: "question",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",

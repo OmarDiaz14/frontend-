@@ -330,7 +330,7 @@ export const EditarCatalogo: React.FC = () => {
                       <form onSubmit={handleSubmit}>
                         <div className="row mb-3">
                           <div className="col-md-6">
-                            {renderFormField("catalogo", "ID Catálogo")}
+                            {renderFormField("catalogo", "Nombre del Catálogo")}
                           </div>
                           <div className="col-md-6">
                             {renderFormField(
