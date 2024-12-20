@@ -11,6 +11,7 @@ interface ficha {
   area_intervienen: string;
   descripcion: string;
   soporte_docu: string;
+  topologia: string;
   id_seccion: string;
   id_serie: string;
   id_subserie: string;
@@ -146,6 +147,7 @@ export const ImprimirFicha: React.FC = () => {
 
       // Columna Derecha
       const rightColumnData = [
+        `Tipología: ${ficha.topologia}`,
         `Sección: ${ficha.id_seccion}`,
         `Serie: ${ficha.id_serie}`,
       ];
@@ -232,6 +234,7 @@ export const ImprimirFicha: React.FC = () => {
               label: "Soporte Documental",
               value: ficha.soporte_docu,
             },
+            { label: "Tipología", value: ficha.topologia },
             { label: "Sección", value: ficha.id_seccion },
             { label: "Serie", value: ficha.id_serie },
             { label: "Subserie", value: ficha.id_subserie },

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Upload, Eye, Pencil, Trash2 } from "lucide-react";
 import {
@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 
-// Interfaz para definir la estructura de un documento
 interface Documento {
   id: number;
   nombre: string;
@@ -26,28 +25,58 @@ interface Documento {
   expediente: string;
 }
 
-export const Subir_Documentos: React.FC = () => {
-  // Estado para la lista de documentos
-  const [documentos, setDocumentos] = useState<Documento[]>([
-    {
-      id: 1,
-      nombre: "Documento 1.pdf",
-      fechaSubida: "2024-03-15",
-      tipo: "PDF",
-      tamaño: "2.5 MB",
-      anio: "2024",
-      expediente: "EXP-001",
-    },
-  ]);
+// Create an axios instance with default config
+const api = axios.create({
+  baseURL: "https://backend-lga.onrender.com",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
+// Add authentication interceptor
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Token ${token}`;
+  }
+  return config;
+});
+
+export const Subir_Documentos: React.FC = () => {
+  const [documentos, setDocumentos] = useState<Documento[]>([]);
   const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
   const [uploadDialogOpen, setUploadDialogOpen] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [anio, setAnio] = useState<string>("");
   const [expediente, setExpediente] = useState<string>("");
+
+  const uploadWithRetry = async (
+    formData: FormData,
+    retries = 3
+  ): Promise<any> => {
+    try {
+      const response = await api.post(
+        "/portada/portada/upload-alfresco-document/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return response.data;
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401 && retries > 0) {
+          return uploadWithRetry(formData, retries - 1);
+        }
+        throw error;
+      }
+      throw error;
+    }
+  };
 
   const validateFile = (file: File): boolean => {
     const allowedTypes = ["pdf", "docx", "txt", "jpg", "png"];
@@ -77,22 +106,13 @@ export const Subir_Documentos: React.FC = () => {
   };
 
   const handleFileUpload = async () => {
-    if (!selectedFile) {
-      setErrorMessage("No se ha seleccionado un archivo");
-      return;
-    }
-
-    if (!anio) {
-      setErrorMessage("Por favor ingrese el año");
-      return;
-    }
-
-    if (!expediente) {
-      setErrorMessage("Por favor ingrese el número de expediente");
+    if (!selectedFile || !anio || !expediente) {
+      setErrorMessage("Por favor complete todos los campos requeridos");
       return;
     }
 
     setIsLoading(true);
+    setErrorMessage(null);
 
     try {
       const formData = new FormData();
@@ -100,56 +120,52 @@ export const Subir_Documentos: React.FC = () => {
       formData.append("anio", anio);
       formData.append("expediente", expediente);
 
-      const response = await axios.post(
-        "http://169.47.93.83:8082/api/documents/guardar",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: false,
-        }
-      );
+      const result = await uploadWithRetry(formData);
 
-      if (response.status >= 200 && response.status < 300) {
-        const result = response.data;
+      const newDoc: Documento = {
+        id: result.id || documentos.length + 1,
+        nombre: selectedFile.name,
+        fechaSubida: new Date().toISOString().split("T")[0],
+        tipo: selectedFile.name.split(".").pop()?.toUpperCase() || "UNKNOWN",
+        tamaño: `${(selectedFile.size / (1024 * 1024)).toFixed(2)} MB`,
+        anio,
+        expediente,
+      };
 
-        const newDoc: Documento = {
-          id: result.id || documentos.length + 1,
-          nombre: selectedFile.name,
-          fechaSubida: new Date().toISOString().split("T")[0],
-          tipo: selectedFile.name.split(".").pop()?.toUpperCase() || "UNKNOWN",
-          tamaño: `${(selectedFile.size / (1024 * 1024)).toFixed(2)} MB`,
-          anio: anio,
-          expediente: expediente,
-        };
-
-        setDocumentos((prevDocs) => [...prevDocs, newDoc]);
-
-        setUploadDialogOpen(false);
-        setSelectedFile(null);
-        setAnio("");
-        setExpediente("");
-      } else {
-        throw new Error("Error al subir el documento");
-      }
+      setDocumentos((prev) => [...prev, newDoc]);
+      setUploadDialogOpen(false);
+      setSelectedFile(null);
+      setAnio("");
+      setExpediente("");
     } catch (error: any) {
       console.error("Error al subir documento:", error);
 
       if (axios.isAxiosError(error)) {
-        if (error.response) {
-          setErrorMessage(
-            `Error ${error.response.status}: ${
-              error.response.data?.message || "Error desconocido"
-            }`
-          );
-        } else if (error.request) {
-          setErrorMessage("No se recibió respuesta del servidor");
-        } else {
-          setErrorMessage("Error al configurar la solicitud");
+        switch (error.response?.status) {
+          case 401:
+            setErrorMessage(
+              "Sesión expirada. Por favor inicie sesión nuevamente."
+            );
+            // Redirect to login or trigger auth refresh
+            break;
+          case 413:
+            setErrorMessage("El archivo es demasiado grande para el servidor.");
+            break;
+          case 415:
+            setErrorMessage("Tipo de archivo no soportado por el servidor.");
+            break;
+          case 500:
+            setErrorMessage(
+              "Error interno del servidor. Por favor intente más tarde."
+            );
+            break;
+          default:
+            setErrorMessage(
+              error.response?.data?.message || "Error al subir el documento."
+            );
         }
       } else {
-        setErrorMessage("No se pudo subir el documento. Intente nuevamente.");
+        setErrorMessage("Error inesperado. Por favor intente nuevamente.");
       }
     } finally {
       setIsLoading(false);
