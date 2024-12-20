@@ -4,6 +4,13 @@ import { ficha_get } from "../../services/ficha.services";
 import Swal from "sweetalert2";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
+import { getUser } from "../../services/auth.service";
+
+const user = getUser();
+
+const NombreUsuario = user
+  ? `${user.first_name} ${user.last_name}`
+  : "Usuario no Identificado";
 
 interface ficha {
   id_ficha: string;
@@ -168,9 +175,9 @@ export const ImprimirFicha: React.FC = () => {
 
       // Configurar posiciones de firmas
       const signatures = [
-        { name: "Elaboró", x: 30 },
-        { name: "Revisó", x: 120 },
-        { name: "Autorizó", x: 210 },
+        { name: "Elaboró", person: NombreUsuario, x: 30 },
+        { name: "Revisó", person: "Wilson Sánchez", x: 120 },
+        { name: "Autorizó", person: "", x: 210 },
       ];
 
       doc.setDrawColor(0, 0, 0);
@@ -192,6 +199,15 @@ export const ImprimirFicha: React.FC = () => {
           signaturesStartY + 10,
           { align: "center" }
         );
+
+        if (signature.person) {
+          doc.text(
+            signature.person,
+            signature.x + signatureWidth / 2,
+            signaturesStartY + 20,
+            { align: "center" }
+          );
+        }
       });
 
       // Guardar PDF
