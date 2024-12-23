@@ -154,7 +154,7 @@ const LinksArray: MenuItem[] = [
       {
         label: "Agregar Inventario",
         icon: <RiTableLine />,
-        to: "/Inventario",
+        to: "/TableInventory",
         requiredRoles: [Roles.Personal],
       },
       {
