@@ -289,7 +289,7 @@ export function PortadaComponent() {
 
                         <div className="text-center mt-4">
                           <Boton disabled={isLoading}>
-                            {isLoading ? "Enviando..." : "Enviar"}
+                            {isLoading ? "Creando..." : "Crear"}
                           </Boton>
                         </div>
                       </form>

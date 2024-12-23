@@ -5,7 +5,6 @@ import { portada_get, portada_delete } from "../../services/portada.services";
 import { useEffect, useState, useCallback } from "react";
 import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import { Eye, Pencil, Trash2, Plus } from "lucide-react";
-import { MdOutlinePrint } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
@@ -43,12 +42,14 @@ export function Portada_Registro(): JSX.Element {
     setFilteredIPortada(filteredData);
   }, []);
 
+  //Edición en construcción :pppppp
+
   const handleView = (): void => {
     if (!selectedRows || selectedRows.length === 0) {
       Swal.fire({
         icon: "warning",
         title: "Error",
-        text: "Por favor, seleccione un elemento para Ver",
+        text: "Por favor, seleccione un elemento para ver",
       });
       return;
     }
@@ -66,34 +67,7 @@ export function Portada_Registro(): JSX.Element {
       });
       return;
     }
-    localStorage.setItem("", JSON.stringify(itemToView));
-    navigate(`//${selectedId}`);
-  };
-
-  const handlePrint = (): void => {
-    if (!selectedRows || selectedRows.length === 0) {
-      Swal.fire({
-        icon: "warning",
-        title: "Error",
-        text: "Por favor, seleccione un elemento para Imprimir",
-      });
-      return;
-    }
-
-    const selectedId = selectedRows[0] as string;
-    const itemToPrint = filteredIPortada.find(
-      (item) => item.id_expediente === selectedId
-    );
-
-    if (!itemToPrint) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "No se encontró el elemento seleccionado",
-      });
-      return;
-    }
-    localStorage.setItem("ImprimirPortada", JSON.stringify(itemToPrint));
+    localStorage.setItem("ImprimirPortada", JSON.stringify(itemToView));
     navigate(`/ImprimirPortada/${selectedId}`);
   };
 
@@ -264,12 +238,12 @@ export function Portada_Registro(): JSX.Element {
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           <div className="p-4 border-b flex justify-between items-center bg-gray-50">
             <div className="flex gap-2">
-              <Tooltip title="Ver">
+              <Tooltip title="Ver detalles">
                 <span>
                   <IconButton
                     onClick={handleView}
                     size="small"
-                    className="text-green-600 hover:text-green-800"
+                    className="text-blue-600 hover:text-blue-800"
                     disabled={selectedRows.length !== 1 || isLoading}
                   >
                     <Eye className="h-5 w-5" />
@@ -299,19 +273,6 @@ export function Portada_Registro(): JSX.Element {
                     disabled={selectedRows.length !== 1 || isLoading}
                   >
                     <Trash2 className="h-5 w-5" />
-                  </IconButton>
-                </span>
-              </Tooltip>
-
-              <Tooltip title="Imprimir Docuemento">
-                <span>
-                  <IconButton
-                    onClick={handlePrint}
-                    size="small"
-                    className="text-blue-600 hover:text-blue-800"
-                    disabled={selectedRows.length !== 1 || isLoading}
-                  >
-                    <MdOutlinePrint className="h-6 w-6" />
                   </IconButton>
                 </span>
               </Tooltip>

@@ -262,7 +262,7 @@ export function Catálogo() {
                               <input
                                 className="form-control"
                                 type="text"
-                                placeholder="ID Catálogo"
+                                placeholder="Nombre del Catálogo"
                                 value={catalogo}
                                 onChange={(e) => setCatalogo(e.target.value)}
                               />
@@ -372,7 +372,7 @@ export function Catálogo() {
                         <div className="mt-4 mb-0">
                           <div className="d-grid">
                             <Boton disabled={isLoading}>
-                              {isLoading ? "Enviando..." : "Enviar"}
+                              {isLoading ? "Creando..." : "Crear"}
                             </Boton>
                           </div>
                         </div>

@@ -201,7 +201,7 @@ export function GuiaDocu() {
                         <div className="">
                           <div className="">
                             <Boton disabled={isLoading}>
-                              {isLoading ? "Enviando..." : "Enviar"}
+                              {isLoading ? "Creando..." : "Crear"}
                             </Boton>
                           </div>
                         </div>

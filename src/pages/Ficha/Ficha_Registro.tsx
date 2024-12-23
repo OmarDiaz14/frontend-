@@ -5,6 +5,7 @@ import { ficha_get, ficha_delete } from "../../services/ficha.services";
 import { useEffect, useState, useCallback } from "react";
 import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import { Eye, Pencil, Trash2, Plus } from "lucide-react";
+import { MdOutlinePrint } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import SearchFilter_Ficha from "./SearchFilter_Ficha";
 import Swal from "sweetalert2";
@@ -43,8 +44,57 @@ export function Ficha_Registro(): JSX.Element {
   }, []);
 
   const handleView = (): void => {
-    const selectedId = selectedRows[0];
-    console.log("Viewing item:", selectedId);
+    if (!selectedRows || selectedRows.length === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Error",
+        text: "Por favor, seleccione un elemento para Ver",
+      });
+      return;
+    }
+
+    const selectedId = selectedRows[0] as string;
+    const itemToView = filteredFicha.find(
+      (item) => item.id_ficha === selectedId
+    );
+
+    if (!itemToView) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se encontró el elemento seleccionado",
+      });
+      return;
+    }
+    localStorage.setItem("", JSON.stringify(itemToView));
+    navigate(`//${selectedId}`);
+  };
+
+  const handlePrint = (): void => {
+    if (!selectedRows || selectedRows.length === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Error",
+        text: "Por favor, seleccione un elemento para Imprimir",
+      });
+      return;
+    }
+
+    const selectedId = selectedRows[0] as string;
+    const itemToPrint = filteredFicha.find(
+      (item) => item.id_ficha === selectedId
+    );
+
+    if (!itemToPrint) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se encontró el elemento seleccionado",
+      });
+      return;
+    }
+    localStorage.setItem("ImprimirFicha", JSON.stringify(itemToPrint));
+    navigate(`/ImprimirFicha/${selectedId}`);
   };
 
   const handleEdit = async (): Promise<void> => {
@@ -167,6 +217,13 @@ export function Ficha_Registro(): JSX.Element {
       headerClassName: "table-header",
     },
     {
+      field: "id_serie",
+      headerName: "Serie ",
+      flex: 1.2,
+      minWidth: 150,
+      headerClassName: "table-header",
+    },
+    {
       field: "descripcion",
       headerName: "Descripción",
       flex: 1.5,
@@ -187,6 +244,7 @@ export function Ficha_Registro(): JSX.Element {
       minWidth: 150,
       headerClassName: "table-header",
     },
+
     /*  {
       field: "soporte_docu",
       headerName: "Soporte Documental (Formato)",
@@ -198,13 +256,6 @@ export function Ficha_Registro(): JSX.Element {
     /* {
       field: "id_seccion",
       headerName: "Sección a la que pertenece",
-      flex: 1.2,
-      minWidth: 150,
-      headerClassName: "table-header",
-    },
-    {
-      field: "id_serie",
-      headerName: "Serie a la que pertenece",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -229,12 +280,12 @@ export function Ficha_Registro(): JSX.Element {
           {/* Toolbar */}
           <div className="p-4 border-b flex justify-between items-center bg-gray-50">
             <div className="flex gap-2">
-              <Tooltip title="Ver detalles">
+              <Tooltip title="Ver">
                 <span>
                   <IconButton
                     onClick={handleView}
                     size="small"
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-green-600 hover:text-green-800"
                     disabled={selectedRows.length !== 1 || isLoading}
                   >
                     <Eye className="h-5 w-5" />
@@ -264,6 +315,19 @@ export function Ficha_Registro(): JSX.Element {
                     disabled={selectedRows.length !== 1 || isLoading}
                   >
                     <Trash2 className="h-5 w-5" />
+                  </IconButton>
+                </span>
+              </Tooltip>
+
+              <Tooltip title="Imprimir Ficha">
+                <span>
+                  <IconButton
+                    onClick={handlePrint}
+                    size="small"
+                    className="text-blue-600 hover:text-blue-800"
+                    disabled={selectedRows.length !== 1 || isLoading}
+                  >
+                    <MdOutlinePrint className="h-5 w-5" />
                   </IconButton>
                 </span>
               </Tooltip>

@@ -38,6 +38,7 @@ import { FormAuth } from "../pages/Inventario/FormAuth.tsx";
 import Finalinventory from "../pages/Inventario/FinalInventory.tsx";
 import TableInventory from "../pages/Inventario/TableInventario.tsx";
 import EditarInventario from "../pages/Inventario/EditarInventario.tsx";
+import ImprimirFicha from "../pages/Ficha/imprimir_ficha.tsx";
 
 export function Rutas() {
   return (
@@ -280,6 +281,16 @@ export function Rutas() {
         element={
           hasRole([Roles.Admin, Roles.JefeArea]) ? (
             <ImprimirPortada />
+          ) : (
+            <Navigate to="/Home" />
+          )
+        }
+      />
+      <Route
+        path="/ImprimirFicha/:id"
+        element={
+          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+            <ImprimirFicha />
           ) : (
             <Navigate to="/Home" />
           )

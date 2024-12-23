@@ -18,6 +18,7 @@ export function Ficha() {
   const [area_intervienen, setIntervienen] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [soporte_docu, setSoporte] = useState("");
+  const [topologia, setTopologia] = useState("");
   const [id_seccion, setIdSeccion] = useState("");
   const [id_serie, setIdSerie] = useState("");
   const [id_subserie, setIdSubserie] = useState("");
@@ -74,6 +75,7 @@ export function Ficha() {
 
     if (
       !id_ficha.trim() ||
+      !topologia.trim || //Recien Agregado
       !area_resguardante.trim() ||
       !area_intervienen.trim() ||
       !descripcion.trim() ||
@@ -96,6 +98,7 @@ export function Ficha() {
       area_intervienen: area_intervienen,
       soporte_docu: soporte_docu,
       descripcion: descripcion,
+      topologia: topologia,
       id_seccion: id_seccion,
       id_serie: id_serie,
       id_subserie: id_subserie,
@@ -214,6 +217,18 @@ export function Ficha() {
                           </label>
                         </div>
 
+                        <div className="form-floating mb-3">
+                          <input
+                            className="form-control"
+                            id="inputAreaIntervienen"
+                            type="text"
+                            placeholder="Tipología"
+                            value={topologia}
+                            onChange={(e) => setTopologia(e.target.value)}
+                          />
+                          <label htmlFor="inputTopologia">Tipología</label>
+                        </div>
+
                         <div className="row mb-3">
                           <div className="col-md-4">
                             <div className="form-floating">
@@ -277,7 +292,7 @@ export function Ficha() {
 
                         <div className="mt-4">
                           <Boton disabled={isLoading}>
-                            {isLoading ? "Enviando..." : "Enviar"}
+                            {isLoading ? "Creando..." : "Crear"}
                           </Boton>
                         </div>
                       </form>

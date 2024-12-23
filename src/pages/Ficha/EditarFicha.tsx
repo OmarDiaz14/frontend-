@@ -16,6 +16,7 @@ interface Ficha {
   id_seccion: string;
   id_serie: string;
   id_subserie: string;
+  topologia: string;
 }
 
 const INITIAL_FICHA: Ficha = {
@@ -27,6 +28,7 @@ const INITIAL_FICHA: Ficha = {
   id_seccion: "",
   id_serie: "",
   id_subserie: "",
+  topologia: "",
 };
 
 export const EditarFicha: React.FC = () => {
@@ -125,6 +127,7 @@ export const EditarFicha: React.FC = () => {
       "area_intervienen",
       "descripcion",
       "soporte_docu",
+      "topologia",
     ];
 
     const emptyFields = requiredFields.filter((field) => {
@@ -297,6 +300,8 @@ export const EditarFicha: React.FC = () => {
                         )}
 
                         {renderFormField("soporte_docu", "Soporte Documental")}
+
+                        {renderFormField("topologia", "Tipología", "textarea")}
 
                         <div className="row mb-3">
                           <div className="col-md-4">
