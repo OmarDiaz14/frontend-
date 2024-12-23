@@ -16,7 +16,6 @@ import { PortadaComponent } from "../pages/Portada/Portada";
 import { Catálogo_Registro } from "../pages/Catálogo/Catálogo_Registro";
 import { DatosCatalogo } from "../pages/Configuración/DatosCatalogo";
 import { Portada_Registro } from "../pages/Portada/Portada_Registro";
-import { Inventory } from "../pages/Inventario/inventario";
 import { GuiaDocu } from "../pages/Guia_Documental/GuiaDocu";
 import { hasRole } from "../services/auth.service.ts";
 import { Roles } from "../models/enums/roles_enum";
@@ -186,16 +185,6 @@ export function Rutas() {
         element={
           hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <Portada_Registro />
-          ) : (
-            <Navigate to="/Home" />
-          )
-        }
-      />
-      <Route
-        path="/Inventario"
-        element={
-          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
-            <Inventory />
           ) : (
             <Navigate to="/Home" />
           )
