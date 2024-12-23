@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { TextField, InputAdornment, IconButton, Paper } from "@mui/material";
 import { Search, X } from "lucide-react";
 import { iInventario } from "../../services/var.inven";
+import { iPortada } from "../../services/var.portada";
 
 interface SearchFilterProps {
-  onFilterChange: (filteredData: iInventario[]) => void;
-  iInventario: iInventario[];
+  onFilterChange: (filteredData: iPortada[]) => void;
+  iInventario: iPortada[];
 }
 
 interface SearchValues {
@@ -35,7 +36,7 @@ const SearchFilteriInventario: React.FC<SearchFilterProps> = ({
       return Object.entries(searchValues).every(([key, value]) => {
         if (!value) return true;
         const itemValue =
-          item[key as keyof iInventario]?.toString().toLowerCase() ?? "";
+          item[key as keyof iPortada]?.toString().toLowerCase() ?? "";
         return itemValue.includes(value.toLowerCase());
       });
     });

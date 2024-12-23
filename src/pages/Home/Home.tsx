@@ -1,6 +1,7 @@
 import { Logo } from "../../components/Logo";
 import { Tabla } from "../../components/Tablas/Tabla";
 import { GraficoExpedientes } from "../../components/dashboard/Charts";
+import { TableInventory } from "../Inventario/TableInventario";
 
 export function Home() {
   // Datos de ejemplo para los expedientes en gráfico de pie.

@@ -7,10 +7,6 @@ import "sweetalert2/src/sweetalert2.scss";
 import { serie_get } from "../../services/cuadro.service";
 import { seccion, serie } from "../../Producto";
 import { portada_post } from "../../services/portada.services";
-import { ficha_get } from "../../services/ficha.services";
-import { catalogo_get } from "../../services/catalogo.service";
-import { ficha } from "../../services/var.ficha";
-import { catalogo } from "../../services/var.catalogo";
 import { Portada } from "../../services/var.portada";
 import "../../styles/Styles.css";
 
@@ -20,8 +16,6 @@ export function PortadaComponent() {
   const [isLoading, setIsLoading] = useState(false);
   const [seccion, setSeccion] = useState("");
   const [id_serie, setSerie] = useState<serie[]>([]);
-  const [id_ficha, setIdFicha] = useState<ficha[]>([]);
-  const [id_catalogo, setIdCatalogo] = useState<catalogo[]>([]);
   const [userInfo, setUserInfo] = useState<any>(null);
   const [filteredSeries, setFilteredSeries] = useState<serie[]>([]);
 
@@ -50,12 +44,8 @@ export function PortadaComponent() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const fichas = await ficha_get();
-      const catalogos = await catalogo_get();
       const series = await serie_get();
 
-      setIdFicha(fichas);
-      setIdCatalogo(catalogos);
       setSerie(series);
     };
 
@@ -66,15 +56,19 @@ export function PortadaComponent() {
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
-  
+
     if (name === "serie") {
       const selectedSerie = id_serie.find((serie) => serie.serie === value);
-  
+
       if (selectedSerie) {
-        const year = new Date(portada.fecha_apertura || new Date()).getFullYear();
+        const year = new Date(
+          portada.fecha_apertura || new Date()
+        ).getFullYear();
         const count = Math.floor(Math.random() * 1000) + 1; // Simula un contador único desde el backend
-        const numExpediente = `${selectedSerie.codigo_serie}-${year}-${count.toString().padStart(4, "0")}`;
-  
+        const numExpediente = `${selectedSerie.codigo_serie}-${year}-${count
+          .toString()
+          .padStart(4, "0")}`;
+
         setPortada((prevPortada) => ({
           ...prevPortada,
           num_expediente: numExpediente,
@@ -88,7 +82,6 @@ export function PortadaComponent() {
       }));
     }
   };
-  
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -102,9 +95,7 @@ export function PortadaComponent() {
       !portada.fecha_apertura.trim() ||
       !portada.fecha_cierre.trim() ||
       !portada.seccion.trim() ||
-      !portada.serie.trim() ||
-      !portada.ficha.trim() ||
-      !portada.catalogo.trim()
+      !portada.serie.trim()
     ) {
       Swal.fire({
         icon: "warning",
@@ -135,7 +126,7 @@ export function PortadaComponent() {
         timer: 1500,
         showConfirmButton: false,
       }).then(() => {
-        navigate("/Portada");
+        //navigate("/Portada");
       });
     } catch (error) {
       console.error("Error al enviar datos:", error);
@@ -258,45 +249,6 @@ export function PortadaComponent() {
                               />
                               <label>Número de Fojas</label>
                             </div>
-                          </div>
-                        </div>
-                        <div className="form-row mt-4">
-                          <div className="col">
-                            <label> Ficha </label>
-                            <select
-                              className="multisteps-form_input form-select"
-                              id="Ficha"
-                              value={portada.ficha}
-                              onChange={handleInputChange}
-                              name="ficha"
-                            >
-                              <option value="">Seleccione una opción</option>
-                              {id_ficha.map((ficha) => (
-                                <option value={ficha.id_ficha}>
-                                  {ficha.id_ficha}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        </div>
-
-                        <div className="form-row mt-4">
-                          <div className="col">
-                            <label> Catalogo </label>
-                            <select
-                              className="multisteps-form_input form-select"
-                              id="Ficha"
-                              value={portada.catalogo}
-                              onChange={handleInputChange}
-                              name="catalogo"
-                            >
-                              <option value="">Seleccione una opción</option>
-                              {id_catalogo.map((catalogo) => (
-                                <option value={catalogo.id_catalogo}>
-                                  {catalogo.catalogo}
-                                </option>
-                              ))}
-                            </select>
                           </div>
                         </div>
 

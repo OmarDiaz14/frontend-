@@ -1,15 +1,19 @@
 import axios from "axios";
 import api from "../api_axios";
 
-interface inventario {
+interface InventarioFormAuth {
   serie: string;
-  descripsion: string;
-  observaciones: string;
-  estatus: string;
   expediente: string;
 }
 
-export const invetario_post = async (data: inventario) => {
+interface inventario{
+  serie: string;
+  expediente: string;
+  descripsion: string;
+  observaciones: string;
+}
+
+export const invetario_post = async (data: InventarioFormAuth) => {
   try {
     console.log("Sending data:", data);
     console.log(

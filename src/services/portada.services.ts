@@ -12,28 +12,22 @@ interface portada {
   seccion: string;
   serie: string;
   subserie: string;
-  ficha: string;
-  catalogo: string;
 }
 
-export const portada_post = async (data: portada) => {
+export const portada_post = async ( data: portada) => {
   try {
+    console.log("sending data:", data);
+    console.log(
+      "Full URL:",
+      `${import.meta.env.VITE_API_URL}/portada/portada/`
+    );
     const response = await api.post("/portada/portada/", data);
-
-    if (response.status === 201) {
-      // Asume que se devuelve un 201 Created
-      console.log("portada creado exitosamente:", response.data);
-      return response.data;
-    } else {
-      throw new Error("Error al crear portada  " + response.statusText);
-    }
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.error("Error de Axios:", error.message);
-    } else {
-      console.error("Error inesperado:", error);
-    }
-    return null;
+    return response.data;
+  } catch (error:any) {
+    console.error("Full error:", error);
+    console.error("Error response:", error.response);
+    console.error("Error request", error.request);
+    throw error;
   }
 };
 

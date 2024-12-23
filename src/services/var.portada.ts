@@ -10,9 +10,6 @@ export interface iPortada {
     seccion: string;
     serie: string;
     subserie: string;
-    ficha: string;
-    catalogo: string;
-    
 }
 
 export class Portada implements iPortada {
@@ -27,6 +24,4 @@ export class Portada implements iPortada {
     seccion: string = "";
     serie: string = "";
     subserie: string = "";
-    ficha: string = "";
-    catalogo: string = "";
 }

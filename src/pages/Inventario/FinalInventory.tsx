@@ -1,3 +1,4 @@
+import { iInventario } from "../../services/var.inven";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import {
   inventario_get,
@@ -5,45 +6,21 @@ import {
 } from "../../services/inventario.services";
 import { useCallback, useEffect, useState } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
-import { Plus, Trash2 } from "lucide-react";
+import { Eye, Pencil, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 import SearchFilteriInventario from "./SearchInventario";
-import { iPortada } from "../../services/var.portada";
-import { portada_get } from "../../services/portada.services";
-import { useNavigate } from "react-router-dom";
 
-export function TableInventory() {
-  const [iInventario, setiInventario] = useState<iPortada[]>([]);
+export function Finalinventory() {
+  const [iInventario, setiInventario] = useState<iInventario[]>([]);
   const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
-  const [filteredInventory, setFilteredInventory] = useState<iPortada[]>([]);
+  const [filteredInventory, setFilteredInventory] = useState<iInventario[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const Navigate = useNavigate();
-
-  const handleClick = () => {
-    if (!selectedRows || selectedRows.length === 0) {
-      Swal.fire({
-        icon: "warning",
-        title: "Error",
-        text: "Por favor, seleccione un elemento para agregar",
-      });
-      return;
-    }
-
-    const selectedId = selectedRows[0];
-    const selectedInventory = filteredInventory.find(
-      (item) => item.id_expediente === selectedId
-    );
-
-    Navigate("/FormAuth", {
-      state: { selectedInventory },
-    });
-  };
 
   const fetchInventory = async () => {
     setIsLoading(true);
     try {
-      const items = await portada_get();
+      const items = await inventario_get();
       setiInventario(items);
       setFilteredInventory(items);
     } catch (error) {
@@ -62,9 +39,17 @@ export function TableInventory() {
     fetchInventory();
   }, []);
 
-  const handleFilterChange = useCallback((filteredData: iPortada[]): void => {
-    setFilteredInventory(filteredData);
-  }, []);
+  const handleFilterChange = useCallback(
+    (filteredData: iInventario[]): void => {
+      setFilteredInventory(filteredData);
+    },
+    []
+  );
+
+  const handleView = () => {
+    const selectedId = selectedRows[0];
+    console.log("Viewing item", selectedId);
+  };
 
   const handleEdit = () => {
     const selectedId = selectedRows[0];
@@ -132,7 +117,7 @@ export function TableInventory() {
 
   const columns: GridColDef[] = [
     {
-      field: "id_expediente",
+      field: "num_consecutivo",
       headerName: "Num. Consecutivo",
       flex: 1,
       minWidth: 150,
@@ -153,42 +138,42 @@ export function TableInventory() {
       headerClassName: "table-header",
     },
     {
-      field: "fecha_apertura",
+      field: "fecha_inicio",
       headerName: "Fecha de inicio",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
-      field: "fecha_cierre",
+      field: "fecha_fin",
       headerName: "Fecha de fin",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
-      field: "num_legajos",
+      field: "legajos",
       headerName: "Num. de legajos",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
-      field: "num_fojas",
+      field: "fojas",
       headerName: "Num. de fojas",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
-      field: "valor_primario",
+      field: "valores_primarios",
       headerName: "Valores primarios",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
-      field: "soporte_docu",
+      field: "soporte",
       headerName: "Soporte",
       flex: 1.2,
       minWidth: 150,
@@ -202,8 +187,22 @@ export function TableInventory() {
       headerClassName: "table-header",
     },
     {
-      field: "type",
+      field: "acceso",
       headerName: "Tipo de acceso",
+      flex: 1.2,
+      minWidth: 150,
+      headerClassName: "table-header",
+    },
+    {
+      field: "descripsion",
+      headerName: "Descripsion",
+      flex: 1.2,
+      minWidth: 150,
+      headerClassName: "table-header",
+    },
+    {
+      field: "observaciones",
+      headerName: "Observaciones",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -212,46 +211,14 @@ export function TableInventory() {
 
   return (
     <div className="min-h-screen bg-gray">
-      <main className="max-w-screen-xl mx-auto py-7">
+      <main className="max-w-7xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           {/* Toolbar */}
-          <h1 className="text-center border-b bg-gray-60">
-            Inventario General
-          </h1>
-          <div className="p-4 border-b flex justify-between items-center bg-gray-50">
-            <div className="flex gap-3">
-              <Tooltip title="Agregar Inventario">
-                <span>
-                  <IconButton
-                    onClick={handleClick}
-                    size="small"
-                    className="text-green-600 hover:text-green-800"
-                    disabled={selectedRows.length !== 1 || isLoading}
-                  >
-                    <Plus className="h-5 w-5" />
-                  </IconButton>
-                </span>
-              </Tooltip>
 
-              <Tooltip title="Eliminar">
-                <span>
-                  <IconButton
-                    onClick={handleDelete}
-                    size="small"
-                    className="text-red-600 hover:text-red-800"
-                    disabled={selectedRows.length !== 1 || isLoading}
-                  >
-                    <Trash2 className="h-5 w-5" />
-                  </IconButton>
-                </span>
-              </Tooltip>
-            </div>
-          </div>
-
-          <SearchFilteriInventario
+          {/*<SearchFilteriInventario
             onFilterChange={handleFilterChange}
-            iInventario={iInventario}
-          />
+            iInventario={iPortada}
+          />*/}
 
           <Box
             sx={{
@@ -279,7 +246,7 @@ export function TableInventory() {
             <DataGrid
               rows={filteredInventory}
               columns={columns}
-              getRowId={(x) => x.id_expediente}
+              getRowId={(x) => x.num_consecutivo}
               onRowSelectionModelChange={(newSelection) => {
                 setSelectedRows(newSelection);
               }}
@@ -301,4 +268,4 @@ export function TableInventory() {
   );
 }
 
-export default TableInventory;
+export default Finalinventory;

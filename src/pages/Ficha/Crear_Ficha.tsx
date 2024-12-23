@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ficha_post } from "../../services/ficha.services";
 import { seccion, serie, SubSerie } from "../../Producto";
-import "../../styles/Styles.css";
-import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
 import {
   Seccion_get,

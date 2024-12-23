@@ -65,56 +65,54 @@ export function TableSeccion() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray">
-      <main className="max-w-7x1 mx-auto px-4 py-8">
-        <div className="container-fluid mt-5">
-          <div className="row justify-content-center">
-            <div className="col-lg-7">
-              <div className="card shadow-lg border-0 rounded-lg">
-                <div className="card-body">
-                  <Box
-                    sx={{
-                      height: 400,
-                      width: "100%",
-                      "& .table-header": {
-                        backgroundColor: "#f8fafc",
-                        color: "#1f2937",
-                        fontWeight: 600,
+    <main className="max-w-7x1 mx-auto px-4 py-8">
+      <div className="container-fluid">
+        <div className="row justify-content-center">
+          <div className="col-lg-7">
+            <div className="card shadow-lg border-0 rounded-lg">
+              <div className="card-body">
+                <Box
+                  sx={{
+                    height: 400,
+                    width: "100%",
+                    "& .table-header": {
+                      backgroundColor: "#f8fafc",
+                      color: "#1f2937",
+                      fontWeight: 600,
+                    },
+                    "& .MuiDataGrid-root": {
+                      border: "none",
+                      "& .MuiDataGrid-cell": {
+                        borderBottom: "1px solid #f1f5f9",
                       },
-                      "& .MuiDataGrid-root": {
-                        border: "none",
-                        "& .MuiDataGrid-cell": {
-                          borderBottom: "1px solid #f1f5f9",
-                        },
-                        "& .MuiDataGrid-columnHeaders": {
-                          borderBottom: "2px solid #e2e8f0",
-                        },
-                        "& .MuiDataGrid-virtualScroller": {
-                          backgroundColor: "#ffffff",
-                        },
+                      "& .MuiDataGrid-columnHeaders": {
+                        borderBottom: "2px solid #e2e8f0",
+                      },
+                      "& .MuiDataGrid-virtualScroller": {
+                        backgroundColor: "#ffffff",
+                      },
+                    },
+                  }}
+                >
+                  <DataGrid
+                    rows={rowsWithIds}
+                    columns={columns}
+                    disableRowSelectionOnClick
+                    density="comfortable"
+                    initialState={{
+                      pagination: {
+                        paginationModel: { pageSize: 10 },
                       },
                     }}
-                  >
-                    <DataGrid
-                      rows={rowsWithIds}
-                      columns={columns}
-                      disableRowSelectionOnClick
-                      density="comfortable"
-                      initialState={{
-                        pagination: {
-                          paginationModel: { pageSize: 10 },
-                        },
-                      }}
-                      pageSizeOptions={[5, 10, 25]}
-                      loading={isLoading}
-                    />
-                  </Box>
-                </div>
+                    pageSizeOptions={[5, 10, 25]}
+                    loading={isLoading}
+                  />
+                </Box>
               </div>
             </div>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

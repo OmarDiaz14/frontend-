@@ -128,15 +128,15 @@ const LinksArray: MenuItem[] = [
     requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
     subMenu: [
       {
-        label: "Inventario",
+        label: "Cuadro General",
         icon: <RiTableLine />,
-        to: "/Inventario",
+        to: "/CuadroGeneral",
         requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
       },
       {
-        label: "Guía",
+        label: "Catálogo",
         icon: <RiTableLine />,
-        to: "/GuiaDocu",
+        to: "/Catálogo",
         requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
       },
       {
@@ -146,9 +146,27 @@ const LinksArray: MenuItem[] = [
         requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
       },
       {
-        label: "Catálogo",
+        label: "Guía",
         icon: <RiTableLine />,
-        to: "/Catálogo",
+        to: "/GuiaDocu",
+        requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
+      },
+      {
+        label: "Agregar Inventario",
+        icon: <RiTableLine />,
+        to: "/Inventario",
+        requiredRoles: [Roles.Personal],
+      },
+      {
+        label: "Inventario Auth",
+        icon: <RiTableLine />,
+        to: "/InventoryAuth",
+        requiredRoles: [Roles.Admin, Roles.JefeArea],
+      },
+      {
+        label: "Inventario Final",
+        icon: <RiTableLine />,
+        to: "/FinalInventory",
         requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
       },
       {
@@ -159,11 +177,14 @@ const LinksArray: MenuItem[] = [
       },
     ],
   },
+];
+
+const linksArray: MenuItem[] = [
   {
     label: "Cuadro General",
     icon: <SiInternetarchive />,
     to: "/Seccion",
-    requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
+    requiredRoles: [Roles.Admin, Roles.JefeArea],
     subMenu: [
       {
         label: "Agregar Sección",
@@ -203,9 +224,6 @@ const LinksArray: MenuItem[] = [
       },
     ],
   },
-];
-
-const linksArray: MenuItem[] = [
   {
     label: "Herramientas Admin  ",
     icon: <LuSettings />,

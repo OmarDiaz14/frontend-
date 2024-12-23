@@ -65,7 +65,7 @@ export function TableSerie() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray">
+    <div className="">
       <main className="max-w-7x1 mx-auto px-4 py-8">
         <div className="container-fluid mt-5">
           <div className="row justify-content-center">

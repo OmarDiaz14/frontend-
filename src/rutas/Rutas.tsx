@@ -32,6 +32,12 @@ import { TableSeccion } from "../pages/Cuadro/TableSeccion";
 import { TableSerie } from "../pages/Cuadro/TableSerie";
 import { TableSubserie } from "../pages/Cuadro/TableSubSerie";
 import { ImprimirPortada } from "../pages/Portada/ImprimirPortada.tsx";
+import { CuadroGeneral } from "../pages/Cuadro/Table.tsx";
+import { InventoryAuth } from "../pages/Inventario/InventoryAUTH.tsx";
+import { FormAuth } from "../pages/Inventario/FormAuth.tsx";
+import Finalinventory from "../pages/Inventario/FinalInventory.tsx";
+import TableInventory from "../pages/Inventario/TableInventario.tsx";
+import EditarInventario from "../pages/Inventario/EditarInventario.tsx";
 
 export function Rutas() {
   return (
@@ -300,6 +306,62 @@ export function Rutas() {
         element={
           hasRole([Roles.Personal]) ? (
             <TableSubserie />
+          ) : (
+            <Navigate to="/Home" />
+          )
+        }
+      />
+      <Route
+        path="/CuadroGeneral"
+        element={
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
+            <CuadroGeneral />
+          ) : (
+            <Navigate to="/Home" />
+          )
+        }
+      />
+      <Route
+        path="/InventoryAuth"
+        element={
+          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+            <InventoryAuth />
+          ) : (
+            <Navigate to="/Home" />
+          )
+        }
+      />
+      <Route
+        path="/FormAuth"
+        element={
+          hasRole([Roles.Personal]) ? <FormAuth /> : <Navigate to="/Home" />
+        }
+      />
+      <Route
+        path="/FinalInventory"
+        element={
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
+            <Finalinventory />
+          ) : (
+            <Navigate to="/Home" />
+          )
+        }
+      />
+      <Route
+        path="/TableInventory"
+        element={
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
+            <TableInventory />
+          ) : (
+            <Navigate to="/Home" />
+          )
+        }
+      />
+      <Route
+        path="/InvenAuth/:id"
+        element={
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
+            <EditarInventario />
           ) : (
             <Navigate to="/Home" />
           )
