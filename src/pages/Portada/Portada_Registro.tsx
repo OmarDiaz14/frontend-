@@ -10,6 +10,43 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 import SearchFilter_Portada from "./SearchFilter_Portada";
+import axios from "axios";
+
+interface DocumentResponse {
+  blob: Blob;
+  fileName: string;
+}
+
+const getAlfrescoDocument = async (id: string): Promise<DocumentResponse> => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("No se encontró el token de autenticación");
+    }
+    const response = await axios({
+      method: "get",
+      url: `https://backend-lga.onrender.com/portada/portada/${id}/get-alfresco-document/`,
+      responseType: "blob",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+    });
+
+    const contentType = response.headers["content-type"];
+    const contentDisposition = response.headers["content-disposition"];
+    const fileName = contentDisposition
+      ? contentDisposition.split("filename=")[1]?.replace(/"/g, "")
+      : "document.pdf";
+
+    return { blob: response.data, fileName };
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error("Esta portada no está cargada en Alfresco");
+    }
+    throw new Error("Error desconocido al obtener el documento");
+  }
+};
 
 export function Portada_Registro(): JSX.Element {
   const navigate = useNavigate();
@@ -43,7 +80,7 @@ export function Portada_Registro(): JSX.Element {
     setFilteredIPortada(filteredData);
   }, []);
 
-  const handleView = (): void => {
+  const handleView = async (): Promise<void> => {
     if (!selectedRows || selectedRows.length === 0) {
       Swal.fire({
         icon: "warning",
@@ -54,20 +91,39 @@ export function Portada_Registro(): JSX.Element {
     }
 
     const selectedId = selectedRows[0] as string;
-    const itemToView = filteredIPortada.find(
-      (item) => item.id_expediente === selectedId
-    );
 
-    if (!itemToView) {
+    try {
+      setIsLoading(true);
+
+      const { blob, fileName } = await getAlfrescoDocument(selectedId);
+
+      const pdfUrl = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = pdfUrl;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setTimeout(() => {
+        URL.revokeObjectURL(pdfUrl);
+      }, 100);
+    } catch (error) {
+      console.error("Error al obtener el documento:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "No se encontró el elemento seleccionado",
+        text:
+          error instanceof Error
+            ? error.message
+            : "Error al obtener el documento PDF",
       });
-      return;
+    } finally {
+      setIsLoading(false);
     }
-    localStorage.setItem("", JSON.stringify(itemToView));
-    navigate(`//${selectedId}`);
   };
 
   const handlePrint = (): void => {
