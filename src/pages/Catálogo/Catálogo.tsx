@@ -120,6 +120,10 @@ export function Catálogo() {
     fetchdestiny();
   }, []);
 
+  const handleback = () => {
+    navigate("/Crear_Expediente");
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -369,8 +373,11 @@ export function Catálogo() {
                           </div>
                         </div>
 
-                        <div className="mt-4 mb-0">
-                          <div className="d-grid">
+                        <div className="d-flex justify-content-center gap-4 mt-4 mb-2">
+                          <div className="mx-2">
+                            <Boton onClick={handleback}>Atrás</Boton>
+                          </div>
+                          <div className="mx-2">
                             <Boton disabled={isLoading}>
                               {isLoading ? "Creando..." : "Crear"}
                             </Boton>

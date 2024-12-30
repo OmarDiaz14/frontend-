@@ -4,6 +4,7 @@ import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { portada_get, portada_delete } from "../../services/portada.services";
 import { useEffect, useState, useCallback } from "react";
 import { Box, Button, IconButton, Tooltip } from "@mui/material";
+import { TbFileShredder } from "react-icons/tb";
 import { Eye, Pencil, Trash2, Plus } from "lucide-react";
 import { MdOutlinePrint } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -45,6 +46,51 @@ const getAlfrescoDocument = async (id: string): Promise<DocumentResponse> => {
       throw new Error("Esta portada no está cargada en Alfresco");
     }
     throw new Error("Error desconocido al obtener el documento");
+  }
+};
+
+const DeleteAlfrescoPortada = async (id: string): Promise<void> => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("No se encontró el token de autenticación");
+    }
+
+    const url = `https://backend-lga.onrender.com/portada/portada/${id}/delete-alfresco-document`;
+    console.log("Intentando eliminar documento con URL:", url);
+
+    const response = await axios({
+      method: "delete",
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+
+      timeout: 10000,
+      validateStatus: (status) => {
+        return status >= 200 && status < 300;
+      },
+    });
+
+    console.log("Respuesta del servidor:", response.status);
+
+    if (response.status !== 200 && response.status !== 204) {
+      throw new Error(
+        `Error al eliminar el documento. Estado: ${response.status}`
+      );
+    }
+
+    if (response.status !== 200 && response.status !== 204) {
+      throw new Error(
+        "Error al eliminar el documento de la plataforma Alfresco"
+      );
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error("Error al eliminar el documento: " + error.message);
+    }
+    throw new Error("Error desconocido al eliminar el documento");
   }
 };
 
@@ -261,6 +307,61 @@ export function Portada_Registro(): JSX.Element {
     }
   };
 
+  const handleDeleteAlfresco = async (): Promise<void> => {
+    if (!selectedRows || selectedRows.length === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Error",
+        text: "Por favor, seleccione un elemento para eliminar Alfresco",
+      });
+      return;
+    }
+
+    const selectedId = selectedRows[0] as string;
+
+    const result = await Swal.fire({
+      title: "¿Estas seguro?",
+      text: "¿Desea eliminar esta portada de Alfresco? Esta acción no se podrá revertir",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, eliminar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      setIsLoading(true);
+
+      try {
+        await DeleteAlfrescoPortada(selectedId);
+
+        await Swal.fire({
+          icon: "success",
+          title: "Eliminado",
+          text: "La portada ha sido eliminada exitosamente de Alfresco",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (error) {
+        console.error(
+          "Error al tratar de eliminar la portada en Alfresco",
+          error
+        );
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text:
+            error instanceof Error
+              ? error.message
+              : "Error al tratar de eliminar la portada en Alfresco",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
   const handleCreate = () => {
     navigate("/Crear_Portada");
   };
@@ -368,6 +469,19 @@ export function Portada_Registro(): JSX.Element {
                     disabled={selectedRows.length !== 1 || isLoading}
                   >
                     <MdOutlinePrint className="h-6 w-6" />
+                  </IconButton>
+                </span>
+              </Tooltip>
+
+              <Tooltip title="Eliminar Portada en Alfresco">
+                <span>
+                  <IconButton
+                    onClick={handleDeleteAlfresco}
+                    size="small"
+                    className="text-red-600 hover:text-red-800"
+                    disabled={selectedRows.length !== 1 || isLoading}
+                  >
+                    <TbFileShredder className="h-6 w-6" />
                   </IconButton>
                 </span>
               </Tooltip>

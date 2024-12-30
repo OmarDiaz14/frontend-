@@ -52,6 +52,10 @@ export function PortadaComponent() {
     fetchData();
   }, []);
 
+  const handleback = () => {
+    navigate("/Crear_Expediente");
+  };
+
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -287,10 +291,15 @@ export function PortadaComponent() {
                           </div>
                         </div>
 
-                        <div className="text-center mt-4">
-                          <Boton disabled={isLoading}>
-                            {isLoading ? "Creando..." : "Crear"}
-                          </Boton>
+                        <div className="d-flex justify-content-center gap-4 mt-4 mb-2">
+                          <div className="mx-2">
+                            <Boton onClick={handleback}>Atrás</Boton>
+                          </div>
+                          <div className="mx-2">
+                            <Boton disabled={isLoading}>
+                              {isLoading ? "Creando..." : "Crear"}
+                            </Boton>
+                          </div>
                         </div>
                       </form>
                     </div>

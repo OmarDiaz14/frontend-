@@ -9,13 +9,13 @@ import { Boton } from "../../components/Botones/Botones";
 import { serie, seccion } from "../../Producto";
 import { serie_get, Seccion_get } from "../../services/cuadro.service";
 import { TableGuia } from "../Guia_Documental/TableGuia";
+import { useNavigate } from "react-router-dom";
 
 export function GuiaDocu() {
+  const navigate = useNavigate();
   const initialUserState = new Guia();
   const [guia, setGuia] = useState<Guia>(initialUserState);
-
   const [refreshTable, setRefreshTable] = useState(0);
-
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -31,6 +31,10 @@ export function GuiaDocu() {
   const [Portada, setPortada] = useState<Portada[]>([]);
   const [Serie, setSerie] = useState<serie[]>([]);
   const [Seccion, setSeccion] = useState<seccion[]>([]);
+
+  const handleback = () => {
+    navigate("/Crear_Expediente");
+  };
 
   useEffect(() => {
     const fetchPortada = async () => {
@@ -198,8 +202,11 @@ export function GuiaDocu() {
                             </div>
                           </div>
                         </div>
-                        <div className="">
-                          <div className="">
+                        <div className="d-flex justify-content-center gap-4 mt-4 mb-2">
+                          <div className="mx-2">
+                            <Boton onClick={handleback}>Atrás</Boton>
+                          </div>
+                          <div className="mx-2">
                             <Boton disabled={isLoading}>
                               {isLoading ? "Creando..." : "Crear"}
                             </Boton>
