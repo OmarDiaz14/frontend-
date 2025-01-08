@@ -1,9 +1,16 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { portada_get } from "../../services/portada.services";
+import { getUser } from "../../services/auth.service";
 import Swal from "sweetalert2";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
+
+interface User {
+  first_name: string;
+  last_name: string;
+  role?: string;
+}
 
 interface Portada {
   num_expediente: string;
@@ -26,6 +33,17 @@ export const ImprimirPortada: React.FC = () => {
   const navigate = useNavigate();
   const [portada, setPortada] = useState<Portada | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [User, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const user = getUser();
+    if (user) {
+      setUser({
+        first_name: user.first_name,
+        last_name: user.last_name,
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const fetchPortada = async () => {
@@ -101,19 +119,16 @@ export const ImprimirPortada: React.FC = () => {
     try {
       const doc = new jsPDF("landscape");
 
-      // Configuración de colores y fuentes
       const primaryColor: [number, number, number] = [41, 128, 185]; // Azul profesional
       const textColor: [number, number, number] = [0, 0, 0]; // Negro
       const grayColor: [number, number, number] = [128, 128, 128]; // Gris
 
-      // Título principal
       doc.setFontSize(22);
       doc.setTextColor(...(primaryColor as [number, number, number]));
       doc.text("MUNICIPIO DE TLAXCALA", doc.internal.pageSize.width / 2, 30, {
         align: "center",
       });
 
-      // Número de Expediente (elemento más grande)
       doc.setFontSize(32);
       doc.setTextColor(...(textColor as [number, number, number]));
       doc.text(
@@ -123,11 +138,9 @@ export const ImprimirPortada: React.FC = () => {
         { align: "center" }
       );
 
-      // Línea separadora
       doc.setDrawColor(...(primaryColor as [number, number, number]));
       doc.line(15, 60, doc.internal.pageSize.width - 15, 60);
 
-      // Información distribuida
       const startY = 75;
       const leftColumn = 30;
       const rightColumn = doc.internal.pageSize.width / 2 + 30;
@@ -136,7 +149,6 @@ export const ImprimirPortada: React.FC = () => {
       doc.setFontSize(12);
       doc.setTextColor(...(textColor as [number, number, number]));
 
-      // Columna Izquierda
       const leftColumnData = [
         `Asunto: ${portada.asunto}`,
         `Sección: ${portada.seccion}`,
@@ -145,7 +157,6 @@ export const ImprimirPortada: React.FC = () => {
         `Valores Secundarios: ${portada.valores_secundarios}`,
       ];
 
-      // Columna Derecha
       const rightColumnData = [
         `Fecha Apertura: ${portada.fecha_apertura}`,
         `Fecha Cierre: ${portada.fecha_cierre}`,
@@ -155,7 +166,6 @@ export const ImprimirPortada: React.FC = () => {
         `Catálogo: ${portada.catalogo}`,
       ];
 
-      // Renderizar columnas
       leftColumnData.forEach((text, index) => {
         doc.text(text, leftColumn, startY + index * lineHeight);
       });
@@ -164,7 +174,51 @@ export const ImprimirPortada: React.FC = () => {
         doc.text(text, rightColumn, startY + index * lineHeight);
       });
 
-      // Guardar PDF
+      const signaturesStartY = 150;
+      const signatureWidth = 60;
+
+      const signatures = [
+        {
+          name: "Elaboró",
+          person: `${User?.first_name} ${User?.last_name}`,
+          x: 30,
+        },
+        {
+          name: "Revisó",
+          person: "Wilson Sánchez",
+          x: 120,
+        },
+        {
+          name: "Autorizó",
+          person: "",
+          x: 210,
+        },
+      ];
+
+      signatures.forEach((signature) => {
+        doc.line(
+          signature.x,
+          signaturesStartY,
+          signature.x + signatureWidth,
+          signaturesStartY
+        );
+
+        doc.text(
+          signature.person,
+          signature.x + signatureWidth / 2,
+          signaturesStartY + 10,
+          { align: "center" }
+        );
+
+        doc.setFontSize(9);
+        doc.text(
+          signature.name,
+          signature.x + signatureWidth / 2,
+          signaturesStartY + 30,
+          { align: "center" }
+        );
+      });
+
       doc.save(`Portada_${portada.num_expediente || "sin_numero"}.pdf`);
     } catch (error) {
       console.error("Error al generar PDF:", error);

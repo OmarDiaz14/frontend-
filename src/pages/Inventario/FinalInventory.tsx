@@ -10,8 +10,11 @@ import { Eye, Pencil, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 import SearchFilteriInventario from "./SearchInventario";
+import { useNavigate } from "react-router-dom";
+import { MdOutlinePrint } from "react-icons/md";
 
 export function Finalinventory() {
+  const navigate = useNavigate();
   const [iInventario, setiInventario] = useState<iInventario[]>([]);
   const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
   const [filteredInventory, setFilteredInventory] = useState<iInventario[]>([]);
@@ -45,6 +48,23 @@ export function Finalinventory() {
     },
     []
   );
+
+  const handlePrint = (): void => {
+    if (filteredInventory.length === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Error",
+        text: "Por favor, seleccione un elemento por imprimir",
+      });
+      return;
+    }
+
+    localStorage.setItem(
+      "ImprimirInventario",
+      JSON.stringify(filteredInventory)
+    );
+    navigate("/imprimirInventario");
+  };
 
   const handleView = () => {
     const selectedId = selectedRows[0];
@@ -210,16 +230,21 @@ export function Finalinventory() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray">
+    <div className="min-h-screen bg-gray-50">
       <main className="max-w-7xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-          {/* Toolbar */}
-
-          {/*<SearchFilteriInventario
-            onFilterChange={handleFilterChange}
-            iInventario={iPortada}
-          />*/}
-
+          <div className="p-4 border-b flex justify-between items-center bg-gray-50">
+            <div className="flex gap-2">
+              <Tooltip title="Imprimir Inventario">
+                <IconButton
+                  onClick={handlePrint}
+                  className="text-gray-600 hover:text-purple-600"
+                >
+                  <MdOutlinePrint className="h-5 w-5" />
+                </IconButton>
+              </Tooltip>
+            </div>
+          </div>
           <Box
             sx={{
               height: 600,
@@ -258,7 +283,6 @@ export function Finalinventory() {
               }}
               pageSizeOptions={[5, 10, 25, 50]}
               className="w-full"
-              checkboxSelection
               loading={isLoading}
             />
           </Box>
