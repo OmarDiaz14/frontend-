@@ -24,8 +24,15 @@ export function Finalinventory() {
     setIsLoading(true);
     try {
       const items = await inventario_get();
-      setiInventario(items);
-      setFilteredInventory(items);
+      const validItems = items.filter(
+        (item: { descripsion: string; observaciones: string }) =>
+          item.descripsion &&
+          item.observaciones &&
+          item.descripsion.trim() !== "" &&
+          item.observaciones.trim() !== ""
+      );
+      setiInventario(validItems);
+      setFilteredInventory(validItems);
     } catch (error) {
       console.error("Error fetching inventory:", error);
       Swal.fire({
@@ -44,7 +51,14 @@ export function Finalinventory() {
 
   const handleFilterChange = useCallback(
     (filteredData: iInventario[]): void => {
-      setFilteredInventory(filteredData);
+      const validFilteredData = filteredData.filter(
+        (item) =>
+          item.descripsion &&
+          item.observaciones &&
+          item.descripsion.trim() !== "" &&
+          item.observaciones.trim() !== ""
+      );
+      setFilteredInventory(validFilteredData);
     },
     []
   );

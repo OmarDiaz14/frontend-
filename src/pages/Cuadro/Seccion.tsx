@@ -4,6 +4,7 @@ import { Boton } from "../../components/Botones/Botones";
 import { seccion_post } from "../../services/cuadro.service";
 import { TableSeccion } from "./TableSeccion";
 import Swal from "sweetalert2";
+import { Tooltip } from "react-tooltip";
 
 export function Seccion() {
   const [ID, setID] = useState("");
@@ -85,6 +86,8 @@ export function Seccion() {
                           <div className="col-md-6">
                             <div className="form-floating">
                               <input
+                                data-tooltip-id="IdSeccion"
+                                data-tooltip-content="Identificador númerico o alfanumérico que permite localizar de forma precisa una sección dentro del sistema de clasificación."
                                 className="form-control"
                                 id="inputID"
                                 type="text"
@@ -93,11 +96,14 @@ export function Seccion() {
                                 onChange={(e) => setID(e.target.value)}
                               />
                               <label htmlFor="inputID">ID Sección</label>
+                              <Tooltip id="IdSeccion"></Tooltip>
                             </div>
                           </div>
                           <div className="col-md-6">
                             <div className="form-floating">
                               <input
+                                data-tooltip-id="codigo"
+                                data-tooltip-content="Clave de acceso que se utiliza para referenciar la sección en diferentes documentos y sistemas."
                                 className="form-control"
                                 id="inputCodigo"
                                 type="text"
@@ -106,12 +112,15 @@ export function Seccion() {
                                 onChange={(e) => setCode(e.target.value)}
                               />
                               <label htmlFor="inputCodigo">Código</label>
+                              <Tooltip id="codigo"></Tooltip>
                             </div>
                           </div>
                         </div>
 
                         <div className="form-floating mb-3">
                           <input
+                            data-tooltip-id="descripcion"
+                            data-tooltip-content="Descripción detallada del contenido de la sección, incluyendo los tipos de documentos que se encuentran en ella y el periodo de tiempo al que corresponden."
                             className="form-control"
                             id="inputDescripcion"
                             type="text"
@@ -120,6 +129,7 @@ export function Seccion() {
                             onChange={(e) => setDescripcion(e.target.value)}
                           />
                           <label htmlFor="inputDescripcion">Descripción</label>
+                          <Tooltip id="descripcion"></Tooltip>
                         </div>
 
                         <div className="mt-4 mb-0">
