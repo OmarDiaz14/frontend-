@@ -49,15 +49,22 @@ export function TableSeccion() {
           headerClassName: "table-header",
         },*/
     {
-      field: "codigo",
+      field: "codigo_seccion",
       headerName: "Código de la Sección ",
       flex: 1.5,
       minWidth: 200,
       headerClassName: "table-header",
     },
     {
-      field: "descripcion",
+      field: "seccion",
       headerName: "Nombre de la Sección",
+      flex: 2,
+      minWidth: 250,
+      headerClassName: "table-header",
+    },
+    {
+      field: "descripcion",
+      headerName: "descripcion de la Sección",
       flex: 2,
       minWidth: 250,
       headerClassName: "table-header",

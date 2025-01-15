@@ -46,6 +46,7 @@ export function Serie() {
     setIsLoading(true);
 
     const serie = {
+      id_serie: "",
       serie: Serie,
       codigo_serie: Codigo,
       descripcion: Descripcion,
@@ -119,7 +120,7 @@ export function Serie() {
                                     key={seccion.id_seccion}
                                     value={seccion.id_seccion}
                                   >
-                                    {seccion.id_seccion}
+                                    {seccion.seccion}
                                   </option>
                                 ))}
                               </select>

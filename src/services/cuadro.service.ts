@@ -3,11 +3,13 @@ import api from "../api_axios";
 
 interface Seccion {
   id_seccion: string;
-  codigo: string;
+  seccion: string;
+  codigo_seccion: string;
   descripcion: string;
 }
 
 interface Serie {
+  id_serie: string;
   serie: string;
   codigo_serie: string;
   descripcion: string;
@@ -15,9 +17,11 @@ interface Serie {
 }
 
 interface SubSerie {
-  SubSerie: string;
+  id_subserie: string;
+  subserie: string;
+  codigo_subserie: string;
   descripcion: string;
-  serie: string;
+  id_serie: string;
 }
 
 export const seccion_post = async (data: Seccion) => {

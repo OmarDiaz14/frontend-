@@ -12,19 +12,7 @@ import { Roles } from "../../models/enums/roles_enum";
 export function AgregarUsuario() {
   const initialUserState = new User();
   const [user, setUser] = useState<User>(initialUserState);
-
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = event.target;
-
-    setUser((prevUser) => ({
-      ...prevUser,
-      [name]: value,
-      [name]: name === "roles" ? [value] : value,
-    }));
-  };
-
+  const [selectedSeccionName, setSelectedSeccionName] = useState<string>("");
   const [Repass, setRepass] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [secciones, setSeccion] = useState<seccion[]>([]);
@@ -36,6 +24,29 @@ export function AgregarUsuario() {
     };
     fetchSecciones();
   }, []);
+
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = event.target;
+
+    if (name === "unidad_admi") {
+      const selectedSection = secciones.find(sec => sec.id_seccion === value);
+      if (selectedSection) {
+        setSelectedSeccionName(selectedSection.seccion || "");
+        setUser(prevUser => ({
+          ...prevUser,
+          unidad_admi: value,
+          nombre_unidad: selectedSection.seccion || ""
+        }));
+      }
+    } else {
+      setUser(prevUser => ({
+        ...prevUser,
+        [name]: name === "roles" ? [value] : value,
+      }));
+    }
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -64,10 +75,14 @@ export function AgregarUsuario() {
       const result = await user_post(user);
       console.log("Respuesta de la API", result);
 
+      // Guardar en localStorage
+      localStorage.setItem('seccionId', user.unidad_admi);
+      localStorage.setItem('seccionName', user.nombre_unidad);
+
       Swal.fire({
         icon: "success",
-        title: "¡Exito!",
-        text: "Usuario creado con exito",
+        title: "¡Éxito!",
+        text: "Usuario creado con éxito",
       });
 
       setUser(initialUserState);
@@ -78,7 +93,7 @@ export function AgregarUsuario() {
       Swal.fire({
         icon: "error",
         title: "Oops",
-        text: "Algo salio mal. Por favor intente de nuevo",
+        text: "Algo salió mal. Por favor intente de nuevo",
       });
     } finally {
       setIsLoading(false);
@@ -102,9 +117,7 @@ export function AgregarUsuario() {
                 <div className="col-lg-7">
                   <div className="card shadow-lg border-0 rounded-lg mt-5">
                     <div className="card-header">
-                      {" "}
                       <h3 className="text-center font-weight-light my-4">
-                        {" "}
                         Registro de Usuarios
                       </h3>
                     </div>
@@ -145,14 +158,14 @@ export function AgregarUsuario() {
                         <div className="form-floating mb-3">
                           <input
                             className="form-control"
-                            id="inputLastName"
+                            id="inputUsername"
                             type="text"
                             placeholder="Ingresa tu usuario"
                             value={user.username}
                             onChange={handleInputChange}
                             name="username"
                           />
-                          <label htmlFor="inputLastName">
+                          <label htmlFor="inputUsername">
                             Nombre de usuario
                           </label>
                         </div>
@@ -184,8 +197,11 @@ export function AgregarUsuario() {
                                   Seleccione su Unidad Administrativa
                                 </option>
                                 {secciones.map((seccion) => (
-                                  <option value={seccion.id_seccion}>
-                                    {seccion.id_seccion}
+                                  <option 
+                                    key={seccion.id_seccion} 
+                                    value={seccion.id_seccion}
+                                  >
+                                    {seccion.seccion}
                                   </option>
                                 ))}
                               </select>
@@ -202,7 +218,7 @@ export function AgregarUsuario() {
                                 onChange={handleInputChange}
                                 name="cargo"
                               />
-                              <label htmlFor="input Cargo">Cargo</label>
+                              <label htmlFor="inputCargo">Cargo</label>
                             </div>
                           </div>
                         </div>
@@ -217,7 +233,7 @@ export function AgregarUsuario() {
                                 onChange={handleInputChange}
                                 name="roles"
                               >
-                                <option>Seleccione su rol</option>
+                                <option value="">Seleccione su rol</option>
                                 <option value={Roles.Admin}>
                                   Administrador
                                 </option>
@@ -225,9 +241,11 @@ export function AgregarUsuario() {
                                   Jefe de Area
                                 </option>
                                 <option value={Roles.Personal}>
-                                  Personal</option>
+                                  Personal
+                                </option>
                                 <option value={Roles.Lectura}>
-                                  Lectura</option>
+                                  Lectura
+                                </option>
                               </select>
                             </div>
                           </div>

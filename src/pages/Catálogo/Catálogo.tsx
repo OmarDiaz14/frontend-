@@ -58,18 +58,24 @@ export function Catálogo() {
   }, []);
 
   useEffect(() => {
+    console.log("Serie data:", serie);
+  console.log("Id Seccion:", id_seccion);
+
+
+
     if (id_seccion) {
       const filtered = serie.filter((s) => s.id_seccion === id_seccion);
+      console.log("Filtered series:", filtered);
       setFilteredSeries(filtered);
     }
-  }, [id_seccion, serie]);
+  }, [id_seccion, id_serie]);
 
   useEffect(() => {
     if (id_serie) {
-      const filtered = subserie.filter((sub) => sub.serie === id_serie);
+      const filtered = subserie.filter((sub) => sub.id_serie === id_serie);
       setFilteredSubseries(filtered);
     }
-  }, [id_serie, subserie]);
+  }, [id_serie, id_subserie]);
 
   // Fetch data effects remain the same...
   useEffect(() => {
@@ -235,7 +241,7 @@ export function Catálogo() {
                               >
                                 <option value="">Seleccione una opción</option>
                                 {filteredSeries.map((s) => (
-                                  <option value={s.serie}>{s.serie}</option>
+                                  <option value={s.id_serie}>{s.serie}</option>
                                 ))}
                               </select>
                               <label>ID Serie</label>
@@ -250,8 +256,8 @@ export function Catálogo() {
                               >
                                 <option value="">Seleccione una opción</option>
                                 {filteredSubseries.map((sub) => (
-                                  <option value={sub.SubSerie}>
-                                    {sub.SubSerie}
+                                  <option value={sub.id_subserie}>
+                                    {sub.subserie}
                                   </option>
                                 ))}
                               </select>
