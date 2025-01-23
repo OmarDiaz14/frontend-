@@ -30,22 +30,12 @@ export function AgregarUsuario() {
   ) => {
     const { name, value } = event.target;
 
-    if (name === "unidad_admi") {
-      const selectedSection = secciones.find(sec => sec.id_seccion === value);
-      // if (selectedSection) {
-      //   setSelectedSeccionName(selectedSection.seccion || "");
-      //   setUser(prevUser => ({
-      //     ...prevUser,
-      //     unidad_admi: value,
-      //     nombre_unidad: selectedSection.seccion || ""
-      //   }));
-      // }
-    } else {
+  
       setUser(prevUser => ({
         ...prevUser,
         [name]: name === "roles" ? [value] : value,
       }));
-    }
+    
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

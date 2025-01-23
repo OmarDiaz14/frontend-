@@ -18,6 +18,7 @@ import "../../styles/Styles.css";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
 import LogoImg from "../../assets/Tlaxcala.png";
+import { user_profile } from "../../services/user.services";
 
 export function Catálogo() {
   const navigate = useNavigate();
@@ -47,24 +48,30 @@ export function Catálogo() {
   const [filteredSeries, setFilteredSeries] = useState<serie[]>([]);
   const [filteredSubseries, setFilteredSubseries] = useState<SubSerie[]>([]);
 
-  useEffect(() => {
-    const userDataStr = localStorage.getItem("user");
-    if (userDataStr) {
-      const user = JSON.parse(userDataStr);
-      setUserInfo(user);
-
-      setIdSeccion(user.unidad_admi);
-    }
-  }, []);
 
   useEffect(() => {
-    console.log("Serie data:", serie);
+        const fetchUser = async () => {
+          try {
+            const user = await user_profile();
+            setUserInfo(user);
+            setIdSeccion(user.id_seccion);
+
+          } catch (error) {
+            console.error("No jalo", error);
+          }
+        };
+        fetchUser();
+      }, []);
+
+  useEffect(() => {
+  console.log("Serie data:", serie);
   console.log("Id Seccion:", id_seccion);
+  
 
 
 
     if (id_seccion) {
-      const filtered = serie.filter((s) => s.id_seccion === id_seccion);
+      const filtered = serie.filter((s) => s.id_seccion === parseInt(id_seccion));
       console.log("Filtered series:", filtered);
       setFilteredSeries(filtered);
     }
@@ -72,8 +79,9 @@ export function Catálogo() {
 
   useEffect(() => {
     if (id_serie) {
-      const filtered = subserie.filter((sub) => sub.id_serie === id_serie);
+      const filtered = subserie.filter((sub) => sub.id_serie === parseInt(id_serie));
       setFilteredSubseries(filtered);
+     console.log('type of id_serie:', typeof id_serie);
     }
   }, [id_serie, id_subserie]);
 
@@ -100,6 +108,7 @@ export function Catálogo() {
       setSubSerie(items);
     };
     fetchSubSerie();
+    
   }, []);
 
   useEffect(() => {
@@ -141,8 +150,8 @@ export function Catálogo() {
       !type_access.trim() ||
       !valores_documentales.trim() ||
       !observaciones.trim() ||
-      !id_seccion.trim() ||
-      !id_serie.trim()
+      !id_seccion ||
+      !id_serie
     ) {
       Swal.fire({
         icon: "warning",
@@ -162,9 +171,9 @@ export function Catálogo() {
       type_access,
       valores_documentales,
       observaciones,
-      id_seccion,
-      id_serie,
-      id_subserie,
+      seccion: parseInt (id_seccion),
+      serie: parseInt (id_serie),
+      subserie: parseInt (id_subserie),
     };
 
     try {
@@ -222,7 +231,7 @@ export function Catálogo() {
                                 id="inputSeccion"
                                 type="text"
                                 placeholder="Seccion"
-                                value={id_seccion}
+                                value={userInfo.name_seccion}
                                 disabled
                                 readOnly
                               />

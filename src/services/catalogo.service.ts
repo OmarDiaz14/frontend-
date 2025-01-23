@@ -10,9 +10,9 @@ interface catalogo {
   type_access: string;
   valores_documentales: string;
   observaciones: string;
-  id_seccion: string;
-  id_serie: string;
-  id_subserie: string;
+  seccion: number;
+  serie: number;
+  subserie: number;
 }
 
 interface destino {

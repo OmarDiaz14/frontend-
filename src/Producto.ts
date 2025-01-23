@@ -1,22 +1,22 @@
 export interface seccion{
-  id_seccion: string;
+  id_seccion: number;
   seccion: string;
   codigo_seccion: string;
   descripcion: string;
 }
 
 export interface serie {
-    id_serie: string;
+    id_serie: number;
     serie: string;
     codigo_serie: string;
     descripcion: string;
-    id_seccion: string;
+    id_seccion: number;
 }
 
 export interface SubSerie{
-    id_subserie: string;
+    id_subserie: number;
     subserie: string;
     codigo_subserie: string;
     descripcion: string;
-    id_serie: string;
+    id_serie: number;
   }
