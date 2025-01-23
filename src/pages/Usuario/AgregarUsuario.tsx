@@ -32,14 +32,14 @@ export function AgregarUsuario() {
 
     if (name === "unidad_admi") {
       const selectedSection = secciones.find(sec => sec.id_seccion === value);
-      if (selectedSection) {
-        setSelectedSeccionName(selectedSection.seccion || "");
-        setUser(prevUser => ({
-          ...prevUser,
-          unidad_admi: value,
-          nombre_unidad: selectedSection.seccion || ""
-        }));
-      }
+      // if (selectedSection) {
+      //   setSelectedSeccionName(selectedSection.seccion || "");
+      //   setUser(prevUser => ({
+      //     ...prevUser,
+      //     unidad_admi: value,
+      //     nombre_unidad: selectedSection.seccion || ""
+      //   }));
+      // }
     } else {
       setUser(prevUser => ({
         ...prevUser,
@@ -55,10 +55,9 @@ export function AgregarUsuario() {
       !user.first_name.trim() ||
       !user.last_name.trim() ||
       !user.username.trim() ||
-      !user.unidad_admi.trim() ||
+      !user.id_seccion.trim() ||
       !user.cargo.trim() ||
       user.roles.length === 0 ||
-      user.roles[0].trim() === "" ||
       !user.password.trim() ||
       !Repass.trim()
     ) {
@@ -189,9 +188,9 @@ export function AgregarUsuario() {
                               <select
                                 className="multisteps-form_input form-select"
                                 id="UA"
-                                value={user.unidad_admi}
+                                value={user.id_seccion}
                                 onChange={handleInputChange}
-                                name="unidad_admi"
+                                name="id_seccion"
                               >
                                 <option value="">
                                   Seleccione su Unidad Administrativa
