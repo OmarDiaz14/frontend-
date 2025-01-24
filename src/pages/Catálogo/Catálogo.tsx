@@ -35,6 +35,8 @@ export function Catálogo() {
   const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState<any>(null);
 
+
+  const [seccionNombre, setSeccionNombre] = useState("");
   const [id_seccion, setIdSeccion] = useState("");
   const [id_serie, setIdSerie] = useState("");
   const [id_subserie, setIdSubserie] = useState("");
@@ -50,22 +52,30 @@ export function Catálogo() {
 
 
   useEffect(() => {
-        const fetchUser = async () => {
-          try {
-            const user = await user_profile();
-            setUserInfo(user);
-            setIdSeccion(user.id_seccion);
-
-          } catch (error) {
-            console.error("No jalo", error);
-          }
-        };
-        fetchUser();
-      }, []);
+    const fetchUser = async () => {
+      try {
+        const user = await user_profile();
+        setUserInfo(user);
+        setIdSeccion(user.id_seccion);
+        
+        // Find the section name corresponding to the ID
+        const currentSection = secciones.find(s => s.id_seccion === parseInt(user.id_seccion));
+        if (currentSection) {
+          setSeccionNombre(currentSection.seccion);
+        }
+      } catch (error) {
+        console.error("No jalo", error);
+      }
+    };
+    fetchUser();
+  }, [secciones]);
 
   useEffect(() => {
   console.log("Serie data:", serie);
   console.log("Id Seccion:", id_seccion);
+
+  
+
   
 
 
@@ -231,7 +241,7 @@ export function Catálogo() {
                                 id="inputSeccion"
                                 type="text"
                                 placeholder="Seccion"
-                                value={userInfo.name_seccion}
+                                value={seccionNombre}
                                 disabled
                                 readOnly
                               />
