@@ -10,10 +10,13 @@ import {
   subserie_get,
 } from "../../services/cuadro.service";
 import Logo2 from "../../assets/Tlaxcala.png";
+import { user_profile } from "../../services/user.services";
 
 export function Ficha() {
   const navigate = useNavigate();
+  const [seccionNombre, setSeccionNombre] = useState("");
   const [id_ficha, setID] = useState("");
+  const [ficha, setFicha] = useState("");
   const [area_resguardante, setResguardante] = useState("");
   const [area_intervienen, setIntervienen] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -27,31 +30,57 @@ export function Ficha() {
 
   const [filteredSeries, setFilteredSeries] = useState<serie[]>([]);
   const [filteredSubseries, setFilteredSubseries] = useState<SubSerie[]>([]);
+  const [secciones, setSeccion] = useState<seccion[]>([]);
   const [serie, setSerie] = useState<serie[]>([]);
   const [subserie, setSubSerie] = useState<SubSerie[]>([]);
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await user_profile();
+        setUserInfo(user);
+        setIdSeccion(user.id_seccion);
+        
+        // Find the section name corresponding to the ID
+        const currentSection = secciones.find(s => s.id_seccion === parseInt(user.id_seccion));
+        if (currentSection) {
+          setSeccionNombre(currentSection.seccion);
+        }
+      } catch (error) {
+        console.error("No jalo", error);
+      }
+    };
+    fetchUser();
+  }, [secciones]);
+
+  useEffect(() => {
+  console.log("Serie data:", serie);
+  console.log("Id Seccion:", id_seccion);
+
+
     if (id_seccion) {
-      const filtered = serie.filter((s) => s.id_seccion === id_seccion);
+      const filtered = serie.filter((s) => s.id_seccion === parseInt (id_seccion));
+      console.log("Filtered series:", filtered);
       setFilteredSeries(filtered);
     }
-  }, [id_seccion, serie]);
+  }, [id_seccion, id_serie]);
 
   useEffect(() => {
     if (id_serie) {
-      const filtered = subserie.filter((sub) => sub.serie === id_serie);
+      const filtered = subserie.filter((sub) => sub.id_serie === parseInt (id_serie));
       setFilteredSubseries(filtered);
+      console.log('type of id_serie:', typeof id_serie);
     }
-  }, [id_serie, subserie]);
+  }, [id_serie, id_subserie]);
+
+  
 
   useEffect(() => {
-    const userDataStr = localStorage.getItem("user");
-    if (userDataStr) {
-      const user = JSON.parse(userDataStr);
-      setUserInfo(user);
-
-      setIdSeccion(user.unidad_admi);
-    }
+    const fetchSeccion = async () => {
+      const items = await Seccion_get();
+      setSeccion(items);
+    };
+    fetchSeccion();
   }, []);
 
   useEffect(() => {
@@ -78,14 +107,14 @@ export function Ficha() {
     event.preventDefault();
 
     if (
-      !id_ficha.trim() ||
-      !topologia.trim || //Recien Agregado
+      !ficha.trim() ||
+      !topologia.trim ()|| //Recien Agregado
       !area_resguardante.trim() ||
       !area_intervienen.trim() ||
       !descripcion.trim() ||
       !soporte_docu.trim() ||
-      !id_seccion.trim() ||
-      !id_serie.trim()
+      !id_seccion ||
+      !id_serie
     ) {
       Swal.fire({
         icon: "warning",
@@ -97,15 +126,16 @@ export function Ficha() {
     setIsLoading(true);
 
     const fichaData = {
-      id_ficha: id_ficha,
+      ficha: ficha,
       area_resguardante: area_resguardante,
       area_intervienen: area_intervienen,
       soporte_docu: soporte_docu,
       descripcion: descripcion,
       topologia: topologia,
-      id_seccion: id_seccion,
-      id_serie: id_serie,
-      id_subserie: id_subserie,
+      catalogo: "",
+      seccion: parseInt (id_seccion),
+      serie: parseInt (id_serie),
+      subserie: parseInt (id_subserie),
     };
 
     try {
@@ -161,8 +191,8 @@ export function Ficha() {
                             id="inputIdFicha"
                             type="text"
                             placeholder="ID Ficha"
-                            value={id_ficha}
-                            onChange={(e) => setID(e.target.value)}
+                            value={ficha}
+                            onChange={(e) => setFicha(e.target.value)}
                           />
                           <label htmlFor="inputIdFicha">Nombre Ficha</label>
                         </div>
@@ -241,7 +271,7 @@ export function Ficha() {
                                 id="inputSeccion"
                                 type="text"
                                 placeholder="Seccion"
-                                value={id_seccion}
+                                value={seccionNombre}
                                 disabled
                                 readOnly
                               />
@@ -262,7 +292,7 @@ export function Ficha() {
                               >
                                 <option value="">Seleccione una opción</option>
                                 {filteredSeries.map((s) => (
-                                  <option key={s.serie} value={s.serie}>
+                                  <option key={s.serie} value={s.id_serie}>
                                     {s.serie}
                                   </option>
                                 ))}
@@ -282,10 +312,10 @@ export function Ficha() {
                                 <option value="">Seleccione una opción</option>
                                 {filteredSubseries.map((sub) => (
                                   <option
-                                    key={sub.SubSerie}
-                                    value={sub.SubSerie}
+                                    key={sub.id_subserie}
+                                    value={sub.id_subserie}
                                   >
-                                    {sub.SubSerie}
+                                    {sub.subserie}
                                   </option>
                                 ))}
                               </select>
