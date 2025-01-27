@@ -7,9 +7,9 @@ export interface iPortada {
     valores_secundarios: string;
     fecha_apertura: string;
     fecha_cierre: string;
-    seccion: string;
-    serie: string;
-    subserie: string;
+    seccion: number;
+    serie: number;
+    subserie: number | null;
 }
 
 export class Portada implements iPortada {
@@ -21,7 +21,7 @@ export class Portada implements iPortada {
     valores_secundarios: string = "";
     fecha_apertura: string = "";
     fecha_cierre: string = "";
-    seccion: string = "";
-    serie: string = "";
-    subserie: string = "";
+    seccion: number = 0;
+    serie: number = 0;
+    subserie: number | null = null;
 }
