@@ -17,7 +17,7 @@
     const handleSubmit = async (event: { preventDefault: () => void }) => {
       event.preventDefault();
 
-      if (!ID.trim() || !Codigo.trim() || !Descripcion.trim()) {
+      if (!Codigo.trim() || !Descripcion.trim()) {
         Swal.fire({
           icon: "warning",
           title: "Error",
@@ -28,7 +28,7 @@
       setIsLoading(true);
 
       const Seccion = {
-        id_seccion: ID,
+        id_seccion: "",
         seccion: seccion,
         codigo_seccion: Codigo,
         descripcion: Descripcion,
