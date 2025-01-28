@@ -10,7 +10,7 @@ export interface serie {
     serie: string;
     codigo_serie: string;
     descripcion: string;
-    id_seccion: number;
+    id_seccion: string | number;
 }
 
 export interface SubSerie{
@@ -18,5 +18,5 @@ export interface SubSerie{
     subserie: string;
     codigo_subserie: string;
     descripcion: string;
-    id_serie: number;
+    id_serie: string |number;
   }
