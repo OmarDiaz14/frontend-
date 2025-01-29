@@ -5,7 +5,7 @@ import { Boton } from "../../components/Botones/Botones";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 import { Seccion_get, serie_get } from "../../services/cuadro.service";
-import { seccion, serie } from "../../Producto";
+import { seccion, serie } from "../../services/var.cuadro";
 import { portada_post } from "../../services/portada.services";
 import { Portada } from "../../services/var.portada";
 import "../../styles/Styles.css";

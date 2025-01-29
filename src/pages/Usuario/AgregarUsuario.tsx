@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { user_post } from "../../services/user.services";
 import { User } from "../../services/var.user.services";
 import Swal from "sweetalert2";
-import { seccion } from "../../Producto";
+import { seccion } from "../../services/var.cuadro";
 import { Seccion_get } from "../../services/cuadro.service";
 import { Roles } from "../../models/enums/roles_enum";
 

@@ -2,7 +2,7 @@ import { Boton } from "../../components/Botones/Botones";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ficha_post } from "../../services/ficha.services";
-import { seccion, serie, SubSerie } from "../../Producto";
+import { seccion, serie, SubSerie } from "../../services/var.cuadro";
 import Swal from "sweetalert2";
 import {
   Seccion_get,

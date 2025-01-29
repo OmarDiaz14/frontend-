@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { serie_get, subserie_get } from "../../services/cuadro.service";
-import { SubSerie, serie } from "../../Producto";
+import { SubSerie, serie } from "../../services/var.cuadro";
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import Swal from "sweetalert2";

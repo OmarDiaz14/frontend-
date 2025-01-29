@@ -12,7 +12,7 @@ import {
   serie_get,
   subserie_get,
 } from "../../services/cuadro.service";
-import { seccion, serie, SubSerie } from "../../Producto";
+import { seccion, serie, SubSerie } from "../../services/var.cuadro";
 import { valor, type, destino } from "../../services/var.catalogo";
 import "../../styles/Styles.css";
 import "sweetalert2/src/sweetalert2.scss";

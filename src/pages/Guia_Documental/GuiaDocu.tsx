@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { guia_post } from "../../services/gui.service";
 import Logo from "../../assets/Tlaxcala.png";
 import { Boton } from "../../components/Botones/Botones";
-import { serie, seccion } from "../../Producto";
+import { serie, seccion } from "../../services/var.cuadro";
 import { serie_get, Seccion_get } from "../../services/cuadro.service";
 import { TableGuia } from "../Guia_Documental/TableGuia";
 import { useNavigate } from "react-router-dom";

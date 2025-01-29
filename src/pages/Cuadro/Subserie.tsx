@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Logo from "../../assets/Tlaxcala.png";
 import { Boton } from "../../components/Botones/Botones";
 import { serie_get, subserie_post } from "../../services/cuadro.service";
-import { serie } from "../../Producto";
+import { serie } from "../../services/var.cuadro";
 import { TableSubserie } from "./TableSubSerie";
 import Swal from "sweetalert2";
 

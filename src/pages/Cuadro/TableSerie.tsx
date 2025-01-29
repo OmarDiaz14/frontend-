@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { Seccion_get, serie_get } from "../../services/cuadro.service";
-import { seccion, serie } from "../../Producto";
+import { seccion, serie } from "../../services/var.cuadro";
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import Swal from "sweetalert2";
