@@ -3,7 +3,7 @@ import api from '../api_axios';
 
 
 interface ficha {
- 
+  id_ficha: string|number;
   ficha: string;
   area_resguardante: string; 
   area_intervienen: string;
