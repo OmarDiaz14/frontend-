@@ -9,6 +9,8 @@ import {
 } from "../../services/catalogo.service";
 import { Boton } from "../../components/Botones/Botones";
 import { destino, type, valor } from "../../services/var.catalogo";
+import { Seccion_get, serie_get, subserie_get } from "../../services/cuadro.service";
+import { seccion, serie, SubSerie } from "../../services/var.cuadro";
 import Swal from "sweetalert2";
 import LogoImg from "../../assets/Tlaxcala.png";
 import "../../styles/Styles.css";
@@ -22,9 +24,9 @@ interface CatalogoBase {
   type_access: string;
   valores_documentales: string;
   observaciones: string;
-  id_seccion: string;
-  id_serie: string;
-  id_subserie: string;
+  seccion: number; // Asegúrate de que sea number
+  serie: number;   // Asegúrate de que sea number
+  subserie: number; // Asegúrate de que sea number
 }
 
 interface CatalogoWithId extends CatalogoBase {
@@ -39,9 +41,9 @@ const INITIAL_CATALOGO: CatalogoBase = {
   type_access: "",
   valores_documentales: "",
   observaciones: "",
-  id_seccion: "",
-  id_serie: "",
-  id_subserie: "",
+  seccion: 0,
+  serie: 0,
+  subserie: 0,
 };
 
 export const EditarCatalogo: React.FC = () => {
@@ -52,10 +54,11 @@ export const EditarCatalogo: React.FC = () => {
   const [destinos, setDestinos] = useState<destino[]>([]);
   const [tipos, setTipos] = useState<type[]>([]);
   const [valores, setValores] = useState<valor[]>([]);
+  const [secciones, setSecciones] = useState<seccion[]>([]);
+  const [series, setSeries] = useState<serie[]>([]);
+  const [subseries, setSubseries] = useState<SubSerie[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [fullCatalogoList, setFullCatalogoList] = useState<CatalogoWithId[]>(
-    []
-  );
+  const [fullCatalogoList, setFullCatalogoList] = useState<CatalogoWithId[]>([]);
 
   useEffect(() => {
     const loadCatalogData = async () => {
@@ -68,24 +71,11 @@ export const EditarCatalogo: React.FC = () => {
         setIsLoading(true);
         setError(null);
 
-        console.log("ID del catálogo buscado:", id);
-        console.log("Tipo de ID:", typeof id);
-
         const response = await catalogo_get();
 
         if (!response) {
           throw new Error("No se pudieron cargar los catálogos");
         }
-
-        console.log(
-          "Lista completa de catálogos:",
-          JSON.stringify(response, null, 2)
-        );
-
-        const availableIds = response.map(
-          (cat: CatalogoWithId) => cat.id_catalogo
-        );
-        console.log("IDs disponibles:", availableIds);
 
         const item = response.find(
           (cat: CatalogoWithId) =>
@@ -95,28 +85,28 @@ export const EditarCatalogo: React.FC = () => {
         );
 
         if (!item) {
-          console.error("Ningún catálogo coincide con este ID", {
-            searchId: id,
-            availableIds,
-          });
           throw new Error(`Catálogo con ID ${id} no encontrado`);
         }
-
-        console.log("Catálogo encontrado:", JSON.stringify(item, null, 2));
 
         const { id_catalogo, ...catalogoBase } = item;
         setCatalogo(catalogoBase);
         setFullCatalogoList(response);
 
-        const [destinosData, tiposData, valoresData] = await Promise.all([
+        const [destinosData, tiposData, valoresData, seccionesData, seriesData, subseriesData] = await Promise.all([
           destino_get(),
           type_get(),
           valor_get(),
+          Seccion_get(),
+          serie_get(),
+          subserie_get(),
         ]);
 
         setDestinos(destinosData || []);
         setTipos(tiposData || []);
         setValores(valoresData || []);
+        setSecciones(seccionesData || []);
+        setSeries(seriesData || []);
+        setSubseries(subseriesData || []);
       } catch (error) {
         const errorMessage =
           error instanceof Error
@@ -147,9 +137,14 @@ export const EditarCatalogo: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+
+    // Convertir a number si el campo es numérico
+    const numericFields = ["seccion", "serie", "subserie"];
+    const parsedValue = numericFields.includes(name) ? Number(value) : value;
+
     setCatalogo((prev) => ({
       ...prev,
-      [name]: value, // Eliminado .trim()
+      [name]: parsedValue,
     }));
   };
 
@@ -175,9 +170,7 @@ export const EditarCatalogo: React.FC = () => {
       Swal.fire({
         icon: "warning",
         title: "Campos requeridos",
-        text: `Los siguientes campos son obligatorios: ${emptyFields.join(
-          ", "
-        )}`,
+        text: `Los siguientes campos son obligatorios: ${emptyFields.join(", ")}`,
       });
       return false;
     }
@@ -210,11 +203,6 @@ export const EditarCatalogo: React.FC = () => {
         ...catalogo,
         id_catalogo: id,
       };
-
-      console.log(
-        "Datos a actualizar:",
-        JSON.stringify(catalogoToUpdate, null, 2)
-      );
 
       await catalogo_put(id, catalogoToUpdate);
 
@@ -259,9 +247,9 @@ export const EditarCatalogo: React.FC = () => {
           onChange={handleInputChange}
           placeholder={label}
           disabled={
-            name === "id_seccion" ||
-            name === "id_serie" ||
-            name === "id_subserie" ||
+            name === "seccion" ||
+            name === "serie" ||
+            name === "subserie" ||
             name === "catalogo" ||
             name === "archivo_tramite"
           }
@@ -391,13 +379,37 @@ export const EditarCatalogo: React.FC = () => {
 
                         <div className="row mb-3">
                           <div className="col-md-4">
-                            {renderFormField("id_seccion", "ID Sección")}
+                            {renderFormField(
+                              "seccion",
+                              "Sección",
+                              "select",
+                              secciones.map((s) => ({
+                                id: s.id_seccion.toString(),
+                                value: s.seccion,
+                              }))
+                            )}
                           </div>
                           <div className="col-md-4">
-                            {renderFormField("id_serie", "ID Serie")}
+                            {renderFormField(
+                              "serie",
+                              "Serie",
+                              "select",
+                              series.map((s) => ({
+                                id: s.id_serie.toString(),
+                                value: s.serie,
+                              }))
+                            )}
                           </div>
                           <div className="col-md-4">
-                            {renderFormField("id_subserie", "ID Subserie")}
+                            {renderFormField(
+                              "subserie",
+                              "Subserie",
+                              "select",
+                              subseries.map((s) => ({
+                                id: s.id_subserie.toString(),
+                                value: s.subserie,
+                              }))
+                            )}
                           </div>
                         </div>
 
