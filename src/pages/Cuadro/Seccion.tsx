@@ -6,52 +6,52 @@ import { TableSeccion } from "./TableSeccion";
 import Swal from "sweetalert2";
 import { Tooltip } from "react-tooltip";
 
-  export function Seccion() {
-    const [ID, setID] = useState("");
-    const [seccion, setSeccion] = useState("");
-    const [Codigo, setCode] = useState("");
-    const [Descripcion, setDescripcion] = useState("");
-    const [refreshTable, setRefreshTable] = useState(0);
+export function Seccion() {
+  const [ID, setID] = useState("");
+  const [seccion, setSeccion] = useState("");
+  const [Codigo, setCode] = useState("");
+  const [Descripcion, setDescripcion] = useState("");
+  const [refreshTable, setRefreshTable] = useState(0);
 
-    const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = async (event: { preventDefault: () => void }) => {
-      event.preventDefault();
+  const handleSubmit = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
 
-      if (!Codigo.trim() || !Descripcion.trim()) {
-        Swal.fire({
-          icon: "warning",
-          title: "Error",
-          text: "Debes llenar todos los campos para enviar el formulario",
-        });
-        return;
-      }
-      setIsLoading(true);
+    if (!Codigo.trim() || !Descripcion.trim()) {
+      Swal.fire({
+        icon: "warning",
+        title: "Error",
+        text: "Debes llenar todos los campos para enviar el formulario",
+      });
+      return;
+    }
+    setIsLoading(true);
 
-      const Seccion = {
-        id_seccion: "",
-        seccion: seccion,
-        codigo_seccion: Codigo,
-        descripcion: Descripcion,
-      };
+    const Seccion = {
+      id_seccion: "",
+      seccion: seccion,
+      codigo_seccion: Codigo,
+      descripcion: Descripcion,
+    };
 
-      try {
-        const result = await seccion_post(Seccion);
-        console.log("Respuesta de la APi:", result);
+    try {
+      const result = await seccion_post(Seccion);
+      console.log("Respuesta de la APi:", result);
 
-        Swal.fire({
-          icon: "success",
-          title: "¡Exito!",
-          text: "Se ha agregado la sección con exito",
-        });
+      Swal.fire({
+        icon: "success",
+        title: "¡Exito!",
+        text: "Se ha agregado la sección con exito",
+      });
 
-        setID("");
-        setCode("");
-        setSeccion("");
-        setDescripcion("");
-        setRefreshTable((prev) => prev + 1);
-      } catch (error) {
-        console.error("Error:", error);
+      setID("");
+      setCode("");
+      setSeccion("");
+      setDescripcion("");
+      setRefreshTable((prev) => prev + 1);
+    } catch (error) {
+      console.error("Error:", error);
 
       Swal.fire({
         icon: "error",
@@ -89,24 +89,19 @@ import { Tooltip } from "react-tooltip";
                           <div className="col-md-6">
                             <div className="form-floating">
                               <input
-                                data-tooltip-id="IdSeccion"
-                                data-tooltip-content="Identificador númerico o alfanumérico que permite localizar de forma precisa una sección dentro del sistema de clasificación."
                                 className="form-control"
-                                id="inputID"
+                                id="inputSeccion"
                                 type="text"
-                                placeholder="ID Sección"
-                                value={ID}
-                                onChange={(e) => setID(e.target.value)}
+                                placeholder="Sección"
+                                value={seccion}
+                                onChange={(e) => setSeccion(e.target.value)}
                               />
-                              <label htmlFor="inputID">ID Sección</label>
-                              <Tooltip id="IdSeccion"></Tooltip>
+                              <label htmlFor="inputSeccion">Sección</label>
                             </div>
                           </div>
                           <div className="col-md-6">
                             <div className="form-floating">
                               <input
-                                data-tooltip-id="codigo"
-                                data-tooltip-content="Clave de acceso que se utiliza para referenciar la sección en diferentes documentos y sistemas."
                                 className="form-control"
                                 id="inputCodigo"
                                 type="text"
@@ -115,14 +110,12 @@ import { Tooltip } from "react-tooltip";
                                 onChange={(e) => setCode(e.target.value)}
                               />
                               <label htmlFor="inputCodigo">Código</label>
-                              <Tooltip id="codigo"></Tooltip>
                             </div>
                           </div>
+                        </div>
 
                         <div className="form-floating mb-3">
                           <input
-                            data-tooltip-id="descripcion"
-                            data-tooltip-content="Descripción detallada del contenido de la sección, incluyendo los tipos de documentos que se encuentran en ella y el periodo de tiempo al que corresponden."
                             className="form-control"
                             id="inputDescripcion"
                             type="text"
@@ -131,28 +124,27 @@ import { Tooltip } from "react-tooltip";
                             onChange={(e) => setDescripcion(e.target.value)}
                           />
                           <label htmlFor="inputDescripcion">Descripción</label>
-                          <Tooltip id="descripcion"></Tooltip>
                         </div>
 
-                          <div className="mt-4 mb-0">
-                            <div className="d-grid">
-                              <Boton disabled={isLoading}>
-                                {isLoading ? "Enviando..." : "Enviar"}
-                              </Boton>
-                            </div>
+                        <div className="mt-4 mb-0">
+                          <div className="d-grid">
+                            <Boton disabled={isLoading}>
+                              {isLoading ? "Enviando..." : "Enviar"}
+                            </Boton>
                           </div>
-                        </form>
-                      </div>
+                        </div>
+                      </form>
                     </div>
                   </div>
                 </div>
-                <TableSeccion key={refreshTable}></TableSeccion>
               </div>
-            </main>
-          </div>
+              <TableSeccion key={refreshTable}></TableSeccion>
+            </div>
+          </main>
         </div>
-      </body>
-    );
-  }
+      </div>
+    </body>
+  );
+}
 
-  export default Seccion;
+export default Seccion;
