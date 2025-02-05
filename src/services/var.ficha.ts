@@ -1,5 +1,5 @@
 export interface ficha{
-    id_ficha: string|number;
+    id_ficha: number;
     ficha: string;
     area_resguardante: string; 
     area_intervienen: string;
@@ -11,4 +11,3 @@ export interface ficha{
     serie : number;
     subserie: number;
 }
-
