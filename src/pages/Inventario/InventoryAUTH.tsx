@@ -17,6 +17,9 @@ export function InventoryAuth() {
   const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
   const [filteredInventory, setFilteredInventory] = useState<iInventario[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [authorizedItems, setAuthorizedItems] = useState<Set<string>>(
+    new Set()
+  );
   const Navigate = useNavigate();
 
   const fetchInventory = async () => {
@@ -25,6 +28,14 @@ export function InventoryAuth() {
       const items = await inventario_get();
       setiInventario(items);
       setFilteredInventory(items);
+
+      // Load authorized items from localStorage
+      const savedAuthorizedItems = localStorage.getItem(
+        "authorizedInventoryItems"
+      );
+      if (savedAuthorizedItems) {
+        setAuthorizedItems(new Set(JSON.parse(savedAuthorizedItems)));
+      }
     } catch (error) {
       console.error("Error fetching inventory:", error);
       Swal.fire({
@@ -59,6 +70,16 @@ export function InventoryAuth() {
     }
 
     const selectedId = selectedRows[0] as string;
+
+    if (authorizedItems.has(selectedId)) {
+      Swal.fire({
+        icon: "warning",
+        title: "Item ya autorizado",
+        text: "Este item ya ha sido autorizado previamente",
+      });
+      return;
+    }
+
     const itemToEdit = filteredInventory.find(
       (item) => item.num_consecutivo === selectedId
     );
@@ -85,6 +106,17 @@ export function InventoryAuth() {
       });
 
       if (result.isConfirmed) {
+        // Add to authorized items
+        const newAuthorizedItems = new Set(authorizedItems);
+        newAuthorizedItems.add(selectedId);
+        setAuthorizedItems(newAuthorizedItems);
+
+        // Save to localStorage
+        localStorage.setItem(
+          "authorizedInventoryItems",
+          JSON.stringify([...newAuthorizedItems])
+        );
+
         localStorage.setItem("InventarioAutorizar", JSON.stringify(itemToEdit));
         Navigate(`/InvenAuth/${selectedId}`);
       }
@@ -127,6 +159,17 @@ export function InventoryAuth() {
         const success = await inventario_delete(selectedId);
 
         if (success) {
+          // Remove from authorized items if it was authorized
+          if (authorizedItems.has(selectedId)) {
+            const newAuthorizedItems = new Set(authorizedItems);
+            newAuthorizedItems.delete(selectedId);
+            setAuthorizedItems(newAuthorizedItems);
+            localStorage.setItem(
+              "authorizedInventoryItems",
+              JSON.stringify([...newAuthorizedItems])
+            );
+          }
+
           Swal.fire({
             icon: "success",
             title: "Eliminado",
@@ -235,22 +278,46 @@ export function InventoryAuth() {
       minWidth: 150,
       headerClassName: "table-header",
     },
+    {
+      field: "estado",
+      headerName: "Estado",
+      flex: 1,
+      minWidth: 120,
+      headerClassName: "table-header",
+      renderCell: (params) => (
+        <span
+          className={`px-2 py-1 rounded ${
+            authorizedItems.has(params.row.num_consecutivo)
+              ? "bg-green-100 text-green-800"
+              : "bg-gray-100 text-gray-800"
+          }`}
+        >
+          {authorizedItems.has(params.row.num_consecutivo)
+            ? "Autorizado"
+            : "Pendiente"}
+        </span>
+      ),
+    },
   ];
 
   return (
     <div className="min-h-screen bg-gray">
       <main className="max-w-7xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-          {/* Toolbar */}
           <div className="p-4 border-b flex justify-between items-center bg-gray-50">
             <div className="flex gap-2">
-              <Tooltip title="Editar">
+              <Tooltip title="Autorizar">
                 <span>
                   <IconButton
                     onClick={handleEdit}
                     size="small"
                     className="text-green-600 hover:text-green-800"
-                    disabled={selectedRows.length !== 1 || isLoading}
+                    disabled={
+                      selectedRows.length !== 1 ||
+                      isLoading ||
+                      (selectedRows.length === 1 &&
+                        authorizedItems.has(selectedRows[0] as string))
+                    }
                   >
                     <Check className="h-5 w-5" />
                   </IconButton>
@@ -271,11 +338,6 @@ export function InventoryAuth() {
               </Tooltip>
             </div>
           </div>
-
-          {/*<SearchFilteriInventario
-            onFilterChange={handleFilterChange}
-            iInventario={iInventario}
-          />*/}
 
           <Box
             sx={{

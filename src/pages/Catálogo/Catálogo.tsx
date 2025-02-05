@@ -18,6 +18,7 @@ import "../../styles/Styles.css";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
 import LogoImg from "../../assets/Tlaxcala.png";
+import { Tooltip } from "react-tooltip";
 import { user_profile } from "../../services/user.services";
 
 export function Catálogo() {
@@ -237,6 +238,7 @@ export function Catálogo() {
                           <div className="col-md-4">
                             <div className="form-floating">
                               <input
+                                data-tooltip-id=""
                                 className="form-control"
                                 id="inputSeccion"
                                 type="text"

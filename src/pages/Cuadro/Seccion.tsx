@@ -1,9 +1,10 @@
-  import { useState } from "react";
-  import Logo from "../../assets/Tlaxcala.png";
-  import { Boton } from "../../components/Botones/Botones";
-  import { seccion_post } from "../../services/cuadro.service";
-  import { TableSeccion } from "./TableSeccion";
-  import Swal from "sweetalert2";
+import { useState } from "react";
+import Logo from "../../assets/Tlaxcala.png";
+import { Boton } from "../../components/Botones/Botones";
+import { seccion_post } from "../../services/cuadro.service";
+import { TableSeccion } from "./TableSeccion";
+import Swal from "sweetalert2";
+import { Tooltip } from "react-tooltip";
 
   export function Seccion() {
     const [ID, setID] = useState("");
@@ -52,78 +53,86 @@
       } catch (error) {
         console.error("Error:", error);
 
-        Swal.fire({
-          icon: "error",
-          title: "Ooops",
-          text: "Algo salio mal. Por favor intente de nuevo",
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    return (
-      <body>
-        <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-          crossOrigin="anonymous"
-        ></link>
-        <img className="Logo_imgRU" src={Logo} alt="" width={"25%"} />
-        <div className="layoutAuthentication">
-          <div className="layoutAuthentication_content">
-            <main>
-              <div className="container-fluid">
-                <div className="row justify-content-center">
-                  <div className="col-lg-7">
-                    <div className="card shadow-lg border-0 rounded-lg mt-5">
-                      <div className="card-header">
-                        <h3 className="text-center font-weight-light my-4">
-                          Cuadro General de Clasificación Archivística
-                        </h3>
-                      </div>
-                      <div className="card-body">
-                        <form onSubmit={handleSubmit}>
-                          <div className="row mb-3">
-                            <div className="col-md-6">
-                              <div className="form-floating">
-                                <input
-                                  className="form-control"
-                                  id="inputSeccion"
-                                  type="text"
-                                  placeholder="Sección"
-                                  value={seccion}
-                                  onChange={(e) => setSeccion(e.target.value)}
-                                />
-                                <label htmlFor="inputSeccion">Sección</label>
-                              </div>
+      Swal.fire({
+        icon: "error",
+        title: "Ooops",
+        text: "Algo salio mal. Por favor intente de nuevo",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  return (
+    <body>
+      <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossOrigin="anonymous"
+      ></link>
+      <img className="Logo_imgRU" src={Logo} alt="" width={"25%"} />
+      <div className="layoutAuthentication">
+        <div className="layoutAuthentication_content">
+          <main>
+            <div className="container-fluid">
+              <div className="row justify-content-center">
+                <div className="col-lg-7">
+                  <div className="card shadow-lg border-0 rounded-lg mt-5">
+                    <div className="card-header">
+                      <h3 className="text-center font-weight-light my-4">
+                        Cuadro General de Clasificación Archivística
+                      </h3>
+                    </div>
+                    <div className="card-body">
+                      <form onSubmit={handleSubmit}>
+                        <div className="row mb-3">
+                          <div className="col-md-6">
+                            <div className="form-floating">
+                              <input
+                                data-tooltip-id="IdSeccion"
+                                data-tooltip-content="Identificador númerico o alfanumérico que permite localizar de forma precisa una sección dentro del sistema de clasificación."
+                                className="form-control"
+                                id="inputID"
+                                type="text"
+                                placeholder="ID Sección"
+                                value={ID}
+                                onChange={(e) => setID(e.target.value)}
+                              />
+                              <label htmlFor="inputID">ID Sección</label>
+                              <Tooltip id="IdSeccion"></Tooltip>
                             </div>
-                            <div className="col-md-6">
-                              <div className="form-floating">
-                                <input
-                                  className="form-control"
-                                  id="inputCodigo"
-                                  type="text"
-                                  placeholder="Código"
-                                  value={Codigo}
-                                  onChange={(e) => setCode(e.target.value)}
-                                />
-                                <label htmlFor="inputCodigo">Código</label>
-                              </div>
+                          </div>
+                          <div className="col-md-6">
+                            <div className="form-floating">
+                              <input
+                                data-tooltip-id="codigo"
+                                data-tooltip-content="Clave de acceso que se utiliza para referenciar la sección en diferentes documentos y sistemas."
+                                className="form-control"
+                                id="inputCodigo"
+                                type="text"
+                                placeholder="Código"
+                                value={Codigo}
+                                onChange={(e) => setCode(e.target.value)}
+                              />
+                              <label htmlFor="inputCodigo">Código</label>
+                              <Tooltip id="codigo"></Tooltip>
                             </div>
                           </div>
 
-                          <div className="form-floating mb-3">
-                            <input
-                              className="form-control"
-                              id="inputDescripcion"
-                              type="text"
-                              placeholder="Descripción"
-                              value={Descripcion}
-                              onChange={(e) => setDescripcion(e.target.value)}
-                            />
-                            <label htmlFor="inputDescripcion">Descripción</label>
-                          </div>
+                        <div className="form-floating mb-3">
+                          <input
+                            data-tooltip-id="descripcion"
+                            data-tooltip-content="Descripción detallada del contenido de la sección, incluyendo los tipos de documentos que se encuentran en ella y el periodo de tiempo al que corresponden."
+                            className="form-control"
+                            id="inputDescripcion"
+                            type="text"
+                            placeholder="Descripción"
+                            value={Descripcion}
+                            onChange={(e) => setDescripcion(e.target.value)}
+                          />
+                          <label htmlFor="inputDescripcion">Descripción</label>
+                          <Tooltip id="descripcion"></Tooltip>
+                        </div>
 
                           <div className="mt-4 mb-0">
                             <div className="d-grid">
