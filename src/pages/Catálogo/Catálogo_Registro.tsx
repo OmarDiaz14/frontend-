@@ -1,13 +1,9 @@
 import { Logo } from "../../components/Logo";
 import { catalogo, destino, type, valor } from "../../services/var.catalogo";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
-import {
-  catalogo_get,
-  catalogo_delete,
-  destino_get,
-  type_get,
-  valor_get,
-} from "../../services/catalogo.service";
+import { catalogo_get, catalogo_delete, destino_get, type_get, valor_get} from "../../services/catalogo.service";
+import { Seccion_get, serie_get } from "../../services/cuadro.service";
+import { serie, seccion } from "../../services/var.cuadro";
 import { useEffect, useState, useCallback } from "react";
 import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import { Eye, Pencil, Trash2, Plus } from "lucide-react";
@@ -21,6 +17,8 @@ export function Catálogo_Registro(): JSX.Element {
   const [catalogo, setCatalogo] = useState<catalogo[]>([]);
   const [filteredCatalogo, setFilteredCatalogo] = useState<catalogo[]>([]);
   const [destinos, setDestinos] = useState<destino[]>([]);
+  const [secciones, setSecciones] = useState<seccion[]>([]);
+  const [series, setSeries] = useState<serie[]>([]);
   const [types, setTypes] = useState<type[]>([]);
   const [valores, setValores] = useState<valor[]>([]);
   const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
@@ -30,14 +28,18 @@ export function Catálogo_Registro(): JSX.Element {
   useEffect(() => {
     const fetchRelatedData = async () => {
       try {
-        const [destinosData, typesData, valoresData] = await Promise.all([
+        const [destinosData, typesData, valoresData, seccionesData, seriesData] = await Promise.all([
           destino_get(),
           type_get(),
           valor_get(),
+          Seccion_get(),
+          serie_get(),
         ]);
         setDestinos(destinosData);
         setTypes(typesData);
         setValores(valoresData);
+        setSecciones(seccionesData);
+        setSeries(seriesData);
         setIsDataLoaded(true);
       } catch (error) {
         console.error("Error fetching related data:", error);
@@ -68,9 +70,16 @@ export function Catálogo_Registro(): JSX.Element {
           valores.find(
             (valor) => valor.id_valores === item.valores_documentales
           )?.valores || item.valores_documentales,
+        seccion:
+          secciones.find((seccion) => seccion.id_seccion === item.seccion)
+            ?.seccion || item.seccion,
+        serie:
+          series.find((serie) => serie.id_serie === item.serie)?.serie || item.serie,
       }));
       setCatalogo(mappedItems);
       setFilteredCatalogo(mappedItems);
+
+      
     } catch (error) {
       console.error("Error fetching catalogo:", error);
     }
@@ -199,14 +208,14 @@ export function Catálogo_Registro(): JSX.Element {
 
   const columns: GridColDef[] = [
     {
-      field: "id_seccion",
+      field: "seccion",
       headerName: "Sección",
       flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
-      field: "id_serie",
+      field: "serie",
       headerName: "Serie",
       flex: 1,
       minWidth: 150,

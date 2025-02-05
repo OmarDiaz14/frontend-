@@ -9,9 +9,9 @@ interface portada {
   valores_secundarios: string;
   fecha_apertura: string;
   fecha_cierre: string;
-  seccion: string;
-  serie: string;
-  subserie: string;
+  seccion: number;
+  serie: number;
+  subserie: number | null;
 }
 
 export const portada_post = async ( data: portada) => {

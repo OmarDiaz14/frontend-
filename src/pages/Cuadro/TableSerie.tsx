@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
-import { serie_get } from "../../services/cuadro.service";
-import { serie } from "../../Producto";
+import { Seccion_get, serie_get } from "../../services/cuadro.service";
+import { seccion, serie } from "../../services/var.cuadro";
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import Swal from "sweetalert2";
@@ -9,27 +9,40 @@ export function TableSerie() {
   const [Serie, setSerie] = useState<serie[]>([]);
   const [filteredSerie, setFilteredSerie] = useState<serie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [secciones, setSecciones] = useState<seccion[]>([]);
+  
+  const fetchSeccion = async (): Promise<void> => {
+  setIsLoading(true);
+  try {
+    const seccionesData: seccion[] = await Seccion_get();
+    setSecciones(seccionesData);
+    const seriesData: serie[] = await serie_get();
+    const mappedSeries = seriesData.map((Serie) => {
+      const seccion = seccionesData.find(
+        (Seccion) => Seccion.id_seccion === Serie.id_seccion
+      )?.seccion; 
+      return {
+        ...Serie,
+        id_seccion: seccion || "Sin sección", 
+      };
+    });
 
-  const fetchSeccion = async () => {
-    setIsLoading(true);
-    try {
-      const items = await serie_get();
-      setSerie(items);
-      setFilteredSerie(items);
-    } catch (error) {
-      console.error("Error fetching inventory", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "No se pudieron cargar los datos de seccion",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  useEffect(() => {
-    fetchSeccion();
-  }, []);
+    setSerie(mappedSeries);
+  } catch (error) {
+    console.error("Error fetching inventory", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No se pudieron cargar los datos de seccion",
+    });
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+useEffect(() => {
+  fetchSeccion();
+}, []);
 
   const rowsWithIds = Serie.map((row, index) => ({
     ...row,

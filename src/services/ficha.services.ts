@@ -3,14 +3,17 @@ import api from '../api_axios';
 
 
 interface ficha {
-    id_ficha: string;
-    area_resguardante: string; 
-    area_intervienen: string;
-    descripcion: string;
-    soporte_docu: string;
-    id_seccion : string;
-    id_serie : string;
-    id_subserie: string;
+  id_ficha: string|number;
+  ficha: string;
+  area_resguardante: string; 
+  area_intervienen: string;
+  descripcion: string;
+  topologia: string;
+  soporte_docu: string;
+  catalogo: string;
+  seccion : number;
+  serie : number;
+  subserie: number;
 }
 
 export const ficha_post = async (data: ficha) => {

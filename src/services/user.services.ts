@@ -10,7 +10,7 @@ interface user {
   email: string;
   cargo: string;
   unidad_admi: string;
-  roles: string[];
+  roles: number[];
   id_seccion: string;
 }
 
@@ -40,7 +40,7 @@ export const user_post = async (data: user) => {
 
 export const user_profile = async () => {
   try {
-    const response = await api.get( "/users/profile/"
+    const response = await api.post( "/users/profile/"
     );
 
     if (response.status === 200) {

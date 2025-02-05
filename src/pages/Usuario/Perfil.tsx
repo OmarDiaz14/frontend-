@@ -4,6 +4,10 @@ import Usuarios from "../../assets/Usuarios.png";
 import { Boton } from "../../components/Botones/Botones";
 import "../../../node_modules/remixicon/fonts/remixicon.css";
 import { getUser } from "../../services/auth.service";
+import { user_profile } from "../../services/user.services";
+import { useEffect, useState } from "react";
+import { User } from "../../services/var.user.services";
+
 
 export enum Roles {
   Admin = 1,
@@ -24,8 +28,23 @@ export function getRoleName(roleId: number): string {
   }
 }
 
+
+
 export function Usuario() {
-  const user = getUser();
+
+  const [user, setUser] = useState(new User());
+  useEffect(() => {
+      const fetchUser = async () => {
+        try {
+          const items = await user_profile();
+          setUser(items);
+        } catch (error) {
+          console.error("Error al obtener las secciones:", error);
+        }
+      };
+      fetchUser();
+    }, []);
+     
   const ButtonClick = () => {
     window.location.href = "/Home";
   };
@@ -75,7 +94,7 @@ export function Usuario() {
           <h1 className="name">
             {user.first_name} {user.last_name}
           </h1>
-          <p>{user.unidad_admi}</p>
+          <p>{user.name_seccion}</p>
         </div>
 
         <div className="rank">

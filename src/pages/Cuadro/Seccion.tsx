@@ -6,49 +6,52 @@ import { TableSeccion } from "./TableSeccion";
 import Swal from "sweetalert2";
 import { Tooltip } from "react-tooltip";
 
-export function Seccion() {
-  const [ID, setID] = useState("");
-  const [Codigo, setCode] = useState("");
-  const [Descripcion, setDescripcion] = useState("");
-  const [refreshTable, setRefreshTable] = useState(0);
+  export function Seccion() {
+    const [ID, setID] = useState("");
+    const [seccion, setSeccion] = useState("");
+    const [Codigo, setCode] = useState("");
+    const [Descripcion, setDescripcion] = useState("");
+    const [refreshTable, setRefreshTable] = useState(0);
 
-  const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (event: { preventDefault: () => void }) => {
-    event.preventDefault();
+    const handleSubmit = async (event: { preventDefault: () => void }) => {
+      event.preventDefault();
 
-    if (!ID.trim() || !Codigo.trim() || !Descripcion.trim()) {
-      Swal.fire({
-        icon: "warning",
-        title: "Error",
-        text: "Debes llenar todos los campos para enviar el formulario",
-      });
-      return;
-    }
-    setIsLoading(true);
+      if (!Codigo.trim() || !Descripcion.trim()) {
+        Swal.fire({
+          icon: "warning",
+          title: "Error",
+          text: "Debes llenar todos los campos para enviar el formulario",
+        });
+        return;
+      }
+      setIsLoading(true);
 
-    const Seccion = {
-      id_seccion: ID,
-      codigo: Codigo,
-      descripcion: Descripcion,
-    };
+      const Seccion = {
+        id_seccion: "",
+        seccion: seccion,
+        codigo_seccion: Codigo,
+        descripcion: Descripcion,
+      };
 
-    try {
-      const result = await seccion_post(Seccion);
-      console.log("Respuesta de la APi:", result);
+      try {
+        const result = await seccion_post(Seccion);
+        console.log("Respuesta de la APi:", result);
 
-      Swal.fire({
-        icon: "success",
-        title: "¡Exito!",
-        text: "Se ha agregado la sección con exito",
-      });
+        Swal.fire({
+          icon: "success",
+          title: "¡Exito!",
+          text: "Se ha agregado la sección con exito",
+        });
 
-      setID("");
-      setCode("");
-      setDescripcion("");
-      setRefreshTable((prev) => prev + 1);
-    } catch (error) {
-      console.error("Error:", error);
+        setID("");
+        setCode("");
+        setSeccion("");
+        setDescripcion("");
+        setRefreshTable((prev) => prev + 1);
+      } catch (error) {
+        console.error("Error:", error);
 
       Swal.fire({
         icon: "error",
@@ -115,7 +118,6 @@ export function Seccion() {
                               <Tooltip id="codigo"></Tooltip>
                             </div>
                           </div>
-                        </div>
 
                         <div className="form-floating mb-3">
                           <input
@@ -132,25 +134,25 @@ export function Seccion() {
                           <Tooltip id="descripcion"></Tooltip>
                         </div>
 
-                        <div className="mt-4 mb-0">
-                          <div className="d-grid">
-                            <Boton disabled={isLoading}>
-                              {isLoading ? "Enviando..." : "Enviar"}
-                            </Boton>
+                          <div className="mt-4 mb-0">
+                            <div className="d-grid">
+                              <Boton disabled={isLoading}>
+                                {isLoading ? "Enviando..." : "Enviar"}
+                              </Boton>
+                            </div>
                           </div>
-                        </div>
-                      </form>
+                        </form>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <TableSeccion key={refreshTable}></TableSeccion>
               </div>
-              <TableSeccion key={refreshTable}></TableSeccion>
-            </div>
-          </main>
+            </main>
+          </div>
         </div>
-      </div>
-    </body>
-  );
-}
+      </body>
+    );
+  }
 
-export default Seccion;
+  export default Seccion;

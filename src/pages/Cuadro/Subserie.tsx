@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import Logo from "../../assets/Tlaxcala.png";
 import { Boton } from "../../components/Botones/Botones";
 import { serie_get, subserie_post } from "../../services/cuadro.service";
-import { serie } from "../../Producto";
+import { serie } from "../../services/var.cuadro";
 import { TableSubserie } from "./TableSubSerie";
 import Swal from "sweetalert2";
 
 export function Subserie() {
   const [Descripcion, setDescripcion] = useState("");
+  const [codigo, setCodigo] = useState("");
   const [Serie, setSerie] = useState("");
   const [SerieGet, setSerieGet] = useState<serie[]>([]);
   const [subserie, setsubserie] = useState("");
@@ -36,9 +37,11 @@ export function Subserie() {
     setIsLoading(true);
 
     const SubserieData = {
-      SubSerie: subserie,
+      id_subserie: "",
+      subserie: subserie,
+      codigo_subserie: codigo,
       descripcion: Descripcion,
-      serie: Serie,
+      id_serie: Serie,
     };
 
     try {
@@ -103,7 +106,7 @@ export function Subserie() {
                               >
                                 <option value="">Seleccione una opción</option>
                                 {SerieGet.map((serie) => (
-                                  <option value={serie.serie}>
+                                  <option value={serie.id_serie}>
                                     {serie.serie}
                                   </option>
                                 ))}
@@ -118,27 +121,37 @@ export function Subserie() {
                                 id="inputSubserie"
                                 type="text"
                                 placeholder="ID Subserie"
-                                value={Descripcion}
-                                onChange={(e) => setDescripcion(e.target.value)}
+                                value={subserie}
+                                onChange={(e) => setsubserie(e.target.value)}
                               />
                               <label htmlFor="inputSubserie">
-                                Codigo de la Sub-serie
+                                Sub-serie
                               </label>
                             </div>
                           </div>
                         </div>
-
+                         <div className="form-floating mb-3">
+                          <input
+                            className="form-control"
+                            id="inputCodigo"
+                            type="text"
+                            placeholder="Codigo Sub-Serie"
+                            value={codigo}
+                            onChange={(e) => setCodigo(e.target.value)}
+                          />
+                          <label htmlFor="inputCodigo">Codigo Sub-Serie</label>
+                        </div> 
                         <div className="form-floating mb-3">
                           <input
                             className="form-control"
                             id="inputDescripcion"
                             type="text"
                             placeholder="Nombre Sub-Serie"
-                            value={subserie}
-                            onChange={(e) => setsubserie(e.target.value)}
+                            value={Descripcion}
+                            onChange={(e) => setDescripcion(e.target.value)}
                           />
                           <label htmlFor="inputDescripcion">
-                            Nombre Sub-Serie
+                            Descripcion de Sub-Serie
                           </label>
                         </div>
 

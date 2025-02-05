@@ -10,34 +10,71 @@ import { useNavigate } from "react-router-dom";
 import SearchFilter_Ficha from "./SearchFilter_Ficha";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
-
+import { serie_get } from "../../services/cuadro.service"; // Importa el servicio para obtener las series
+interface Serie {
+  id_serie: number;
+  serie: string;
+}
 export function Ficha_Registro(): JSX.Element {
   const navigate = useNavigate();
   const [ficha, setFicha] = useState<ficha[]>([]);
   const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
   const [filteredFicha, setFilteredFicha] = useState<ficha[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [series, setSeries] = useState<Serie[]>([]);
 
-  useEffect(() => {
-    setIsDataLoaded(true);
-  }, []);
-
-  const fetchFicha = async (): Promise<void> => {
+  // Función para obtener las series
+  const fetchSeries = async (): Promise<void> => {
     try {
-      const items = await ficha_get();
-      setFicha(items);
-      setFilteredFicha(items);
+      const seriesData = await serie_get();
+      setSeries(seriesData);
     } catch (error) {
-      console.error("Error fetching portada", error);
+      console.error("Error fetching series", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudieron cargar las series",
+      });
     }
   };
 
-  useEffect(() => {
-    if (isDataLoaded) {
-      fetchFicha();
+  // Función para obtener las fichas y mapearlas con los nombres de las series
+  const fetchAndMapFicha = async (): Promise<void> => {
+    try {
+      const items = await ficha_get();
+      
+      // Solo mapear si tenemos tanto las fichas como las series
+      const mappedItems = items.map((item: ficha) => {
+        const serieFound = series.find((s) => s.id_serie === item.serie);
+        return {
+          ...item,
+          serie: serieFound ? serieFound.serie : "Sin nombre",
+        };
+      });
+
+      setFicha(mappedItems);
+      setFilteredFicha(mappedItems);
+    } catch (error) {
+      console.error("Error fetching fichas", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudieron cargar las fichas",
+      });
     }
-  }, [isDataLoaded]);
+  };
+
+  // Primer useEffect para cargar las series
+  useEffect(() => {
+    fetchSeries();
+  }, []);
+
+  // Segundo useEffect para cargar y mapear las fichas cuando las series estén disponibles
+  useEffect(() => {
+    if (series.length > 0) {
+      fetchAndMapFicha();
+    }
+  }, [series]);
 
   const handleFilterChange = useCallback((filteredData: ficha[]): void => {
     setFilteredFicha(filteredData);
@@ -182,7 +219,7 @@ export function Ficha_Registro(): JSX.Element {
             timer: 1500,
             showConfirmButton: false,
           });
-          await fetchFicha();
+          await fetchAndMapFicha();
           setSelectedRows([]);
         } else {
           Swal.fire({
@@ -217,8 +254,8 @@ export function Ficha_Registro(): JSX.Element {
       headerClassName: "table-header",
     },
     {
-      field: "id_serie",
-      headerName: "Serie ",
+      field: "serie",
+      headerName: "Serie",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -244,29 +281,6 @@ export function Ficha_Registro(): JSX.Element {
       minWidth: 150,
       headerClassName: "table-header",
     },
-
-    /*  {
-      field: "soporte_docu",
-      headerName: "Soporte Documental (Formato)",
-      flex: 1.5,
-      minWidth: 200,
-      headerClassName: "table-header",
-    },*/
-
-    /* {
-      field: "id_seccion",
-      headerName: "Sección a la que pertenece",
-      flex: 1.2,
-      minWidth: 150,
-      headerClassName: "table-header",
-    },
-    {
-      field: "id_subserie",
-      headerName: "Subserie a la que pertenece",
-      flex: 1.2,
-      minWidth: 150,
-      headerClassName: "table-header",
-    }, */
   ];
 
   return (
