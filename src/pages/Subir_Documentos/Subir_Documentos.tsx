@@ -14,6 +14,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
+import api from "../../api_axios";
 
 interface Documento {
   id: number;
@@ -26,12 +27,12 @@ interface Documento {
 }
 
 // Create an axios instance with default config
-const api = axios.create({
-  baseURL: "https://backend-lga.onrender.com",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+// const api = axios.create({
+//   baseURL: "https://backend-lga.onrender.com",
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// });
 
 // Add authentication interceptor
 api.interceptors.request.use((config) => {
@@ -52,32 +53,30 @@ export const Subir_Documentos: React.FC = () => {
   const [anio, setAnio] = useState<string>("");
   const [expediente, setExpediente] = useState<string>("");
 
-  const uploadWithRetry = async (
-    formData: FormData,
-    retries = 3
-  ): Promise<any> => {
+  const uploadWithRetry = async (formData: FormData, retries = 3): Promise<any> => {
     try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = '/login';
+        throw new Error('No autenticado');
+      }
+
       const response = await api.post(
         "/portada/portada/upload-alfresco-document/",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        formData
       );
       return response.data;
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401 && retries > 0) {
-          return uploadWithRetry(formData, retries - 1);
+        if (error.response?.status === 401) {
+          // El interceptor ya maneja la redirección
+          throw new Error('Sesión expirada');
         }
         throw error;
       }
       throw error;
     }
   };
-
   const validateFile = (file: File): boolean => {
     const allowedTypes = ["pdf", "docx", "txt", "jpg", "png"];
     const maxSize = 10 * 1024 * 1024; // 10MB
