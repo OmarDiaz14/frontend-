@@ -126,6 +126,7 @@ export function Ficha() {
     setIsLoading(true);
 
     const fichaData = {
+      id_ficha: id_ficha,
       ficha: ficha,
       area_resguardante: area_resguardante,
       area_intervienen: area_intervienen,

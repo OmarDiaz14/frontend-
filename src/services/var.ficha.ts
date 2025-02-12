@@ -1,5 +1,5 @@
 export interface ficha{
-    id_ficha: number;
+    id_ficha: number |string;
     ficha: string;
     area_resguardante: string; 
     area_intervienen: string;

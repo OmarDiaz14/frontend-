@@ -1,21 +1,35 @@
 import axios from 'axios';
 
-// Crear una instancia de Axios
 const api = axios.create({
-  baseURL:  import.meta.env.VITE_API_URL , // URL base de tu API
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
-// Interceptor para agregar el token a cada petición
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token'); // Obtener el token del localStorage
+    const token = localStorage.getItem('token');
     if (token) {
-      config.headers['Authorization'] = `Token ${token}`; // Agregar el token al header
-      console.log(config.headers)
+      config.headers['Authorization'] = `Token ${token}`;
+      if (config.url?.includes('upload-alfresco-document')) {
+        config.headers['Content-Type'] = 'multipart/form-data';
+      } else {
+        config.headers['Content-Type'] = 'application/json';
+      }
     }
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/login';
+    }
     return Promise.reject(error);
   }
 );
