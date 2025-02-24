@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { Seccion_get } from "../../services/cuadro.service";
-import { seccion } from "../../Producto";
+import { seccion } from "../../services/var.cuadro";
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import Swal from "sweetalert2";
@@ -43,15 +43,22 @@ export function TableSeccion() {
 
   const columns: GridColDef[] = [
     {
-      field: "codigo",
-      headerName: "Código de la Sección",
+      field: "codigo_seccion",
+      headerName: "Código de la Sección ",
       flex: 1.5,
       minWidth: 200,
       headerClassName: "table-header",
     },
     {
-      field: "descripcion",
+      field: "seccion",
       headerName: "Nombre de la Sección",
+      flex: 2,
+      minWidth: 250,
+      headerClassName: "table-header",
+    },
+    {
+      field: "descripcion",
+      headerName: "descripcion de la Sección",
       flex: 2,
       minWidth: 250,
       headerClassName: "table-header",

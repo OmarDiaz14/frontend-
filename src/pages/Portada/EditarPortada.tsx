@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 
 import "../../styles/Styles.css";
 import "sweetalert2/src/sweetalert2.scss";
+import { Seccion_get, serie_get, subserie_get } from "../../services/cuadro.service";
+import { seccion, serie, SubSerie } from "../../services/var.cuadro";
 
 interface Portada {
   num_expediente: string;
@@ -15,9 +17,9 @@ interface Portada {
   valores_secundarios: string;
   fecha_apertura: string;
   fecha_cierre: string;
-  seccion: string;
-  serie: string;
-  subserie: string;
+  seccion: number; // Solo número
+  serie: number; // Solo número
+  subserie: number | null; // Solo número o null
   ficha: string;
   catalogo: string;
   id_expediente?: string;
@@ -31,9 +33,9 @@ const INITIAL_PORTADA: Portada = {
   valores_secundarios: "",
   fecha_apertura: "",
   fecha_cierre: "",
-  seccion: "",
-  serie: "",
-  subserie: "",
+  seccion: 0, // Valor por defecto como número
+  serie: 0, // Valor por defecto como número
+  subserie: null, // Valor por defecto como null
   ficha: "",
   catalogo: "",
 };
@@ -45,6 +47,9 @@ export const EditarPortada: React.FC = () => {
   const [portada, setPortada] = useState<Portada>(INITIAL_PORTADA);
   const [error, setError] = useState<string | null>(null);
   const [availableIds, setAvailableIds] = useState<string[]>([]);
+  const [secciones, setSecciones] = useState<seccion[]>([]);
+  const [series, setSeries] = useState<serie[]>([]);
+  const [subseries, setSubseries] = useState<SubSerie[]>([]);
 
   useEffect(() => {
     const loadPortadaData = async () => {
@@ -105,8 +110,47 @@ export const EditarPortada: React.FC = () => {
       }
     };
 
+    const loadSecciones = async () => {
+      const response = await Seccion_get();
+      if (response) {
+        setSecciones(response);
+      }
+    };
+
+    const loadSeries = async () => {
+      const response = await serie_get();
+      if (response) {
+        setSeries(response);
+      }
+    };
+
+    const loadSubseries = async () => {
+      const response = await subserie_get();
+      if (response) {
+        setSubseries(response);
+      }
+    };
+
     loadPortadaData();
+    loadSecciones();
+    loadSeries();
+    loadSubseries();
   }, [id, navigate]);
+
+  const getSeccionNombre = (id: number) => {
+    const seccion = secciones.find((s) => s.id_seccion === id);
+    return seccion ? seccion.seccion : "";
+  };
+
+  const getSerieNombre = (id: number) => {
+    const serie = series.find((s) => s.id_serie === id);
+    return serie ? serie.serie : "";
+  };
+
+  const getSubserieNombre = (id: number) => {
+    const subserie = subseries.find((s) => s.id_subserie === id);
+    return subserie ? subserie.subserie : "";
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -114,12 +158,25 @@ export const EditarPortada: React.FC = () => {
     const { name, value } = e.target;
 
     if (name === "seccion" || name === "serie" || name === "subserie") {
-      return;
+      const numericValue = Number(value);
+      if (isNaN(numericValue)) {
+        Swal.fire({
+          icon: "error",
+          title: "Valor inválido",
+          text: `El valor de ${name} debe ser un número.`,
+        });
+        return;
+      }
+      setPortada((prev) => ({
+        ...prev,
+        [name]: numericValue,
+      }));
+    } else {
+      setPortada((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
     }
-    setPortada((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
   };
 
   const validateForm = (): boolean => {
@@ -185,7 +242,15 @@ export const EditarPortada: React.FC = () => {
         ])
       ) as Portada;
 
-      const result = await portada_put(id, trimmedPortada);
+      // Crear el payload para el PUT
+      const payload = {
+        ...trimmedPortada,
+        seccion: Number(trimmedPortada.seccion),
+        serie: Number(trimmedPortada.serie),
+        subserie: trimmedPortada.subserie ? Number(trimmedPortada.subserie) : null,
+      };
+
+      const result = await portada_put(id, payload);
 
       if (result) {
         await Swal.fire({
@@ -232,13 +297,23 @@ export const EditarPortada: React.FC = () => {
       name === "catalogo" ||
       name === "valores_secundarios";
 
+    let value = portada[name] ?? "";
+
+    if (name === "seccion" && typeof value === "number") {
+      value = getSeccionNombre(value);
+    } else if (name === "serie" && typeof value === "number") {
+      value = getSerieNombre(value);
+    } else if (name === "subserie" && typeof value === "number") {
+      value = getSubserieNombre(value);
+    }
+
     return (
       <div className="form-floating mb-3">
         <input
           className={`form-control ${isReadOnly ? "bg-light" : ""}`}
           type={type}
           name={name}
-          value={portada[name] ?? ""}
+          value={value}
           onChange={handleInputChange}
           placeholder={label}
           readOnly={isReadOnly}

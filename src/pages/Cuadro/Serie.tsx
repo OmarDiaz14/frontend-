@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Boton } from "../../components/Botones/Botones";
 import { Seccion_get, serie_post } from "../../services/cuadro.service";
-import { seccion } from "../../Producto";
+import { seccion } from "../../services/var.cuadro";
 import { TableSerie } from "./TableSerie";
 import Swal from "sweetalert2";
 
@@ -45,6 +45,7 @@ export function Serie() {
     setIsLoading(true);
 
     const serie = {
+      id_serie: "",
       serie: Serie,
       codigo_serie: Codigo,
       descripcion: Descripcion,

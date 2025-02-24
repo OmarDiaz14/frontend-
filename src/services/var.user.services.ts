@@ -8,8 +8,10 @@ export interface iUser{
     email: string;
     cargo: string;
     unidad_admi : string;
-    roles: string [];
+    nombre_unidad: string;
+    roles: number [];
     id_seccion: string;
+    name_seccion: string;
 }
 
 export class User implements iUser{
@@ -20,6 +22,8 @@ export class User implements iUser{
     email: string = "";
     cargo: string = "";
     unidad_admi : string = "";
-    roles: string [] = [];
+    nombre_unidad: string = "";
+    roles: number [] = [];
     id_seccion: string = "";
+    name_seccion: string = "";
 }

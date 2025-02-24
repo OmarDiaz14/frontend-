@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ficha_get, ficha_put } from "../../services/ficha.services";
+import { Seccion_get, serie_get, subserie_get } from "../../services/cuadro.service";
+import { seccion, serie, SubSerie } from "../../services/var.cuadro";
 import { Boton } from "../../components/Botones/Botones";
 import Swal from "sweetalert2";
 
@@ -8,27 +10,34 @@ import "../../styles/Styles.css";
 import "sweetalert2/src/sweetalert2.scss";
 
 interface Ficha {
-  id_ficha: string;
+  id_ficha: string | number;
+  ficha: string;
   area_resguardante: string;
   area_intervienen: string;
   descripcion: string;
   soporte_docu: string;
-  id_seccion: string;
-  id_serie: string;
-  id_subserie: string;
+  seccion: string | number;
+  serie: string | number;
+  subserie: string | number;
   topologia: string;
+  catalogo: string;
+  nombre_seccion?: string; // Nuevo campo
+  nombre_serie?: string;   // Nuevo campo
+  nombre_subserie?: string; // Nuevo campo
 }
 
 const INITIAL_FICHA: Ficha = {
   id_ficha: "",
+  ficha: "",
   area_resguardante: "",
   area_intervienen: "",
   descripcion: "",
   soporte_docu: "",
-  id_seccion: "",
-  id_serie: "",
-  id_subserie: "",
+  seccion: "",
+  serie: "",
+  subserie: "",
   topologia: "",
+  catalogo: "",
 };
 
 export const EditarFicha: React.FC = () => {
@@ -45,24 +54,24 @@ export const EditarFicha: React.FC = () => {
         navigate("/Ficha");
         return;
       }
-
+  
       try {
         setIsLoading(true);
         setError(null);
-
+  
         const response = await ficha_get();
-
+  
         if (!response || response.length === 0) {
           throw new Error("No se encontraron fichas");
         }
-
+  
         const ids = response.map((ficha: Ficha) => String(ficha.id_ficha));
         setAvailableIds(ids);
-
+  
         const item = response.find(
           (ficha: Ficha) => String(ficha.id_ficha) === String(id)
         );
-
+  
         if (!item) {
           await Swal.fire({
             icon: "error",
@@ -74,30 +83,53 @@ export const EditarFicha: React.FC = () => {
           navigate("/Ficha");
           return;
         }
-
-        setFicha(item);
+  
+        // Obtener los nombres de seccion, serie y subserie
+        const seccionResponse = await Seccion_get();
+        const serieResponse = await serie_get();
+        const subserieResponse = await subserie_get();
+  
+        const nombreSeccion = seccionResponse.find(
+          (seccion: seccion) => String(seccion.id_seccion) === String(item.seccion)
+        )?.seccion;
+  
+        const nombreSerie = serieResponse.find(
+          (serie: serie) => String(serie.id_serie) === String(item.serie)
+        )?.serie;
+  
+        const nombreSubserie = subserieResponse.find(
+          (subserie: SubSerie) => String(subserie.id_subserie) === String(item.subserie)
+        )?.subserie;
+  
+        // Actualizar el estado de la ficha con los nombres
+        setFicha({
+          ...item,
+          nombre_seccion: nombreSeccion || "",
+          nombre_serie: nombreSerie || "",
+          nombre_subserie: nombreSubserie || "",
+        });
       } catch (error) {
         const errorMessage =
           error instanceof Error
             ? error.message
             : "Error desconocido al cargar datos";
-
+  
         console.error("Error al cargar datos:", error);
         setError(errorMessage);
-
+  
         await Swal.fire({
           icon: "error",
           title: "Error de Carga",
           text: errorMessage,
           confirmButtonText: "Volver a Fichas",
         });
-
+  
         navigate("/Ficha");
       } finally {
         setIsLoading(false);
       }
     };
-
+  
     loadFichaData();
   }, [id, navigate]);
 
@@ -180,7 +212,12 @@ export const EditarFicha: React.FC = () => {
         ])
       ) as Ficha;
 
-      const result = await ficha_put(id, trimmedFicha);
+      const result = await ficha_put(id, {
+        ...trimmedFicha,
+        seccion: Number(trimmedFicha.seccion),
+        serie: Number(trimmedFicha.serie),
+        subserie: Number(trimmedFicha.subserie),
+      });
 
       if (result) {
         await Swal.fire({
@@ -217,20 +254,29 @@ export const EditarFicha: React.FC = () => {
     label: string,
     type: "text" | "textarea" = "text"
   ) => {
-    // Check if field should be read-only
     const isReadOnly =
-      name === "id_seccion" ||
-      name === "id_serie" ||
-      name === "id_subserie" ||
+      name === "seccion" ||
+      name === "serie" ||
+      name === "subserie" ||
       name === "id_ficha";
-
+  
+    // Mostrar el nombre si está disponible
+    const displayValue =
+      name === "seccion" && ficha.nombre_seccion
+        ? ficha.nombre_seccion
+        : name === "serie" && ficha.nombre_serie
+        ? ficha.nombre_serie
+        : name === "subserie" && ficha.nombre_subserie
+        ? ficha.nombre_subserie
+        : ficha[name] ?? "";
+  
     if (type === "textarea") {
       return (
         <div className="form-floating mb-3">
           <textarea
             className={`form-control ${isReadOnly ? "bg-light" : ""}`}
             name={name}
-            value={ficha[name] ?? ""}
+            value={displayValue}
             onChange={handleInputChange}
             placeholder={label}
             readOnly={isReadOnly}
@@ -239,14 +285,14 @@ export const EditarFicha: React.FC = () => {
         </div>
       );
     }
-
+  
     return (
       <div className="form-floating mb-3">
         <input
           className={`form-control ${isReadOnly ? "bg-light" : ""}`}
           type="text"
           name={name}
-          value={ficha[name] ?? ""}
+          value={displayValue}
           onChange={handleInputChange}
           placeholder={label}
           readOnly={isReadOnly}
@@ -255,7 +301,6 @@ export const EditarFicha: React.FC = () => {
       </div>
     );
   };
-
   return (
     <div>
       <link
@@ -304,16 +349,16 @@ export const EditarFicha: React.FC = () => {
                         {renderFormField("topologia", "Tipología", "textarea")}
 
                         <div className="row mb-3">
-                          <div className="col-md-4">
-                            {renderFormField("id_seccion", "ID Sección")}
-                          </div>
-                          <div className="col-md-4">
-                            {renderFormField("id_serie", "ID Serie")}
-                          </div>
-                          <div className="col-md-4">
-                            {renderFormField("id_subserie", "ID Subserie")}
-                          </div>
+                        <div className="col-md-4">
+                          {renderFormField("seccion", "ID Sección")}
                         </div>
+                        <div className="col-md-4">
+                          {renderFormField("serie", "ID Serie")}
+                        </div>
+                        <div className="col-md-4">
+                          {renderFormField("subserie", "ID Subserie")}
+                        </div>
+                      </div>
 
                         <div className="mt-4 mb-0">
                           <div className="d-grid">

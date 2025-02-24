@@ -4,37 +4,49 @@ import { useNavigate } from "react-router-dom";
 import { Boton } from "../../components/Botones/Botones";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
-import { serie_get } from "../../services/cuadro.service";
-import { seccion, serie } from "../../Producto";
+import { Seccion_get, serie_get } from "../../services/cuadro.service";
+import { seccion, serie } from "../../services/var.cuadro";
 import { portada_post } from "../../services/portada.services";
 import { Portada } from "../../services/var.portada";
 import "../../styles/Styles.css";
+import { user_profile } from "../../services/user.services";
 
 export function PortadaComponent() {
   const navigate = useNavigate();
   const [portada, setPortada] = useState<Portada>(new Portada());
+  const [seccionNombre, setSeccionNombre] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [seccion, setSeccion] = useState("");
+  const [id_seccion, setIdSeccion] = useState("");
+  const [secciones, setSecciones] = useState<seccion[]>([]);
   const [id_serie, setSerie] = useState<serie[]>([]);
   const [userInfo, setUserInfo] = useState<any>(null);
   const [filteredSeries, setFilteredSeries] = useState<serie[]>([]);
 
   useEffect(() => {
-    try {
-      const userDataStr = localStorage.getItem("user");
-      if (userDataStr) {
-        const userData = JSON.parse(userDataStr);
+    const fetchUser = async () => {
+      try {
+        const user = await user_profile();
+        setUserInfo(user);
+        setIdSeccion(user.id_seccion);
 
-        setPortada((prevPortada) => ({
-          ...prevPortada,
-          seccion: userData.unidad_admi || "",
-        }));
+
+        const currentSection = secciones.find(s => s.id_seccion === parseInt(user.id_seccion));
+        if (currentSection){
+          setSeccionNombre(currentSection.seccion);
+          setPortada((prevPortada) => ({
+            ...prevPortada,
+            seccion: currentSection.id_seccion,
+          }));
+
+          console.log("Sección actual:", currentSection.seccion);
       }
-    } catch (error) {
-      console.log("Error al cargar los datos del usuario:", error);
-    }
-  }, []);
-
+      } catch (error) {
+        console.error("Error al obtener datos de usuario:", error);
+      }
+    };
+    fetchUser();
+  }, [secciones]);
+     
   useEffect(() => {
     if (portada.seccion) {
       const filtered = id_serie.filter((s) => s.id_seccion === portada.seccion);
@@ -44,8 +56,14 @@ export function PortadaComponent() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const series = await serie_get();
+      const secciones = await Seccion_get();
+      setSecciones(secciones);
+    }; fetchData();
+  }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const series = await serie_get();
       setSerie(series);
     };
 
@@ -59,24 +77,16 @@ export function PortadaComponent() {
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value } = event.target;
+    const { name,  value } = event.target;
 
     if (name === "serie") {
-      const selectedSerie = id_serie.find((serie) => serie.serie === value);
+      const selectedSerie = id_serie.find((serie) => serie.id_serie === parseInt(value));
 
       if (selectedSerie) {
-        const year = new Date(
-          portada.fecha_apertura || new Date()
-        ).getFullYear();
-        const count = Math.floor(Math.random() * 1000) + 1; // Simula un contador único desde el backend
-        const numExpediente = `${selectedSerie.codigo_serie}-${year}-${count
-          .toString()
-          .padStart(4, "0")}`;
 
         setPortada((prevPortada) => ({
           ...prevPortada,
-          num_expediente: numExpediente,
-          serie: value,
+          serie: parseInt (value),
         }));
       }
     } else {
@@ -89,17 +99,17 @@ export function PortadaComponent() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log("Datos a enviar:", portada);
 
     if (
-      !portada.num_expediente.trim() ||
       !portada.asunto.trim() ||
       !portada.num_legajos.trim() ||
       !portada.num_fojas.trim() ||
       !portada.valores_secundarios.trim() ||
       !portada.fecha_apertura.trim() ||
       !portada.fecha_cierre.trim() ||
-      !portada.seccion.trim() ||
-      !portada.serie.trim()
+      !portada.seccion ||
+      !portada.serie
     ) {
       Swal.fire({
         icon: "warning",
@@ -110,6 +120,7 @@ export function PortadaComponent() {
     }
 
     setIsLoading(true);
+    
 
     try {
       const userDataStr = localStorage.getItem("user");
@@ -264,7 +275,7 @@ export function PortadaComponent() {
                               id="inputSeccion"
                               type="text"
                               placeholder="Seccion"
-                              value={portada.seccion}
+                              value={seccionNombre}
                               disabled
                               readOnly
                             />
@@ -283,7 +294,7 @@ export function PortadaComponent() {
                             >
                               <option value="">Seleccione una opción</option>
                               {filteredSeries.map((serie) => (
-                                <option value={serie.serie}>
+                                <option value={serie.id_serie}>
                                   {serie.serie}
                                 </option>
                               ))}

@@ -18,6 +18,7 @@ export function TableInventory() {
   const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
   const [filteredInventory, setFilteredInventory] = useState<iPortada[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [addedItems, setAddedItems] = useState<Set<string>>(new Set());
   const Navigate = useNavigate();
 
   const handleClick = () => {
@@ -30,9 +31,28 @@ export function TableInventory() {
       return;
     }
 
-    const selectedId = selectedRows[0];
+    const selectedId = selectedRows[0] as string;
+
+    if (addedItems.has(selectedId)) {
+      Swal.fire({
+        icon: "warning",
+        title: "Elemento ya agregado",
+        text: "Este elemento ya ha sido agregado al inventario",
+      });
+      return;
+    }
+
     const selectedInventory = filteredInventory.find(
       (item) => item.id_expediente === selectedId
+    );
+
+    // Add to added items before navigation
+    const newAddedItems = new Set(addedItems);
+    newAddedItems.add(selectedId);
+    setAddedItems(newAddedItems);
+    localStorage.setItem(
+      "addedInventoryItems",
+      JSON.stringify([...newAddedItems])
     );
 
     Navigate("/FormAuth", {
@@ -46,6 +66,12 @@ export function TableInventory() {
       const items = await portada_get();
       setiInventario(items);
       setFilteredInventory(items);
+
+      // Load added items from localStorage
+      const savedAddedItems = localStorage.getItem("addedInventoryItems");
+      if (savedAddedItems) {
+        setAddedItems(new Set(JSON.parse(savedAddedItems)));
+      }
     } catch (error) {
       console.error("Error fetching inventory:", error);
       Swal.fire({
@@ -65,11 +91,6 @@ export function TableInventory() {
   const handleFilterChange = useCallback((filteredData: iPortada[]): void => {
     setFilteredInventory(filteredData);
   }, []);
-
-  const handleEdit = () => {
-    const selectedId = selectedRows[0];
-    console.log("Editing item:", selectedId);
-  };
 
   const handleDelete = async () => {
     if (!selectedRows || selectedRows.length === 0) {
@@ -100,6 +121,17 @@ export function TableInventory() {
         const success = await inventario_delete(selectedId);
 
         if (success) {
+          // Remove from added items if it was added
+          if (addedItems.has(selectedId)) {
+            const newAddedItems = new Set(addedItems);
+            newAddedItems.delete(selectedId);
+            setAddedItems(newAddedItems);
+            localStorage.setItem(
+              "addedInventoryItems",
+              JSON.stringify([...newAddedItems])
+            );
+          }
+
           Swal.fire({
             icon: "success",
             title: "Eliminado",
@@ -208,13 +240,32 @@ export function TableInventory() {
       minWidth: 150,
       headerClassName: "table-header",
     },
+    {
+      field: "estado",
+      headerName: "Estado",
+      flex: 1,
+      minWidth: 120,
+      headerClassName: "table-header",
+      renderCell: (params) => (
+        <span
+          className={`px-2 py-1 rounded ${
+            addedItems.has(params.row.id_expediente)
+              ? "bg-green-100 text-green-800"
+              : "bg-gray-100 text-gray-800"
+          }`}
+        >
+          {addedItems.has(params.row.id_expediente)
+            ? "Agregado"
+            : "No Agregado"}
+        </span>
+      ),
+    },
   ];
 
   return (
     <div className="min-h-screen bg-gray">
       <main className="max-w-screen-xl mx-auto py-7">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-          {/* Toolbar */}
           <h1 className="text-center border-b bg-gray-60">
             Inventario General
           </h1>
@@ -226,7 +277,12 @@ export function TableInventory() {
                     onClick={handleClick}
                     size="small"
                     className="text-green-600 hover:text-green-800"
-                    disabled={selectedRows.length !== 1 || isLoading}
+                    disabled={
+                      selectedRows.length !== 1 ||
+                      isLoading ||
+                      (selectedRows.length === 1 &&
+                        addedItems.has(selectedRows[0] as string))
+                    }
                   >
                     <Plus className="h-5 w-5" />
                   </IconButton>

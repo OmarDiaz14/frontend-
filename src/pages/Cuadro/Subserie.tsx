@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Boton } from "../../components/Botones/Botones";
 import { serie_get, subserie_post } from "../../services/cuadro.service";
-import { serie } from "../../Producto";
+import { serie } from "../../services/var.cuadro";
 import { TableSubserie } from "./TableSubSerie";
 import Swal from "sweetalert2";
 
 export function Subserie() {
   const [Descripcion, setDescripcion] = useState("");
+  const [codigo, setCodigo] = useState("");
   const [Serie, setSerie] = useState("");
   const [SerieGet, setSerieGet] = useState<serie[]>([]);
   const [subserie, setsubserie] = useState("");
@@ -35,9 +36,11 @@ export function Subserie() {
     setIsLoading(true);
 
     const SubserieData = {
-      SubSerie: subserie,
+      id_subserie: "",
+      subserie: subserie,
+      codigo_subserie: codigo,
       descripcion: Descripcion,
-      serie: Serie,
+      id_serie: Serie,
     };
 
     try {

@@ -3,9 +3,11 @@ import { Boton } from "../../components/Botones/Botones";
 import { seccion_post } from "../../services/cuadro.service";
 import { TableSeccion } from "./TableSeccion";
 import Swal from "sweetalert2";
+import { Tooltip } from "react-tooltip";
 
 export function Seccion() {
   const [ID, setID] = useState("");
+  const [seccion, setSeccion] = useState("");
   const [Codigo, setCode] = useState("");
   const [Descripcion, setDescripcion] = useState("");
   const [refreshTable, setRefreshTable] = useState(0);
@@ -14,7 +16,7 @@ export function Seccion() {
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
-    if (!ID.trim() || !Codigo.trim() || !Descripcion.trim()) {
+    if (!Codigo.trim() || !Descripcion.trim()) {
       Swal.fire({
         icon: "warning",
         title: "Error",
@@ -25,8 +27,9 @@ export function Seccion() {
     setIsLoading(true);
 
     const Seccion = {
-      id_seccion: ID,
-      codigo: Codigo,
+      id_seccion: "",
+      seccion: seccion,
+      codigo_seccion: Codigo,
       descripcion: Descripcion,
     };
 
@@ -42,6 +45,7 @@ export function Seccion() {
 
       setID("");
       setCode("");
+      setSeccion("");
       setDescripcion("");
       setRefreshTable((prev) => prev + 1);
     } catch (error) {
@@ -95,6 +99,8 @@ export function Seccion() {
                             >
                               ID Sección
                             </label>
+                              <input
+                            </div>
                           </div>
                         </div>
                         <div className="col-md-6 col-sm-12">

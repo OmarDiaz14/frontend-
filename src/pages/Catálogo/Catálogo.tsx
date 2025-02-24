@@ -12,11 +12,14 @@ import {
   serie_get,
   subserie_get,
 } from "../../services/cuadro.service";
-import { seccion, serie, SubSerie } from "../../Producto";
+import { seccion, serie, SubSerie } from "../../services/var.cuadro";
 import { valor, type, destino } from "../../services/var.catalogo";
 import "../../styles/Styles.css";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
+import LogoImg from "../../assets/Tlaxcala.png";
+import { Tooltip } from "react-tooltip";
+import { user_profile } from "../../services/user.services";
 
 export function Catálogo() {
   const navigate = useNavigate();
@@ -33,6 +36,8 @@ export function Catálogo() {
   const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState<any>(null);
 
+
+  const [seccionNombre, setSeccionNombre] = useState("");
   const [id_seccion, setIdSeccion] = useState("");
   const [id_serie, setIdSerie] = useState("");
   const [id_subserie, setIdSubserie] = useState("");
@@ -46,29 +51,50 @@ export function Catálogo() {
   const [filteredSeries, setFilteredSeries] = useState<serie[]>([]);
   const [filteredSubseries, setFilteredSubseries] = useState<SubSerie[]>([]);
 
-  useEffect(() => {
-    const userDataStr = localStorage.getItem("user");
-    if (userDataStr) {
-      const user = JSON.parse(userDataStr);
-      setUserInfo(user);
-
-      setIdSeccion(user.unidad_admi);
-    }
-  }, []);
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await user_profile();
+        setUserInfo(user);
+        setIdSeccion(user.id_seccion);
+        
+        // Find the section name corresponding to the ID
+        const currentSection = secciones.find(s => s.id_seccion === parseInt(user.id_seccion));
+        if (currentSection) {
+          setSeccionNombre(currentSection.seccion);
+        }
+      } catch (error) {
+        console.error("No jalo", error);
+      }
+    };
+    fetchUser();
+  }, [secciones]);
+
+  useEffect(() => {
+  console.log("Serie data:", serie);
+  console.log("Id Seccion:", id_seccion);
+
+  
+
+  
+
+
+
     if (id_seccion) {
-      const filtered = serie.filter((s) => s.id_seccion === id_seccion);
+      const filtered = serie.filter((s) => s.id_seccion === parseInt(id_seccion));
+      console.log("Filtered series:", filtered);
       setFilteredSeries(filtered);
     }
-  }, [id_seccion, serie]);
+  }, [id_seccion, id_serie]);
 
   useEffect(() => {
     if (id_serie) {
-      const filtered = subserie.filter((sub) => sub.serie === id_serie);
+      const filtered = subserie.filter((sub) => sub.id_serie === parseInt(id_serie));
       setFilteredSubseries(filtered);
+     console.log('type of id_serie:', typeof id_serie);
     }
-  }, [id_serie, subserie]);
+  }, [id_serie, id_subserie]);
 
   // Fetch data effects remain the same...
   useEffect(() => {
@@ -93,6 +119,7 @@ export function Catálogo() {
       setSubSerie(items);
     };
     fetchSubSerie();
+    
   }, []);
 
   useEffect(() => {
@@ -134,8 +161,8 @@ export function Catálogo() {
       !type_access.trim() ||
       !valores_documentales.trim() ||
       !observaciones.trim() ||
-      !id_seccion.trim() ||
-      !id_serie.trim()
+      !id_seccion ||
+      !id_serie
     ) {
       Swal.fire({
         icon: "warning",
@@ -155,9 +182,9 @@ export function Catálogo() {
       type_access,
       valores_documentales,
       observaciones,
-      id_seccion,
-      id_serie,
-      id_subserie,
+      seccion: parseInt (id_seccion),
+      serie: parseInt (id_serie),
+      subserie: parseInt (id_subserie),
     };
 
     try {
@@ -211,11 +238,12 @@ export function Catálogo() {
                           <div className="col-md-4">
                             <div className="form-floating">
                               <input
+                                data-tooltip-id=""
                                 className="form-control"
                                 id="inputSeccion"
                                 type="text"
                                 placeholder="Seccion"
-                                value={id_seccion}
+                                value={seccionNombre}
                                 disabled
                                 readOnly
                               />
@@ -234,7 +262,7 @@ export function Catálogo() {
                               >
                                 <option value="">Seleccione una opción</option>
                                 {filteredSeries.map((s) => (
-                                  <option value={s.serie}>{s.serie}</option>
+                                  <option value={s.id_serie}>{s.serie}</option>
                                 ))}
                               </select>
                               <label>ID Serie</label>
@@ -249,8 +277,8 @@ export function Catálogo() {
                               >
                                 <option value="">Seleccione una opción</option>
                                 {filteredSubseries.map((sub) => (
-                                  <option value={sub.SubSerie}>
-                                    {sub.SubSerie}
+                                  <option value={sub.id_subserie}>
+                                    {sub.subserie}
                                   </option>
                                 ))}
                               </select>
