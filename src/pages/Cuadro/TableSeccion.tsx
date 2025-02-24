@@ -1,4 +1,4 @@
-import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Seccion_get } from "../../services/cuadro.service";
 import { seccion } from "../../services/var.cuadro";
 import { useEffect, useState } from "react";
@@ -21,7 +21,7 @@ export function TableSeccion() {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "No se pudieron cargar los datos de seccion",
+        text: "No se pudieron cargar los datos de sección",
       });
     } finally {
       setIsLoading(false);
@@ -44,7 +44,7 @@ export function TableSeccion() {
   const columns: GridColDef[] = [
     {
       field: "codigo_seccion",
-      headerName: "Código de la Sección ",
+      headerName: "Código de la Sección",
       flex: 1.5,
       minWidth: 200,
       headerClassName: "table-header",
@@ -58,7 +58,7 @@ export function TableSeccion() {
     },
     {
       field: "descripcion",
-      headerName: "descripcion de la Sección",
+      headerName: "Descripción de la Sección",
       flex: 2,
       minWidth: 250,
       headerClassName: "table-header",

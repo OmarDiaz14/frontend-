@@ -117,31 +117,13 @@ export function Serie() {
                                   key={seccion.id_seccion}
                                   value={seccion.id_seccion}
                                 >
-                                  {seccion.id_seccion}
+                                  {seccion.seccion}
                                 </option>
                               ))}
                             </select>
                             <label htmlFor="inputSeccion">Sección</label>
                           </div>
                         </div>
-                        <div className="col-md-6 col-sm-12">
-                          <div className="form-floating">
-                            <input
-                              className="form-control"
-                              id="inputCodigo"
-                              type="text"
-                              placeholder="Código"
-                              value={Codigo}
-                              onChange={(e) => setCode(e.target.value)}
-                            />
-                            <label htmlFor="inputCodigo">
-                              Código de la serie
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="row mb-3">
                         <div className="col-md-6 col-sm-12">
                           <div className="form-floating">
                             <input
@@ -154,6 +136,24 @@ export function Serie() {
                             />
                             <label htmlFor="inputSerie">
                               Nombre de la serie
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="row mb-3">
+                        <div className="col-md-6 col-sm-12">
+                          <div className="form-floating">
+                            <input
+                              className="form-control"
+                              id="inputCodigo"
+                              type="text"
+                              placeholder="Código"
+                              value={Codigo}
+                              onChange={(e) => setCode(e.target.value)}
+                            />
+                            <label htmlFor="inputSerie">
+                              Código de la serie
                             </label>
                           </div>
                         </div>
