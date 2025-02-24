@@ -1,5 +1,5 @@
 import "../../styles/Styles.css";
-import Logo from "../../assets/Tlaxcala.png";
+
 import { Boton } from "../../components/Botones/Botones";
 import React, { useEffect, useState } from "react";
 import { user_post } from "../../services/user.services";
@@ -93,7 +93,7 @@ export function AgregarUsuario() {
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossOrigin="anonymous"
       ></link>
-      <img className="Logo_imgRU" src={Logo} alt="" width={"25%"} />
+
       <div className="layoutAuthentication">
         <div className="layoutAuthentication_content">
           <main>
@@ -224,10 +224,8 @@ export function AgregarUsuario() {
                                 <option value={Roles.JefeArea}>
                                   Jefe de Area
                                 </option>
-                                <option value={Roles.Personal}>
-                                  Personal</option>
-                                <option value={Roles.Lectura}>
-                                  Lectura</option>
+                                <option value={Roles.Personal}>Personal</option>
+                                <option value={Roles.Lectura}>Lectura</option>
                               </select>
                             </div>
                           </div>

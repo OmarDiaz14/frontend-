@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Iconotipo_Tlaxcala from "../../assets/Iconotipo_Tlaxcala.png";
+import Isotipo from "../../assets/Isotipo_blanco.png";
 import "../../styles/Styles.css";
 import { Variables } from "../../styles/Variables";
 import {
   AiOutlineHome,
   AiOutlineUser,
-  AiOutlineFolderOpen,
-  AiOutlineFile,
   AiOutlineDown,
   AiOutlineRight,
 } from "react-icons/ai";
+import { TiDocumentAdd } from "react-icons/ti";
+import { IoDocumentsOutline } from "react-icons/io5";
+import { MdOutlineUploadFile } from "react-icons/md";
 import { SiInternetarchive } from "react-icons/si";
 import { LuSettings } from "react-icons/lu";
 import { GiExitDoor } from "react-icons/gi";
@@ -69,7 +70,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
       <div className="Contenedor_Iconotipo">
         <div className="Estilo_Iconotipo">
-          <img src={Iconotipo_Tlaxcala} alt="Iconotipo Tlaxcala" />
+          <img src={Isotipo} alt="Iconotipo Tlaxcala" />
         </div>
       </div>
 
@@ -104,84 +105,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
 const LinksArray: MenuItem[] = [
   {
-    label: "Home ",
-    icon: <AiOutlineHome />,
-    to: "/Home",
-    requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
-  },
-  {
-    label: "Mi Perfil ",
-    icon: <AiOutlineUser />,
-    to: "/Usuario",
-    requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
-  },
-  {
-    label: "Crear Expediente ",
-    icon: <AiOutlineFolderOpen />,
-    to: "/Expediente",
-    requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
-  },
-  {
-    label: "Instrumentos Archivísticos ",
-    icon: <AiOutlineFile />,
-    to: "/Instrumentos_Archivisticos",
-    requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
-    subMenu: [
-      {
-        label: "Cuadro General",
-        icon: <RiTableLine />,
-        to: "/CuadroGeneral",
-        requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
-      },
-      {
-        label: "Catálogo",
-        icon: <RiTableLine />,
-        to: "/Catálogo",
-        requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
-      },
-      {
-        label: "Ficha",
-        icon: <RiTableLine />,
-        to: "/Ficha",
-        requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
-      },
-      {
-        label: "Guía",
-        icon: <RiTableLine />,
-        to: "/GuiaDocu",
-        requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
-      },
-      {
-        label: "Agregar Inventario",
-        icon: <RiTableLine />,
-        to: "/TableInventory",
-        requiredRoles: [Roles.Personal],
-      },
-      {
-        label: "Inventario Auth",
-        icon: <RiTableLine />,
-        to: "/InventoryAuth",
-        requiredRoles: [Roles.Admin, Roles.JefeArea],
-      },
-      {
-        label: "Inventario Final",
-        icon: <RiTableLine />,
-        to: "/FinalInventory",
-        requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
-      },
-      {
-        label: "Portada",
-        icon: <RiTableLine />,
-        to: "/Portada",
-        requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
-      },
-    ],
-  },
-];
-
-const linksArray: MenuItem[] = [
-  {
-    label: "Cuadro General",
+    label: "Crear Cuadro General",
     icon: <SiInternetarchive />,
     to: "/Seccion",
     requiredRoles: [Roles.Admin, Roles.JefeArea],
@@ -225,7 +149,82 @@ const linksArray: MenuItem[] = [
     ],
   },
   {
-    label: "Herramientas Admin  ",
+    label: "Crear Instrumentos Archivísticos",
+    icon: <TiDocumentAdd />,
+    to: "/Crear_Expediente",
+    requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
+  },
+
+  {
+    label: "Registros ",
+    icon: <IoDocumentsOutline />,
+    to: "/Instrumentos_Archivisticos",
+    requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
+    subMenu: [
+      {
+        label: "Cuadro General",
+        icon: <RiTableLine />,
+        to: "/CuadroGeneral",
+        requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
+      },
+
+      {
+        label: "Ficha Técnica",
+        icon: <RiTableLine />,
+        to: "/Ficha",
+        requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
+      },
+      {
+        label: "Catálogo",
+        icon: <RiTableLine />,
+        to: "/Catálogo",
+        requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
+      },
+      {
+        label: "Portada",
+        icon: <RiTableLine />,
+        to: "/Portada",
+        requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
+      },
+
+      {
+        label: "Guía",
+        icon: <RiTableLine />,
+        to: "/GuiaDocu",
+        requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
+      },
+      {
+        label: "Inventario General Final",
+        icon: <RiTableLine />,
+        to: "/FinalInventory",
+        requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
+      },
+      {
+        label: "Agregar Inventario General ",
+        icon: <RiTableLine />,
+        to: "/TableInventory",
+        requiredRoles: [Roles.Personal],
+      },
+      {
+        label: "Autorización de Inventarios",
+        icon: <RiTableLine />,
+        to: "/InventoryAuth",
+        requiredRoles: [Roles.Admin, Roles.JefeArea],
+      },
+    ],
+  },
+
+  {
+    label: "Subir Documentación a Alfresco",
+    icon: <MdOutlineUploadFile />,
+    to: "/Subir_Documentos",
+    requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
+  },
+];
+
+const linksArray: MenuItem[] = [
+  {
+    label: "Herramientas de Administración  ",
     icon: <LuSettings />,
     to: "/AgregarUsuario",
     requiredRoles: [Roles.Admin],
@@ -236,14 +235,9 @@ const linksArray: MenuItem[] = [
         to: "/Agregar_Usuario",
         requiredRoles: [Roles.Admin],
       },
+
       {
-        label: "Lista de Usuarios",
-        icon: <AiOutlineUser />,
-        to: "UserList",
-        requiredRoles: [Roles.Admin],
-      },
-      {
-        label: "Datos Catalogo",
+        label: "Datos Catálogo",
         icon: <RiArchiveStackLine />,
         to: "/Datos_Catalogo",
         requiredRoles: [Roles.Admin],
@@ -361,16 +355,20 @@ const Container = styled.div<{ isOpen: boolean }>`
   top: 0;
   height: 150vh;
   color: #fff;
-  background: #1a1a1a;
+  background: #171717;
 
+  /* Contenedor con posición relativa para el botón */
+  position: relative; /* Añadido para que el botón se posicione relativo al sidebar */
+
+  /* Botón de sidebar */
   .Boton_Siderbar {
-    position: absolute;
-    top: 80px;
-    border-radius: 50px;
+    position: absolute; /* Volvemos a absolute para que se posicione relativo al sidebar */
+    top: 100px;
+
     right: ${({ isOpen }) => (isOpen ? "-18px" : "-25px")};
     height: 32px;
     background: gray;
-    display: static;
+    display: flex;
     align-items: center;
     justify-content: center;
     color: black;
@@ -378,33 +376,41 @@ const Container = styled.div<{ isOpen: boolean }>`
     transition: all 0.3s ease;
     transform: ${({ isOpen }) => (isOpen ? "rotate(0deg)" : "rotate(180deg)")};
     border: none;
+    z-index: 1000;
+    border-radius: 30px;
   }
 
   .Contenedor_Iconotipo {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     padding-bottom: ${Variables.lgSpacing};
-    padding-top: 25px;
+    padding-top: 40px;
     cursor: pointer;
     transition: all 0.3s;
-    transform: ${({ isOpen }) => (isOpen ? `scale(0.9)` : `scale(1.0)`)};
+    transform: ${({ isOpen }) => (isOpen ? `scale(1.9)` : `scale(1.0)`)};
+    height: auto;
+    margin-bottom: 40px;
 
     img {
       max-width: 100%;
       height: auto;
+      display: block;
     }
   }
 
   .Estilo_Iconotipo img {
     width: 50px;
     height: auto;
+    object-fit: contain;
   }
 
   .Contenedor_Links {
-    margin: 8px 0;
+    margin: 10px 0;
     height: auto;
-    padding: 0 15%;
+    padding: 0 14%;
+
     :hover {
       background: #2a2a2a;
     }

@@ -1,6 +1,6 @@
 import "../../styles/Styles.css";
-import Logo from "../../assets/Tlaxcala.png";
-import Usuarios from "../../assets/Usuarios.png";
+
+import Usuarios from "../../assets/Usuario 1.png";
 import { Boton } from "../../components/Botones/Botones";
 import "../../../node_modules/remixicon/fonts/remixicon.css";
 import { getUser } from "../../services/auth.service";
@@ -34,9 +34,6 @@ export function Usuario() {
     //Contenedor principal
     <div className="container">
       {/* Header */}
-      <div className="Logo_img">
-        <img src={Logo} alt="Logo" width={400} />
-      </div>
 
       {/*Main-Profile card*/}
       <section className="userProfile card">
@@ -53,17 +50,17 @@ export function Usuario() {
         <div className="work">
           <h1 className="heading">Informacion General</h1>
           <div className="Primary">
-            <h1>Unidad Administriva</h1>
+            <h1>UNIDAD ADMINISTRATIVA</h1>
             <p>{user.unidad_admi}</p>
           </div>
 
           <div className="secondary">
-            <h1>Cargo</h1>
+            <h1>CARGO</h1>
             <p>{user.cargo}</p>
           </div>
 
           <div className="secondary">
-            <h1>Rol</h1>
+            <h1>ROL</h1>
             <p>{getRoleName(user.roles[0])}</p>
           </div>
         </div>
@@ -82,46 +79,28 @@ export function Usuario() {
           <h1 className="heading">Nombre de Usuario</h1>
           <h1>@{user.username}</h1>
         </div>
-
-        <div className="btns">
-          <ul>
-            <li className="Per">
-              <a href="" className="Perfil">
-                Perfil
-              </a>
-            </li>
-
-            {/*}   <li className="Contra">
-              <a href="" className="Pass">
-                Contraseña
-              </a>
-            </li>*/}
-          </ul>
-        </div>
       </section>
 
       <section className="timeline_about card">
         <div className="tabs">
           <ul>
-            <li className="about active">
-              <i className="ri-user-3-fill ri"></i>
-              <span>Acerca de</span>
+            <li>
+              <span>ACERCA DE</span>
             </li>
           </ul>
         </div>
 
         <div className="contact_info">
-          <h1 className="heading">Informacion de Contacto</h1>
           <ul>
             <li className="nombre_usuario">
-              <h1 className="label">Nombre Completo:</h1>
+              <h1 className="label">NOMBRE COMPLETO:</h1>
               <span className="info">
                 {user.first_name} {user.last_name}
               </span>
             </li>
 
             <li className="email">
-              <h1 className="label">Correo Electronico:</h1>
+              <h1 className="label">CORREO ELECTRÓNICO:</h1>
               <span className="info">{user.email}</span>
             </li>
           </ul>

@@ -4,6 +4,8 @@ import { Rutas } from "./rutas/Rutas";
 import styled from "styled-components";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import { Sidebar } from "./components/Sidebar/Sidebar";
+import Navbar from "./components/dashboard/Navbar"; // Comentado
+import Footer from "./components/dashboard/Footer";
 
 const sin_sidebar = ["/login", "/", "/registro"];
 
@@ -29,6 +31,7 @@ const AppContent = () => {
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       )}
       <MainContent $hasSidebar={shouldShowSidebar}>
+        {shouldShowSidebar && <Navbar sidebarOpen={sidebarOpen} />}
         <Rutas />
       </MainContent>
     </Container>
@@ -43,7 +46,6 @@ export default function App() {
   );
 }
 
-// Estilos modificados
 const Container = styled.div`
   display: grid;
   grid-template-columns: 90px auto;
@@ -63,7 +65,12 @@ const MainContent = styled.main<{ $hasSidebar: boolean }>`
   ${({ $hasSidebar }) =>
     !$hasSidebar &&
     `
-    width: 100%;
-    max-width: 100%;
+     margin-left: 90px;
+    width: calc(100% - 90px);
+    transition: all 0.3s ease;
+
+    .sidebarState.active & {
+      margin-left: 300px;
+      width: calc(100% - 300px);
   `}
 `;

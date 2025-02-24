@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Logo from "../../assets/Tlaxcala.png";
+
 import { Boton } from "../../components/Botones/Botones";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
@@ -152,7 +152,7 @@ export function PortadaComponent() {
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossOrigin="anonymous"
       />
-      <img className="Logo_imgRU" src={Logo} alt="" width="25%" />
+
       <div className="layoutAuthentication">
         <div className="layoutAuthentication_content">
           <main>

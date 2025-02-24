@@ -1,4 +1,3 @@
-import { Logo } from "../../components/Logo";
 import { catalogo, destino, type, valor } from "../../services/var.catalogo";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import {
@@ -251,10 +250,6 @@ export function Catálogo_Registro(): JSX.Element {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="p-4 flex flex-col items-center">
-        <Logo />
-      </header>
-
       <main className="max-w-7xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           <div className="p-4 border-b flex justify-between items-center bg-gray-50">

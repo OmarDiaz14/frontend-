@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Logo from "../../assets/Tlaxcala.png";
 import { Boton } from "../../components/Botones/Botones";
 import { seccion_post } from "../../services/cuadro.service";
 import { TableSeccion } from "./TableSeccion";
@@ -10,7 +9,6 @@ export function Seccion() {
   const [Codigo, setCode] = useState("");
   const [Descripcion, setDescripcion] = useState("");
   const [refreshTable, setRefreshTable] = useState(0);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
@@ -58,88 +56,105 @@ export function Seccion() {
       setIsLoading(false);
     }
   };
+
   return (
-    <body>
-      <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-        crossOrigin="anonymous"
-      ></link>
-      <img className="Logo_imgRU" src={Logo} alt="" width={"25%"} />
-      <div className="layoutAuthentication">
-        <div className="layoutAuthentication_content">
-          <main>
-            <div className="container-fluid">
-              <div className="row justify-content-center">
-                <div className="col-lg-7">
-                  <div className="card shadow-lg border-0 rounded-lg mt-5">
-                    <div className="card-header">
-                      <h3 className="text-center font-weight-light my-4">
-                        Cuadro General de Clasificación Archivística
-                      </h3>
-                    </div>
-                    <div className="card-body">
-                      <form onSubmit={handleSubmit}>
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                id="inputID"
-                                type="text"
-                                placeholder="ID Sección"
-                                value={ID}
-                                onChange={(e) => setID(e.target.value)}
-                              />
-                              <label htmlFor="inputID">ID Sección</label>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                id="inputCodigo"
-                                type="text"
-                                placeholder="Código"
-                                value={Codigo}
-                                onChange={(e) => setCode(e.target.value)}
-                              />
-                              <label htmlFor="inputCodigo">Código</label>
-                            </div>
+    <div className="layoutAuthentication" style={{ paddingTop: "50px" }}>
+      <div className="layoutAuthentication_content">
+        <main>
+          <div className="container-fluid">
+            <div className="row justify-content-center">
+              <div className="col-lg-9 col-md-10 col-sm-12">
+                <div className="card shadow-lg border-0 rounded-lg mt-5">
+                  <div
+                    className="card-header"
+                    style={{ backgroundColor: "#171717", color: "#fff" }}
+                  >
+                    <h5
+                      className="text-center font-weight-light my-4"
+                      style={{ fontSize: "20px" }}
+                    >
+                      Cuadro General de Clasificación Archivística
+                    </h5>
+                  </div>
+                  <div className="card-body">
+                    <form onSubmit={handleSubmit}>
+                      <div className="row mb-3">
+                        <div className="col-md-6 col-sm-12">
+                          <div className="form-floating">
+                            <input
+                              className="form-control"
+                              id="inputID"
+                              type="text"
+                              placeholder="ID Sección"
+                              value={ID}
+                              onChange={(e) => setID(e.target.value)}
+                            />
+                            <label
+                              htmlFor="inputID"
+                              style={{ fontSize: "16px" }}
+                            >
+                              ID Sección
+                            </label>
                           </div>
                         </div>
+                        <div className="col-md-6 col-sm-12">
+                          <div className="form-floating">
+                            <input
+                              className="form-control"
+                              id="inputCodigo"
+                              type="text"
+                              placeholder="Código"
+                              value={Codigo}
+                              onChange={(e) => setCode(e.target.value)}
+                            />
+                            <label
+                              htmlFor="inputCodigo"
+                              style={{ fontSize: "16px" }}
+                            >
+                              Código
+                            </label>
+                          </div>
+                        </div>
+                      </div>
 
-                        <div className="form-floating mb-3">
-                          <input
-                            className="form-control"
-                            id="inputDescripcion"
-                            type="text"
-                            placeholder="Descripción"
-                            value={Descripcion}
-                            onChange={(e) => setDescripcion(e.target.value)}
-                          />
-                          <label htmlFor="inputDescripcion">Descripción</label>
-                        </div>
+                      <div className="form-floating mb-3">
+                        <input
+                          className="form-control"
+                          id="inputDescripcion"
+                          type="text"
+                          placeholder="Descripción"
+                          value={Descripcion}
+                          onChange={(e) => setDescripcion(e.target.value)}
+                        />
+                        <label
+                          htmlFor="inputDescripcion"
+                          style={{ fontSize: "16px" }}
+                        >
+                          Descripción
+                        </label>
+                      </div>
 
-                        <div className="mt-4 mb-0">
-                          <div className="d-grid">
-                            <Boton disabled={isLoading}>
-                              {isLoading ? "Enviando..." : "Enviar"}
-                            </Boton>
-                          </div>
+                      <div className="mt-4 mb-0">
+                        <div className="d-grid">
+                          <Boton disabled={isLoading}>
+                            {isLoading ? "Enviando..." : "Enviar"}
+                          </Boton>
                         </div>
-                      </form>
-                    </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
-              <TableSeccion key={refreshTable}></TableSeccion>
             </div>
-          </main>
-        </div>
+            <div className="row justify-content-center mt-4">
+              <div className="col-lg-9 col-md-10 col-sm-12">
+                <TableSeccion key={refreshTable} />
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
-    </body>
+    </div>
   );
 }
 

@@ -4,7 +4,7 @@ import { Portada } from "../../services/var.portada";
 import { portada_get } from "../../services/portada.services";
 import Swal from "sweetalert2";
 import { guia_post } from "../../services/gui.service";
-import Logo from "../../assets/Tlaxcala.png";
+
 import { Boton } from "../../components/Botones/Botones";
 import { serie, seccion } from "../../Producto";
 import { serie_get, Seccion_get } from "../../services/cuadro.service";
@@ -113,7 +113,7 @@ export function GuiaDocu() {
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossOrigin="anonymous"
       ></link>
-      <img className="Logo_imgRU" src={Logo} alt="" width={"25%"} />
+
       <div className="layoutAuthentication">
         <div className="layoutAuthentication_content">
           <main>

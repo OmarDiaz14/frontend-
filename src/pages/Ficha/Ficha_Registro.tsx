@@ -1,4 +1,3 @@
-import { Logo } from "../../components/Logo";
 import { ficha } from "../../services/var.ficha";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { ficha_get, ficha_delete } from "../../services/ficha.services";
@@ -271,10 +270,6 @@ export function Ficha_Registro(): JSX.Element {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="p-4 flex flex-col items-center">
-        <Logo />
-      </header>
-
       <main className="max-w-7xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           {/* Toolbar */}

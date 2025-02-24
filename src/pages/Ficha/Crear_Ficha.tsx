@@ -140,7 +140,7 @@ export function Ficha() {
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossOrigin="anonymous"
       />
-      <img className="Logo_imgRU" src={Logo2} alt="" width={"25%"} />
+
       <div className="layoutAuthentication">
         <div className="layoutAuthentication_content">
           <main>

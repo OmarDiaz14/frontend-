@@ -1,4 +1,3 @@
-import { Logo } from "../../components/Logo";
 import { iPortada } from "../../services/var.portada";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { portada_get, portada_delete } from "../../services/portada.services";
@@ -12,6 +11,7 @@ import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 import SearchFilter_Portada from "./SearchFilter_Portada";
 import axios from "axios";
+import Alfresco from "../../assets/Alfresco.jpeg";
 
 interface DocumentResponse {
   blob: Blob;
@@ -413,10 +413,6 @@ export function Portada_Registro(): JSX.Element {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="p-4 flex flex-col items-center">
-        <Logo />
-      </header>
-
       <main className="max-w-7xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           <div className="p-4 border-b flex justify-between items-center bg-gray-50">
@@ -481,7 +477,7 @@ export function Portada_Registro(): JSX.Element {
                     className="text-red-600 hover:text-red-800"
                     disabled={selectedRows.length !== 1 || isLoading}
                   >
-                    <TbFileShredder className="h-6 w-6" />
+                    <img src={Alfresco} alt="Eliminar" className="h-6 w-6" />
                   </IconButton>
                 </span>
               </Tooltip>

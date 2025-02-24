@@ -1,5 +1,5 @@
 import "../../styles/Styles.css";
-import Logo from "../../assets/Tlaxcala.png";
+
 import { Boton } from "../../components/Botones/Botones";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -144,10 +144,7 @@ export function DatosCatalogo() {
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossOrigin="anonymous"
       ></link>
-      <img className="Logo_imgRU" src={Logo} alt="" width={"25%"} />
-      <h3 className="text-center font-weight-light my-4">
-        Datos adicionales del Catálogo
-      </h3>
+
       <div className="layoutAuthentication">
         <div className="layoutAuthentication_content">
           <main>

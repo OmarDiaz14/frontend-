@@ -40,6 +40,8 @@ import EditarInventario from "../pages/Inventario/EditarInventario.tsx";
 import ImprimirFicha from "../pages/Ficha/imprimir_ficha.tsx";
 import ImprimirInventario from "../pages/Inventario/imprimirInventario.tsx";
 
+import Footer from "../components/dashboard/Footer.tsx";
+
 export function Rutas() {
   return (
     <Routes>
@@ -381,6 +383,8 @@ export function Rutas() {
           )
         }
       />
+
+      <Route path="/Footer" element={<Footer />} />
     </Routes>
   );
 }

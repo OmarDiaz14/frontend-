@@ -10,7 +10,7 @@ import {
 import { Boton } from "../../components/Botones/Botones";
 import { destino, type, valor } from "../../services/var.catalogo";
 import Swal from "sweetalert2";
-import LogoImg from "../../assets/Tlaxcala.png";
+
 import "../../styles/Styles.css";
 import "sweetalert2/src/sweetalert2.scss";
 
@@ -313,7 +313,7 @@ export const EditarCatalogo: React.FC = () => {
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossOrigin="anonymous"
       />
-      <img className="Logo_imgRU" src={LogoImg} alt="" width="25%" />
+
       <div className="layoutAuthentication">
         <div className="layoutAuthentication_content">
           <main>
