@@ -1,6 +1,12 @@
 import { catalogo, destino, type, valor } from "../../services/var.catalogo";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
-import { catalogo_get, catalogo_delete, destino_get, type_get, valor_get} from "../../services/catalogo.service";
+import {
+  catalogo_get,
+  catalogo_delete,
+  destino_get,
+  type_get,
+  valor_get,
+} from "../../services/catalogo.service";
 import { Seccion_get, serie_get } from "../../services/cuadro.service";
 import { serie, seccion } from "../../services/var.cuadro";
 import { useEffect, useState, useCallback } from "react";
@@ -9,7 +15,7 @@ import { Eye, Pencil, Trash2, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
-import SearchFilter from "./SearchFilter";
+//import SearchFilter from "./SearchFilter";
 
 export function Catálogo_Registro(): JSX.Element {
   const navigate = useNavigate();
@@ -27,7 +33,13 @@ export function Catálogo_Registro(): JSX.Element {
   useEffect(() => {
     const fetchRelatedData = async () => {
       try {
-        const [destinosData, typesData, valoresData, seccionesData, seriesData] = await Promise.all([
+        const [
+          destinosData,
+          typesData,
+          valoresData,
+          seccionesData,
+          seriesData,
+        ] = await Promise.all([
           destino_get(),
           type_get(),
           valor_get(),
@@ -73,12 +85,11 @@ export function Catálogo_Registro(): JSX.Element {
           secciones.find((seccion) => seccion.id_seccion === item.seccion)
             ?.seccion || item.seccion,
         serie:
-          series.find((serie) => serie.id_serie === item.serie)?.serie || item.serie,
+          series.find((serie) => serie.id_serie === item.serie)?.serie ||
+          item.serie,
       }));
       setCatalogo(mappedItems);
       setFilteredCatalogo(mappedItems);
-
-      
     } catch (error) {
       console.error("Error fetching catalogo:", error);
     }
@@ -210,56 +221,56 @@ export function Catálogo_Registro(): JSX.Element {
       field: "seccion",
       headerName: "Sección",
       flex: 1,
-      minWidth: 150,
+      minWidth: 120,
       headerClassName: "table-header",
     },
     {
       field: "serie",
       headerName: "Serie",
       flex: 1,
-      minWidth: 150,
+      minWidth: 120,
       headerClassName: "table-header",
     },
     {
       field: "valores_documentales",
-      headerName: "Valores  del Expediente",
+      headerName: "Valores  del expediente",
       flex: 1,
-      minWidth: 150,
+      minWidth: 120,
       headerClassName: "table-header",
     },
     {
       field: "archivo_tramite",
-      headerName: "Tiempo en Archivo de Trámite",
+      headerName: "Tiempo en archivo de trámite",
       flex: 1,
-      minWidth: 150,
+      minWidth: 120,
       headerClassName: "table-header",
     },
     {
       field: "archivo_concentracion",
-      headerName: "Tiempo en Archivo de Concentración",
+      headerName: "Tiempo en archivo de concentración",
       flex: 1,
-      minWidth: 150,
+      minWidth: 120,
       headerClassName: "table-header",
     },
     {
       field: "type_access",
-      headerName: "Tipo  del Expediente",
+      headerName: "Tipo  del expediente",
       flex: 1,
-      minWidth: 150,
+      minWidth: 120,
       headerClassName: "table-header",
     },
     {
       field: "destino_expe",
-      headerName: "Destino del Expediente",
+      headerName: "Destino del expediente",
       flex: 1,
-      minWidth: 150,
+      minWidth: 120,
       headerClassName: "table-header",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gray-50 pt-16">
+      <main className="max-w-6xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           <div className="p-4 border-b flex justify-between items-center bg-gray-50">
             <div className="flex gap-2">
@@ -309,9 +320,9 @@ export function Catálogo_Registro(): JSX.Element {
               onClick={handleCreate}
               disabled={isLoading}
               sx={{
-                backgroundColor: "#441853",
+                backgroundColor: "#004c96",
                 "&:hover": {
-                  backgroundColor: "#331340",
+                  backgroundColor: "#003366",
                 },
               }}
             >
@@ -319,18 +330,18 @@ export function Catálogo_Registro(): JSX.Element {
             </Button>
           </div>
 
-          <SearchFilter
+          {/* <SearchFilter
             onFilterChange={handleFilterChange}
             catalogo={catalogo}
-          />
+          />  */}
 
           <Box
             sx={{
               height: 600,
               width: "100%",
               "& .table-header": {
-                backgroundColor: "#f8fafc",
-                color: "#1f2937",
+                backgroundColor: "#000",
+                color: "#ffffff",
                 fontWeight: 600,
               },
               "& .MuiDataGrid-root": {

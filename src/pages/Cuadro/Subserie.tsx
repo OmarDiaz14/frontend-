@@ -4,6 +4,7 @@ import { serie_get, subserie_post } from "../../services/cuadro.service";
 import { serie } from "../../services/var.cuadro";
 import { TableSubserie } from "./TableSubSerie";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 export function Subserie() {
   const [Descripcion, setDescripcion] = useState("");
@@ -13,6 +14,7 @@ export function Subserie() {
   const [subserie, setsubserie] = useState("");
   const [refreshTable, setRefreshTable] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSerie = async () => {
@@ -21,6 +23,10 @@ export function Subserie() {
     };
     fetchSerie();
   }, []);
+
+  const handleback = () => {
+    navigate("/Home");
+  };
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -142,8 +148,11 @@ export function Subserie() {
                         </label>
                       </div>
 
-                      <div className="mt-4 mb-0">
-                        <div className="d-grid">
+                      <div className="d-flex justify-content-center gap-4 mt-4 mb-2">
+                        <div className="mx-2">
+                          <Boton onClick={handleback}>Atrás</Boton>
+                        </div>
+                        <div className="mx-2">
                           <Boton disabled={isLoading}>
                             {isLoading ? "Creando..." : "Crear"}
                           </Boton>

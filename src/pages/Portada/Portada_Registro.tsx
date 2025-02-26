@@ -9,7 +9,7 @@ import { MdOutlinePrint } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
-import SearchFilter_Portada from "./SearchFilter_Portada";
+//import SearchFilter_Portada from "./SearchFilter_Portada";
 import axios from "axios";
 import Alfresco from "../../assets/Alfresco.jpeg";
 
@@ -369,60 +369,60 @@ export function Portada_Registro(): JSX.Element {
   const columns: GridColDef[] = [
     {
       field: "num_expediente",
-      headerName: "No. Expediente",
+      headerName: "Núm. Expediente",
       flex: 1,
-      minWidth: 150,
+      minWidth: 120,
       headerClassName: "table-header",
     },
     {
       field: "asunto",
       headerName: "Asunto",
-      flex: 1.5,
-      minWidth: 150,
+      flex: 1,
+      minWidth: 120,
       headerClassName: "table-header",
     },
     {
       field: "fecha_apertura",
-      headerName: "Fecha de Apertura",
+      headerName: "Fecha de apertura",
       flex: 1,
-      minWidth: 150,
+      minWidth: 120,
       headerClassName: "table-header",
     },
     {
       field: "fecha_cierre",
-      headerName: "Fecha de Cierre",
+      headerName: "Fecha de cierre",
       flex: 1,
-      minWidth: 150,
+      minWidth: 120,
       headerClassName: "table-header",
     },
     {
       field: "ficha",
       headerName: "Ficha",
       flex: 1,
-      minWidth: 150,
+      minWidth: 120,
       headerClassName: "table-header",
     },
     {
       field: "catalogo",
       headerName: "Catálogo",
       flex: 1,
-      minWidth: 150,
+      minWidth: 120,
       headerClassName: "table-header",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gray-50 pt-16">
+      <main className="max-w-6xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           <div className="p-4 border-b flex justify-between items-center bg-gray-50">
             <div className="flex gap-2">
-              <Tooltip title="Ver">
+              <Tooltip title="Ver detalles">
                 <span>
                   <IconButton
                     onClick={handleView}
                     size="small"
-                    className="text-green-600 hover:text-green-800"
+                    className="text-blue-600 hover:text-blue-800"
                     disabled={selectedRows.length !== 1 || isLoading}
                   >
                     <Eye className="h-5 w-5" />
@@ -489,9 +489,9 @@ export function Portada_Registro(): JSX.Element {
               onClick={handleCreate}
               disabled={isLoading}
               sx={{
-                backgroundColor: "#441853",
+                backgroundColor: "#004c96",
                 "&:hover": {
-                  backgroundColor: "#331340",
+                  backgroundColor: "#003366",
                 },
               }}
             >
@@ -499,18 +499,18 @@ export function Portada_Registro(): JSX.Element {
             </Button>
           </div>
 
-          <SearchFilter_Portada
+          {/*<SearchFilter_Portada
             onFilterChange={handleFilterChange}
             iPortada={iPortada}
           />
-
+          */}
           <Box
             sx={{
               height: 600,
               width: "100%",
               "& .table-header": {
-                backgroundColor: "#f8fafc",
-                color: "#1f2937",
+                backgroundColor: "#000",
+                color: "#ffffff",
                 fontWeight: 600,
               },
               "& .MuiDataGrid-root": {

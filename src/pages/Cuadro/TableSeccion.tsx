@@ -44,21 +44,21 @@ export function TableSeccion() {
   const columns: GridColDef[] = [
     {
       field: "codigo_seccion",
-      headerName: "Código de la Sección",
+      headerName: "Código de la sección",
       flex: 1.5,
       minWidth: 200,
       headerClassName: "table-header",
     },
     {
       field: "seccion",
-      headerName: "Nombre de la Sección",
+      headerName: "Nombre de la sección",
       flex: 2,
       minWidth: 250,
       headerClassName: "table-header",
     },
     {
       field: "descripcion",
-      headerName: "Descripción de la Sección",
+      headerName: "Descripción de la sección",
       flex: 2,
       minWidth: 250,
       headerClassName: "table-header",

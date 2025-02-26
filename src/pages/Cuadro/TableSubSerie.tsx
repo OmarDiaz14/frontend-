@@ -6,13 +6,12 @@ import { Box } from "@mui/material";
 import Swal from "sweetalert2";
 
 export function TableSubserie() {
-   
-const [Subserie, setSubserie] = useState<SubSerie[]>([]);
-const [filteredSubserie, setFilteredSubserie] = useState<SubSerie[]>([]);
-const [isLoading, setIsLoading] = useState<boolean>(false);
-const [series, setSeries] = useState<serie[]>([]);
+  const [Subserie, setSubserie] = useState<SubSerie[]>([]);
+  const [filteredSubserie, setFilteredSubserie] = useState<SubSerie[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [series, setSeries] = useState<serie[]>([]);
 
-const fetchSeccion = async (): Promise<void> => {
+  const fetchSeccion = async (): Promise<void> => {
     setIsLoading(true);
     try {
       const seriesData: serie[] = await serie_get();
@@ -25,11 +24,10 @@ const fetchSeccion = async (): Promise<void> => {
         return {
           ...Subserie,
           id_serie: serie || "Sin serie",
-        }
+        };
       });
 
       setSubserie(mappedSubseries);
-
     } catch (error) {
       console.error("Error fetching inventory", error);
       Swal.fire({
@@ -41,7 +39,6 @@ const fetchSeccion = async (): Promise<void> => {
       setIsLoading(false);
     }
   };
-
 
   useEffect(() => {
     fetchSeccion();
@@ -80,21 +77,21 @@ const fetchSeccion = async (): Promise<void> => {
   const columns: GridColDef[] = [
     {
       field: "codigo_subserie",
-      headerName: "Código de la Sub-serie",
+      headerName: "Código de la sub-serie",
       flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "subserie",
-      headerName: "Nombre de la subserie",
+      headerName: "Nombre de la sub-serie",
       flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "id_serie",
-      headerName: "Serie Asociada ",
+      headerName: "Serie asociada ",
       flex: 1,
       minWidth: 150,
       headerClassName: "table-header",

@@ -14,7 +14,7 @@ function CardsDashboard() {
       >
         <Card.Header className="bg-dark border-bottom border-light py-2">
           <span className="text-white fs-5">
-            Gestión documental con Alfresco
+            Gestión Documental con Alfresco
           </span>
         </Card.Header>
         <Card.Body className="px-3 py-3">

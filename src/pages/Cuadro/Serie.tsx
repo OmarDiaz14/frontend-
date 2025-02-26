@@ -4,6 +4,7 @@ import { Seccion_get, serie_post } from "../../services/cuadro.service";
 import { seccion } from "../../services/var.cuadro";
 import { TableSerie } from "./TableSerie";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 export function Serie() {
   const [Serie, setSerie] = useState("");
@@ -13,6 +14,7 @@ export function Serie() {
   const [secciones, setSeccion] = useState<seccion[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [refreshTable, setRefreshTable] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSeccion = async () => {
@@ -25,6 +27,10 @@ export function Serie() {
     };
     fetchSeccion();
   }, []);
+
+  const handleback = () => {
+    navigate("/Home");
+  };
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -174,8 +180,11 @@ export function Serie() {
                         </div>
                       </div>
 
-                      <div className="mt-4 mb-0">
-                        <div className="d-grid">
+                      <div className="d-flex justify-content-center gap-4 mt-4 mb-2">
+                        <div className="mx-2">
+                          <Boton onClick={handleback}>Atrás</Boton>
+                        </div>
+                        <div className="mx-2">
                           <Boton disabled={isLoading}>
                             {isLoading ? "Creando..." : "Crear"}
                           </Boton>

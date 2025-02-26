@@ -1,9 +1,10 @@
 import { useState } from "react";
-import Logo from "../../assets/Tlaxcala.png";
 import { Boton } from "../../components/Botones/Botones";
 import { seccion_post } from "../../services/cuadro.service";
 import { TableSeccion } from "./TableSeccion";
 import Swal from "sweetalert2";
+import { Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export function Seccion() {
   const [ID, setID] = useState("");
@@ -12,6 +13,11 @@ export function Seccion() {
   const [Descripcion, setDescripcion] = useState("");
   const [refreshTable, setRefreshTable] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleback = () => {
+    navigate("/Home");
+  };
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -123,10 +129,13 @@ export function Seccion() {
                         <label htmlFor="inputDescripcion">Descripción</label>
                       </div>
 
-                      <div className="mt-4 mb-0">
-                        <div className="d-grid">
+                      <div className="d-flex justify-content-center gap-4 mt-4 mb-2">
+                        <div className="mx-2">
+                          <Boton onClick={handleback}>Atrás</Boton>
+                        </div>
+                        <div className="mx-2">
                           <Boton disabled={isLoading}>
-                            {isLoading ? "Enviando..." : "Enviar"}
+                            {isLoading ? "Creando..." : "Crear"}
                           </Boton>
                         </div>
                       </div>

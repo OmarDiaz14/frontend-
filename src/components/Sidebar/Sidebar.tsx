@@ -23,6 +23,7 @@ import { logout } from "../../services/auth.service";
 import { hasRole } from "../../services/auth.service";
 import { Roles } from "../../models/enums/roles_enum";
 import Icono from "../../assets/right-arrow.png";
+import { MdOutlineInventory } from "react-icons/md";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -193,23 +194,31 @@ const LinksArray: MenuItem[] = [
         to: "/GuiaDocu",
         requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
       },
+    ],
+  },
+  {
+    label: "Inventario",
+    icon: <MdOutlineInventory />,
+    to: "/Subir_Documentos",
+    requiredRoles: [Roles.Admin, Roles.JefeArea],
+    subMenu: [
       {
-        label: "Inventario General Final",
-        icon: <RiTableLine />,
-        to: "/FinalInventory",
-        requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
-      },
-      {
-        label: "Agregar Inventario General ",
+        label: "Agregar Expediente a Inventario  ",
         icon: <RiTableLine />,
         to: "/TableInventory",
         requiredRoles: [Roles.Personal],
       },
       {
-        label: "Autorización de Inventarios",
+        label: "Autorización de Expediente para Inventario",
         icon: <RiTableLine />,
         to: "/InventoryAuth",
         requiredRoles: [Roles.Admin, Roles.JefeArea],
+      },
+      {
+        label: "Inventario General",
+        icon: <RiTableLine />,
+        to: "/FinalInventory",
+        requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
       },
     ],
   },
@@ -237,7 +246,7 @@ const linksArray: MenuItem[] = [
       },
 
       {
-        label: "Datos Catálogo",
+        label: "Datos Adicionales de Catálogo",
         icon: <RiArchiveStackLine />,
         to: "/Datos_Catalogo",
         requiredRoles: [Roles.Admin],

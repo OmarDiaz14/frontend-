@@ -244,8 +244,8 @@ export function Finalinventory() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gray-50 pt-16">
+      <main className="max-w-6xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           <div className="p-4 border-b flex justify-between items-center bg-gray-50">
             <div className="flex gap-2">
@@ -264,8 +264,8 @@ export function Finalinventory() {
               height: 600,
               width: "100%",
               "& .table-header": {
-                backgroundColor: "#f8fafc",
-                color: "#1f2937",
+                backgroundColor: "#000",
+                color: "#ffffff",
                 fontWeight: 600,
               },
               "& .MuiDataGrid-root": {

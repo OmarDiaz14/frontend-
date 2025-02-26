@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { Upload, Eye, Pencil, Trash2 } from "lucide-react";
+import { Upload } from "lucide-react";
 import {
   Button,
   Dialog,
@@ -10,10 +10,9 @@ import {
   TextField,
   Snackbar,
   Alert,
-  IconButton,
-  Tooltip,
+  Box,
 } from "@mui/material";
-import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import api from "../../api_axios";
 
 interface Documento {
@@ -26,15 +25,6 @@ interface Documento {
   expediente: string;
 }
 
-// Create an axios instance with default config
-// const api = axios.create({
-//   baseURL: "https://backend-lga.onrender.com",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-// });
-
-// Add authentication interceptor
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -45,7 +35,6 @@ api.interceptors.request.use((config) => {
 
 export const Subir_Documentos: React.FC = () => {
   const [documentos, setDocumentos] = useState<Documento[]>([]);
-  const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [uploadDialogOpen, setUploadDialogOpen] = useState<boolean>(false);
@@ -53,12 +42,15 @@ export const Subir_Documentos: React.FC = () => {
   const [anio, setAnio] = useState<string>("");
   const [expediente, setExpediente] = useState<string>("");
 
-  const uploadWithRetry = async (formData: FormData, retries = 3): Promise<any> => {
+  const uploadWithRetry = async (
+    formData: FormData,
+    retries = 3
+  ): Promise<any> => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        window.location.href = '/login';
-        throw new Error('No autenticado');
+        window.location.href = "/login";
+        throw new Error("No autenticado");
       }
 
       const response = await api.post(
@@ -69,14 +61,14 @@ export const Subir_Documentos: React.FC = () => {
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
-          // El interceptor ya maneja la redirección
-          throw new Error('Sesión expirada');
+          throw new Error("Sesión expirada");
         }
         throw error;
       }
       throw error;
     }
   };
+
   const validateFile = (file: File): boolean => {
     const allowedTypes = ["pdf", "docx", "txt", "jpg", "png"];
     const maxSize = 10 * 1024 * 1024; // 10MB
@@ -145,7 +137,6 @@ export const Subir_Documentos: React.FC = () => {
             setErrorMessage(
               "Sesión expirada. Por favor inicie sesión nuevamente."
             );
-            // Redirect to login or trigger auth refresh
             break;
           case 413:
             setErrorMessage("El archivo es demasiado grande para el servidor.");
@@ -177,41 +168,117 @@ export const Subir_Documentos: React.FC = () => {
       headerName: "Nombre del Documento",
       flex: 1,
       minWidth: 200,
+      headerClassName: "table-header",
     },
     {
       field: "fechaSubida",
       headerName: "Fecha de Subida",
       flex: 1,
       minWidth: 150,
+      headerClassName: "table-header",
     },
     {
       field: "tipo",
       headerName: "Tipo",
       flex: 1,
       minWidth: 100,
+      headerClassName: "table-header",
     },
     {
       field: "tamaño",
       headerName: "Tamaño",
       flex: 1,
       minWidth: 100,
+      headerClassName: "table-header",
     },
     {
       field: "anio",
       headerName: "Año",
       flex: 1,
       minWidth: 100,
+      headerClassName: "table-header",
     },
     {
       field: "expediente",
       headerName: "Expediente",
       flex: 1,
       minWidth: 150,
+      headerClassName: "table-header",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-gray-50 pt-16">
+      <main className="max-w-6xl mx-auto px-4 py-8">
+        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+          {/* Sección de acciones */}
+          <div className="p-4 border-b flex justify-end items-center bg-gray-50">
+            {/* Botón de subida de archivo */}
+            <div>
+              <input
+                type="file"
+                id="fileUpload"
+                className="hidden"
+                onChange={handleFileSelect}
+                accept=".pdf,.docx,.txt,.jpg,.png"
+              />
+              <Button
+                variant="contained"
+                startIcon={<Upload className="h-4 w-4" />}
+                onClick={() => document.getElementById("fileUpload")?.click()}
+                disabled={isLoading}
+                sx={{
+                  backgroundColor: "#004c96",
+                  "&:hover": {
+                    backgroundColor: "#003366",
+                  },
+                }}
+              >
+                {isLoading ? "Subiendo..." : "Subir Documento"}
+              </Button>
+            </div>
+          </div>
+
+          {/* DataGrid para mostrar documentos */}
+          <Box
+            sx={{
+              height: 600,
+              width: "100%",
+              "& .table-header": {
+                backgroundColor: "#000",
+                color: "#ffffff",
+                fontWeight: 600,
+              },
+              "& .MuiDataGrid-root": {
+                border: "none",
+                "& .MuiDataGrid-cell": {
+                  borderBottom: "1px solid #f1f5f9",
+                },
+                "& .MuiDataGrid-columnHeaders": {
+                  borderBottom: "2px solid #e2e8f0",
+                },
+                "& .MuiDataGrid-virtualScroller": {
+                  backgroundColor: "#ffffff",
+                },
+              },
+            }}
+          >
+            <DataGrid
+              rows={documentos}
+              columns={columns}
+              pageSizeOptions={[5, 10, 25]}
+              density="comfortable"
+              initialState={{
+                pagination: {
+                  paginationModel: { pageSize: 10 },
+                },
+              }}
+              loading={isLoading}
+            />
+          </Box>
+        </div>
+      </main>
+
       {/* Diálogo de subida de archivo */}
       <Dialog
         open={uploadDialogOpen}
@@ -268,74 +335,6 @@ export const Subir_Documentos: React.FC = () => {
           {errorMessage}
         </Alert>
       </Snackbar>
-
-      <div className="bg-white rounded-lg shadow-sm">
-        {/* Sección de acciones */}
-        <div className="p-4 border-b flex justify-between items-center">
-          <div className="flex gap-2">
-            <Tooltip title="Ver detalles">
-              <IconButton
-                size="small"
-                disabled={selectedRows.length !== 1 || isLoading}
-              >
-                <Eye className="h-5 w-5" />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="Editar">
-              <IconButton
-                size="small"
-                disabled={selectedRows.length !== 1 || isLoading}
-              >
-                <Pencil className="h-5 w-5" />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="Eliminar">
-              <IconButton
-                size="small"
-                disabled={selectedRows.length !== 1 || isLoading}
-              >
-                <Trash2 className="h-5 w-5" />
-              </IconButton>
-            </Tooltip>
-          </div>
-
-          {/* Botón de subida de archivo */}
-          <div>
-            <input
-              type="file"
-              id="fileUpload"
-              className="hidden"
-              onChange={handleFileSelect}
-              accept=".pdf,.docx,.txt,.jpg,.png"
-            />
-            <Button
-              variant="contained"
-              startIcon={<Upload className="h-4 w-4" />}
-              onClick={() => document.getElementById("fileUpload")?.click()}
-              disabled={isLoading}
-              color="primary"
-            >
-              {isLoading ? "Subiendo..." : "Subir Documento"}
-            </Button>
-          </div>
-        </div>
-
-        {/* DataGrid para mostrar documentos */}
-        <div style={{ height: 400, width: "100%" }}>
-          <DataGrid
-            rows={documentos}
-            columns={columns}
-            pageSizeOptions={[5, 10, 25]}
-            checkboxSelection
-            onRowSelectionModelChange={(newSelection) => {
-              setSelectedRows(newSelection);
-            }}
-            rowSelectionModel={selectedRows}
-          />
-        </div>
-      </div>
     </div>
   );
 };

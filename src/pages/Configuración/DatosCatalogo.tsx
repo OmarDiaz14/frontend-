@@ -179,7 +179,7 @@ export function DatosCatalogo() {
 
                         <div className="">
                           <Boton disabled={isLoading}>
-                            {isLoading ? "Enviando..." : "Enviar"}
+                            {isLoading ? "Cargando..." : "Cargar"}
                           </Boton>
                         </div>
                       </form>
@@ -189,7 +189,7 @@ export function DatosCatalogo() {
                   <div className="card shadow-lg border-0 rounded-lg mt-5">
                     <div className="card-header">
                       <h3 className="text-center font-weight-light my-4">
-                        Tipo de acceso
+                        Tipo de Acceso
                       </h3>
                     </div>
                     <div className="card-body">
@@ -197,7 +197,7 @@ export function DatosCatalogo() {
                         <div className="row mb-3">
                           <div className=" mb-3">
                             <label>
-                              Ingrese los requeridos para catalogo (Reservado,
+                              Ingrese los requeridos para catálogo (Reservado,
                               Público, Confidencial)
                             </label>
                           </div>
@@ -214,7 +214,7 @@ export function DatosCatalogo() {
 
                         <div className="">
                           <Boton disabled={isLoading}>
-                            {isLoading ? "Enviando..." : "Enviar"}
+                            {isLoading ? "Cargando..." : "Cargar"}
                           </Boton>
                         </div>
                       </form>
@@ -232,7 +232,7 @@ export function DatosCatalogo() {
                         <div className="row mb-3">
                           <div className=" mb-3">
                             <label>
-                              Ingrese los requeridos para catalogo (Contable,
+                              Ingrese los requeridos para catálogo (Contable,
                               Físcal, Administrativo, Legal)
                             </label>
                           </div>
@@ -249,7 +249,7 @@ export function DatosCatalogo() {
 
                         <div className="">
                           <Boton disabled={isLoading}>
-                            {isLoading ? "Enviando..." : "Enviar"}
+                            {isLoading ? "Cargando..." : "Cargar"}
                           </Boton>
                         </div>
                       </form>

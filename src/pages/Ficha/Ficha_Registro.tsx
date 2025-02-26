@@ -6,14 +6,16 @@ import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import { Eye, Pencil, Trash2, Plus } from "lucide-react";
 import { MdOutlinePrint } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import SearchFilter_Ficha from "./SearchFilter_Ficha";
+//import SearchFilter_Ficha from "./SearchFilter_Ficha";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
-import { serie_get } from "../../services/cuadro.service"; // Importa el servicio para obtener las series
+import { serie_get } from "../../services/cuadro.service";
+
 interface Serie {
   id_serie: number;
   serie: string;
 }
+
 export function Ficha_Registro(): JSX.Element {
   const navigate = useNavigate();
   const [ficha, setFicha] = useState<ficha[]>([]);
@@ -22,7 +24,6 @@ export function Ficha_Registro(): JSX.Element {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [series, setSeries] = useState<Serie[]>([]);
 
-  // Función para obtener las series
   const fetchSeries = async (): Promise<void> => {
     try {
       const seriesData = await serie_get();
@@ -37,12 +38,9 @@ export function Ficha_Registro(): JSX.Element {
     }
   };
 
-  // Función para obtener las fichas y mapearlas con los nombres de las series
   const fetchAndMapFicha = async (): Promise<void> => {
     try {
       const items = await ficha_get();
-      
-      // Solo mapear si tenemos tanto las fichas como las series
       const mappedItems = items.map((item: ficha) => {
         const serieFound = series.find((s) => s.id_serie === item.serie);
         return {
@@ -50,7 +48,6 @@ export function Ficha_Registro(): JSX.Element {
           serie: serieFound ? serieFound.serie : "Sin nombre",
         };
       });
-
       setFicha(mappedItems);
       setFilteredFicha(mappedItems);
     } catch (error) {
@@ -63,12 +60,10 @@ export function Ficha_Registro(): JSX.Element {
     }
   };
 
-  // Primer useEffect para cargar las series
   useEffect(() => {
     fetchSeries();
   }, []);
 
-  // Segundo useEffect para cargar y mapear las fichas cuando las series estén disponibles
   useEffect(() => {
     if (series.length > 0) {
       fetchAndMapFicha();
@@ -88,12 +83,10 @@ export function Ficha_Registro(): JSX.Element {
       });
       return;
     }
-
     const selectedId = selectedRows[0] as string;
     const itemToView = filteredFicha.find(
       (item) => item.id_ficha === selectedId
     );
-
     if (!itemToView) {
       Swal.fire({
         icon: "error",
@@ -115,12 +108,10 @@ export function Ficha_Registro(): JSX.Element {
       });
       return;
     }
-
     const selectedId = selectedRows[0] as string;
     const itemToPrint = filteredFicha.find(
       (item) => item.id_ficha === selectedId
     );
-
     if (!itemToPrint) {
       Swal.fire({
         icon: "error",
@@ -146,7 +137,6 @@ export function Ficha_Registro(): JSX.Element {
     const itemToEdit = filteredFicha.find(
       (item) => item.id_ficha === selectedId
     );
-
     if (!itemToEdit) {
       Swal.fire({
         icon: "error",
@@ -155,7 +145,6 @@ export function Ficha_Registro(): JSX.Element {
       });
       return;
     }
-
     try {
       const result = await Swal.fire({
         title: "Editar Ficha",
@@ -167,7 +156,6 @@ export function Ficha_Registro(): JSX.Element {
         confirmButtonText: "Sí, editar",
         cancelButtonText: "Cancelar",
       });
-
       if (result.isConfirmed) {
         localStorage.setItem("fichaEditar", JSON.stringify(itemToEdit));
         navigate(`/Editar_Ficha/${selectedId}`);
@@ -191,9 +179,7 @@ export function Ficha_Registro(): JSX.Element {
       });
       return;
     }
-
     const selectedId = selectedRows[0] as string;
-
     const result = await Swal.fire({
       title: "¿Está seguro?",
       text: "No podrá revertir esta acción",
@@ -204,12 +190,10 @@ export function Ficha_Registro(): JSX.Element {
       confirmButtonText: "Sí, eliminar",
       cancelButtonText: "Cancelar",
     });
-
     if (result.isConfirmed) {
       setIsLoading(true);
       try {
         const success = await ficha_delete(selectedId);
-
         if (success) {
           Swal.fire({
             icon: "success",
@@ -247,61 +231,59 @@ export function Ficha_Registro(): JSX.Element {
   const columns: GridColDef[] = [
     {
       field: "id_ficha",
-      headerName: "Num. de Ficha",
+      headerName: "Núm. de Ficha",
       flex: 1,
-      minWidth: 150,
+      minWidth: 120,
       headerClassName: "table-header",
     },
     {
       field: "serie",
       headerName: "Serie",
-      flex: 1.2,
-      minWidth: 150,
+      flex: 1,
+      minWidth: 120,
       headerClassName: "table-header",
     },
     {
       field: "descripcion",
       headerName: "Descripción",
-      flex: 1.5,
-      minWidth: 200,
+      flex: 1,
+      minWidth: 120,
       headerClassName: "table-header",
     },
     {
       field: "area_resguardante",
       headerName: "Área Resguardante",
-      flex: 1.2,
-      minWidth: 150,
+      flex: 1,
+      minWidth: 120,
       headerClassName: "table-header",
     },
     {
       field: "area_intervienen",
       headerName: "Áreas que Intervienen",
-      flex: 1.2,
-      minWidth: 150,
+      flex: 1,
+      minWidth: 120,
       headerClassName: "table-header",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gray-50 pt-16">
+      <main className="max-w-6xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-          {/* Toolbar */}
           <div className="p-4 border-b flex justify-between items-center bg-gray-50">
             <div className="flex gap-2">
-              <Tooltip title="Ver">
+              <Tooltip title="Ver detalles">
                 <span>
                   <IconButton
                     onClick={handleView}
                     size="small"
-                    className="text-green-600 hover:text-green-800"
+                    className="text-blue-600 hover:text-blue-800"
                     disabled={selectedRows.length !== 1 || isLoading}
                   >
                     <Eye className="h-5 w-5" />
                   </IconButton>
                 </span>
               </Tooltip>
-
               <Tooltip title="Editar">
                 <span>
                   <IconButton
@@ -314,7 +296,6 @@ export function Ficha_Registro(): JSX.Element {
                   </IconButton>
                 </span>
               </Tooltip>
-
               <Tooltip title="Eliminar">
                 <span>
                   <IconButton
@@ -327,7 +308,6 @@ export function Ficha_Registro(): JSX.Element {
                   </IconButton>
                 </span>
               </Tooltip>
-
               <Tooltip title="Imprimir Ficha">
                 <span>
                   <IconButton
@@ -341,35 +321,32 @@ export function Ficha_Registro(): JSX.Element {
                 </span>
               </Tooltip>
             </div>
-
             <Button
               variant="contained"
               startIcon={<Plus className="h-4 w-4" />}
               onClick={handleCreate}
               disabled={isLoading}
               sx={{
-                backgroundColor: "#441853",
+                backgroundColor: "#004c96",
                 "&:hover": {
-                  backgroundColor: "#331340",
+                  backgroundColor: "#003366",
                 },
               }}
             >
               Nuevo
             </Button>
           </div>
-
-          <SearchFilter_Ficha
+          {/*   <SearchFilter_Ficha
             onFilterChange={handleFilterChange}
             ficha={ficha}
-          />
-
+          /> */}
           <Box
             sx={{
               height: 600,
               width: "100%",
               "& .table-header": {
-                backgroundColor: "#f8fafc",
-                color: "#1f2937",
+                backgroundColor: "#000",
+                color: "#ffffff",
                 fontWeight: 600,
               },
               "& .MuiDataGrid-root": {
