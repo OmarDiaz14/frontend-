@@ -93,7 +93,7 @@ export function Subserie() {
                       className="text-center font-weight-light my-4"
                       style={{ fontSize: "20px" }}
                     >
-                      Cuadro General de Clasificación Archivística
+                      Cuadro General de Clasificación Archivística (Sub-serie)
                     </h5>
                   </div>
                   <div className="card-body">

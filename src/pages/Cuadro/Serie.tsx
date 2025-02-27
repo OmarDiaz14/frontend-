@@ -103,7 +103,7 @@ export function Serie() {
                       className="text-center font-weight-light my-4"
                       style={{ fontSize: "20px" }}
                     >
-                      Cuadro General de Clasificación Archivística
+                      Cuadro General de Clasificación Archivística (Serie)
                     </h5>
                   </div>
                   <div className="card-body">
