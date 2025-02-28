@@ -99,7 +99,7 @@ export function Subserie() {
                   <div className="card-body">
                     <form onSubmit={handleSubmit}>
                       <div className="row mb-3">
-                        <div className="col-md-6 col-sm-12">
+                        <div className="col-md-6">
                           <div className="form-floating">
                             <select
                               className="form-select"
@@ -107,9 +107,9 @@ export function Subserie() {
                               value={Serie}
                               onChange={(e) => setSerie(e.target.value)}
                             >
-                              <option value="">Seleccione una opción</option>
+                              <option value="">Seleccione una opción</option>
                               {SerieGet.map((serie) => (
-                                <option key={serie.serie} value={serie.serie}>
+                                <option value={serie.id_serie}>
                                   {serie.serie}
                                 </option>
                               ))}
@@ -117,34 +117,45 @@ export function Subserie() {
                             <label htmlFor="inputSerie">Serie</label>
                           </div>
                         </div>
-                        <div className="col-md-6 col-sm-12">
+                        <div className="col-md-6">
                           <div className="form-floating">
                             <input
                               className="form-control"
                               id="inputSubserie"
                               type="text"
-                              placeholder="ID Subserie"
-                              value={Descripcion}
-                              onChange={(e) => setDescripcion(e.target.value)}
+                              placeholder="Nombre de la Sub-serie"
+                              value={subserie}
+                              onChange={(e) => setsubserie(e.target.value)}
                             />
                             <label htmlFor="inputSubserie">
-                              Código de la Sub-serie
+                              {" "}
+                              Nombre de la Sub-serie
                             </label>
                           </div>
                         </div>
                       </div>
-
+                      <div className="form-floating mb-3">
+                        <input
+                          className="form-control"
+                          id="inputCodigo"
+                          type="text"
+                          placeholder="Codigo Sub-Serie"
+                          value={codigo}
+                          onChange={(e) => setCodigo(e.target.value)}
+                        />
+                        <label htmlFor="inputCodigo">Código Sub-Serie</label>
+                      </div>
                       <div className="form-floating mb-3">
                         <input
                           className="form-control"
                           id="inputDescripcion"
                           type="text"
                           placeholder="Nombre Sub-Serie"
-                          value={subserie}
-                          onChange={(e) => setsubserie(e.target.value)}
+                          value={Descripcion}
+                          onChange={(e) => setDescripcion(e.target.value)}
                         />
                         <label htmlFor="inputDescripcion">
-                          Nombre Sub-Serie
+                          Descripción de Sub-Serie
                         </label>
                       </div>
 

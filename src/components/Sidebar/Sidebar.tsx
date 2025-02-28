@@ -129,12 +129,12 @@ const LinksArray: MenuItem[] = [
         to: "/Subserie",
         requiredRoles: [Roles.Admin, Roles.JefeArea],
       },
-      {
+      /*  {
         label: "Tabla Sección",
         icon: <RiTableLine />,
         to: "/TableSeccion",
         requiredRoles: [Roles.JefeArea, Roles.Personal],
-      },
+      }, */
       {
         label: "Tabla Serie",
         icon: <RiTableLine />,
