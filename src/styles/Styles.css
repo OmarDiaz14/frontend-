@@ -1054,3 +1054,146 @@ button:hover {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
 }
+
+/*--------------------------------------------------Contendor de Drag and Drop ---------------------------------------------------------------------*/
+
+/* Main container styles */
+.CargaMasiva {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Drag and drop area */
+.mainDD {
+  text-align: center;
+  width: 100%;
+  height: 300px;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  font-size: 16px;
+  position: relative;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.mainDD:hover {
+  border-color: #007bff;
+}
+
+/* Styles for active dragging state */
+.dragging {
+  border-color: #007bff;
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Center content in the drag area */
+.divCenterDD {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.divCenterDD img {
+  margin-bottom: 15px;
+}
+
+.divCenterDD p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+/* Drag overlay container */
+.containerDragging {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #333;
+  font-size: 18px;
+  z-index: 300;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Upload button */
+.upload-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.upload-btn:hover {
+  background-color: #0069d9;
+}
+
+/* Status messages */
+.status-message {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.status-message.loading {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  color: #495057;
+}
+
+.status-message.success {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+.status-message.error {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .mainDD {
+    height: 200px;
+  }
+
+  .divCenterDD {
+    padding: 10px;
+  }
+
+  .divCenterDD img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainDD {
+    height: 180px;
+  }
+
+  .containerDragging {
+    font-size: 16px;
+    padding: 15px;
+  }
+}

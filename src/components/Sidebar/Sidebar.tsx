@@ -112,6 +112,12 @@ const LinksArray: MenuItem[] = [
     requiredRoles: [Roles.Admin, Roles.JefeArea],
     subMenu: [
       {
+        label: "Carga de Cuadro General",
+        icon: <MdOutlineUploadFile />,
+        to: "/cargamasiva",
+        requiredRoles: [Roles.Admin],
+      },
+      {
         label: "Agregar Sección",
         icon: <HiOutlineDocumentDuplicate />,
         to: "/Seccion",
