@@ -1,5 +1,4 @@
 import "../../styles/Styles.css";
-
 import { Boton } from "../../components/Botones/Botones";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -8,12 +7,18 @@ import {
   type_post,
   valor_post,
 } from "../../services/catalogo.service";
+import { useNavigate } from "react-router-dom";
 
 export function DatosCatalogo() {
   const [destino, setDestiny] = useState("");
   const [type, setType] = useState("");
   const [valor, setValor] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleback = () => {
+    navigate("/home");
+  };
 
   const handleSubmitDestiny = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -137,130 +142,152 @@ export function DatosCatalogo() {
     }
   };
   return (
-    <body>
-      <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-        crossOrigin="anonymous"
-      ></link>
-
-      <div className="layoutAuthentication">
-        <div className="layoutAuthentication_content">
-          <main>
-            <div className="container-fluid">
-              <div className="row justify-content-center">
-                <div className="col-lg-7">
-                  <div className="card shadow-lg border-0 rounded-lg mt-5">
-                    <div className="card-header">
-                      <h3 className="text-center font-weight-light my-4">
-                        Destino del Expediente
-                      </h3>
-                    </div>
-                    <div className="card-body">
-                      <form action="" onSubmit={handleSubmitDestiny}>
-                        <div className="row mb-3">
-                          <div className=" mb-3">
-                            <label>
-                              Ingrese los requeridos para catalogo
-                              (Baja-Historico)
-                            </label>
-                          </div>
-
-                          <div className="form-floating mb-3">
-                            <input
-                              className="form-control"
-                              type="text"
-                              value={destino}
-                              onChange={(e) => setDestiny(e.target.value)}
-                            />
-                          </div>
-                        </div>
-
-                        <div className="">
-                          <Boton disabled={isLoading}>
-                            {isLoading ? "Cargando..." : "Cargar"}
-                          </Boton>
-                        </div>
-                      </form>
-                    </div>
+    <div className="layoutAuthentication" style={{ paddingTop: "50px" }}>
+      <div className="layoutAuthentication_content">
+        <main>
+          <div className="container-fluid">
+            <div className="row justify-content-center">
+              <div className="col-lg-9 col-md-10 col-sm-12">
+                <div className="card shadow-lg border-0 rounded-lg mt-5">
+                  <div
+                    className="card-header"
+                    style={{ backgroundColor: "#171717", color: "#fff" }}
+                  >
+                    <h3
+                      className="text-center font-weight-light my-4"
+                      style={{ fontSize: "20px" }}
+                    >
+                      Destino del Expediente
+                    </h3>
                   </div>
-
-                  <div className="card shadow-lg border-0 rounded-lg mt-5">
-                    <div className="card-header">
-                      <h3 className="text-center font-weight-light my-4">
-                        Tipo de Acceso
-                      </h3>
-                    </div>
-                    <div className="card-body">
-                      <form action="" onSubmit={handleSubmitType}>
-                        <div className="row mb-3">
-                          <div className=" mb-3">
-                            <label>
-                              Ingrese los requeridos para catálogo (Reservado,
-                              Público, Confidencial)
-                            </label>
-                          </div>
-
-                          <div className="form-floating mb-3">
-                            <input
-                              className="form-control"
-                              type="text"
-                              value={type}
-                              onChange={(e) => setType(e.target.value)}
-                            />
-                          </div>
+                  <div className="card-body">
+                    <form action="" onSubmit={handleSubmitDestiny}>
+                      <div className="row mb-3">
+                        <div className="mb-3">
+                          <label>
+                            Ingrese los requeridos para catalogo
+                            (Baja-Historico)
+                          </label>
                         </div>
 
-                        <div className="">
+                        <div className="form-floating mb-3">
+                          <input
+                            className="form-control"
+                            type="text"
+                            value={destino}
+                            onChange={(e) => setDestiny(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className="d-flex justify-content-center gap-4 mt-4 mb-2">
+                        <div className="mx-2">
+                          <Boton onClick={handleback}>Atrás</Boton>
+                        </div>
+                        <div className="mx-2">
                           <Boton disabled={isLoading}>
-                            {isLoading ? "Cargando..." : "Cargar"}
+                            {isLoading ? "Creando..." : "Crear"}
                           </Boton>
                         </div>
-                      </form>
-                    </div>
+                      </div>
+                    </form>
                   </div>
+                </div>
 
-                  <div className="card shadow-lg border-0 rounded-lg mt-5">
-                    <div className="card-header">
-                      <h3 className="text-center font-weight-light my-4">
-                        Valores Documentales
-                      </h3>
-                    </div>
-                    <div className="card-body">
-                      <form action="" onSubmit={handleSubmitValor}>
-                        <div className="row mb-3">
-                          <div className=" mb-3">
-                            <label>
-                              Ingrese los requeridos para catálogo (Contable,
-                              Físcal, Administrativo, Legal)
-                            </label>
-                          </div>
-
-                          <div className="form-floating mb-3">
-                            <input
-                              className="form-control"
-                              type="text"
-                              value={valor}
-                              onChange={(e) => setValor(e.target.value)}
-                            />
-                          </div>
+                <div className="card shadow-lg border-0 rounded-lg mt-5">
+                  <div
+                    className="card-header"
+                    style={{ backgroundColor: "#171717", color: "#fff" }}
+                  >
+                    <h3
+                      className="text-center font-weight-light my-4"
+                      style={{ fontSize: "20px" }}
+                    >
+                      Tipo de Acceso
+                    </h3>
+                  </div>
+                  <div className="card-body">
+                    <form action="" onSubmit={handleSubmitType}>
+                      <div className="row mb-3">
+                        <div className="mb-3">
+                          <label>
+                            Ingrese los requeridos para catálogo (Reservado,
+                            Público, Confidencial)
+                          </label>
                         </div>
 
-                        <div className="">
+                        <div className="form-floating mb-3">
+                          <input
+                            className="form-control"
+                            type="text"
+                            value={type}
+                            onChange={(e) => setType(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className="d-flex justify-content-center gap-4 mt-4 mb-2">
+                        <div className="mx-2">
+                          <Boton onClick={handleback}>Atrás</Boton>
+                        </div>
+                        <div className="mx-2">
                           <Boton disabled={isLoading}>
-                            {isLoading ? "Cargando..." : "Cargar"}
+                            {isLoading ? "Creando..." : "Crear"}
                           </Boton>
                         </div>
-                      </form>
-                    </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <div className="card shadow-lg border-0 rounded-lg mt-5">
+                  <div
+                    className="card-header"
+                    style={{ backgroundColor: "#171717", color: "#fff" }}
+                  >
+                    <h3
+                      className="text-center font-weight-light my-4"
+                      style={{ fontSize: "20px" }}
+                    >
+                      Valores Documentales
+                    </h3>
+                  </div>
+                  <div className="card-body">
+                    <form action="" onSubmit={handleSubmitValor}>
+                      <div className="row mb-3">
+                        <div className="mb-3">
+                          <label>
+                            Ingrese los requeridos para catálogo (Contable,
+                            Físcal, Administrativo, Legal)
+                          </label>
+                        </div>
+
+                        <div className="form-floating mb-3">
+                          <input
+                            className="form-control"
+                            type="text"
+                            value={valor}
+                            onChange={(e) => setValor(e.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="d-flex justify-content-center gap-4 mt-4 mb-2">
+                        <div className="mx-2">
+                          <Boton onClick={handleback}>Atrás</Boton>
+                        </div>
+                        <div className="mx-2">
+                          <Boton disabled={isLoading}>
+                            {isLoading ? "Creando..." : "Crear"}
+                          </Boton>
+                        </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
-          </main>
-        </div>
+          </div>
+        </main>
       </div>
-    </body>
+    </div>
   );
 }

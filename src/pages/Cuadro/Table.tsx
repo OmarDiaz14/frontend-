@@ -13,15 +13,15 @@ export function CuadroGeneral() {
               <div className="col-lg-9 col-md-10 col-sm-12">
                 <div className="grid-container">
                   <div className="grid-item">
-                    <h2 className="table-title">SECCIÓN</h2>
+                    <h2 className="table-title">SECCIONES</h2>
                     <TableSeccion />
                   </div>
                   <div className="grid-item">
-                    <h2 className="table-title">SERIE</h2>
+                    <h2 className="table-title">SERIES</h2>
                     <TableSerie />
                   </div>
                   <div className="grid-item">
-                    <h2 className="table-title">SUB-SERIE</h2>
+                    <h2 className="table-title">SUB-SERIES</h2>
                     <TableSubserie />
                   </div>
                 </div>

@@ -144,7 +144,7 @@ export function Catálogo() {
   }, []);
 
   const handleback = () => {
-    navigate("/Crear_Expediente");
+    navigate("/Catálogo");
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -220,12 +220,12 @@ export function Catálogo() {
                     className="card-header"
                     style={{ backgroundColor: "#171717", color: "#fff" }}
                   >
-                    <h3
+                    <h5
                       className="text-center font-weight-light my-4"
                       style={{ fontSize: "20px" }}
                     >
                       Catálogo de Disposición Documental
-                    </h3>
+                    </h5>
                   </div>
                   <div className="card-body">
                     <form onSubmit={handleSubmit}>

@@ -73,7 +73,7 @@ export function PortadaComponent() {
   }, []);
 
   const handleback = () => {
-    navigate("/Crear_Expediente");
+    navigate("/Portada");
   };
 
   const handleInputChange = (

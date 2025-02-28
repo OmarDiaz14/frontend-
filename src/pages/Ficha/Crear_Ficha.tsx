@@ -101,7 +101,7 @@ export function Ficha() {
   }, []);
 
   const handleback = () => {
-    navigate("/Crear_Expediente");
+    navigate("/Ficha");
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

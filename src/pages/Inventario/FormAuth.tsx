@@ -57,187 +57,180 @@ export function FormAuth() {
     });
   }
   return (
-    <body>
-      <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-        crossOrigin="anonymous"
-      ></link>
-      <img className="Logo_imgRU" src={Logo} alt="" width={"25%"} />
-      <div className="layoutAuthentication">
-        <div className="layoutAuthentication_content">
-          <main>
-            <div className="container-fluid">
-              <div className="row justify-content-center">
-                <div className="col-lg-7">
-                  <div className="card shadow-lg border-0 rounded-lg mt-5">
-                    <div className="card-header">
-                      {" "}
-                      <h3 className="text-center font-weight-light my-4">
-                        {" "}
-                        Autorización
-                      </h3>
-                    </div>
-                    <div className="card-body">
-                      <form onSubmit={handleSubmit}>
-                        {/* */}
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                type="text"
-                                value={selectedInventory.id_expediente || ""}
-                                disabled
-                              />
-                              <label htmlFor="">Numero Consecutivo</label>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                type="text"
-                                value={selectedInventory.num_expediente || ""}
-                                disabled
-                              />
-                              <label htmlFor="">Numero Expediente</label>
-                            </div>
+    <div className="layoutAuthentication" style={{ paddingTop: "50 px " }}>
+      <div className="layoutAuthentication_content">
+        <main>
+          <div className="container-fluid">
+            <div className="row justify-content-center">
+              <div className="col-lg-8 col-md-10 col-sm-10">
+                <div className="card shadow-lg border-0 rounded-lg mt-5">
+                  <div
+                    className="card-header"
+                    style={{ backgroundColor: "#171717", color: "#fff" }}
+                  >
+                    <h5
+                      className="text-center font-weight-light my-4"
+                      style={{ fontSize: "20px" }}
+                    >
+                      Autorización
+                    </h5>
+                  </div>
+                  <div className="card-body">
+                    <form onSubmit={handleSubmit}>
+                      {/* */}
+                      <div className="row mb-3">
+                        <div className="col-md-6">
+                          <div className="form-floating">
+                            <input
+                              className="form-control"
+                              type="text"
+                              value={selectedInventory.id_expediente || ""}
+                              disabled
+                            />
+                            <label htmlFor="">Numero Consecutivo</label>
                           </div>
                         </div>
+                        <div className="col-md-6">
+                          <div className="form-floating">
+                            <input
+                              className="form-control"
+                              type="text"
+                              value={selectedInventory.num_expediente || ""}
+                              disabled
+                            />
+                            <label htmlFor="">Numero Expediente</label>
+                          </div>
+                        </div>
+                      </div>
 
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                type="text"
-                                value={selectedInventory.serie || ""}
-                                disabled
-                              />
-                              <label htmlFor="">Serie</label>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                type="text"
-                                value={selectedInventory.fecha_apertura || ""}
-                                disabled
-                              />
-                              <label htmlFor="">Fecha de inicio</label>
-                            </div>
+                      <div className="row mb-3">
+                        <div className="col-md-6">
+                          <div className="form-floating">
+                            <input
+                              className="form-control"
+                              type="text"
+                              value={selectedInventory.serie || ""}
+                              disabled
+                            />
+                            <label htmlFor="">Serie</label>
                           </div>
                         </div>
+                        <div className="col-md-6">
+                          <div className="form-floating">
+                            <input
+                              className="form-control"
+                              type="text"
+                              value={selectedInventory.fecha_apertura || ""}
+                              disabled
+                            />
+                            <label htmlFor="">Fecha de inicio</label>
+                          </div>
+                        </div>
+                      </div>
 
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                type="text"
-                                value={selectedInventory.fecha_cierre || ""}
-                                disabled
-                              />
-                              <label htmlFor="">Fecha de fin</label>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                type="text"
-                                value={selectedInventory.num_legajos || ""}
-                                disabled
-                              />
-                              <label htmlFor="">Numero de legajos</label>
-                            </div>
+                      <div className="row mb-3">
+                        <div className="col-md-6">
+                          <div className="form-floating">
+                            <input
+                              className="form-control"
+                              type="text"
+                              value={selectedInventory.fecha_cierre || ""}
+                              disabled
+                            />
+                            <label htmlFor="">Fecha de fin</label>
                           </div>
                         </div>
+                        <div className="col-md-6">
+                          <div className="form-floating">
+                            <input
+                              className="form-control"
+                              type="text"
+                              value={selectedInventory.num_legajos || ""}
+                              disabled
+                            />
+                            <label htmlFor="">Numero de legajos</label>
+                          </div>
+                        </div>
+                      </div>
 
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                type="text"
-                                value={selectedInventory.num_fojas || ""}
-                                disabled
-                              />
-                              <label htmlFor="">Numero de fojas</label>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                type="text"
-                                value={selectedInventory.valor_primario || ""}
-                                disabled
-                              />
-                              <label htmlFor="">Valores primarios</label>
-                            </div>
+                      <div className="row mb-3">
+                        <div className="col-md-6">
+                          <div className="form-floating">
+                            <input
+                              className="form-control"
+                              type="text"
+                              value={selectedInventory.num_fojas || ""}
+                              disabled
+                            />
+                            <label htmlFor="">Numero de fojas</label>
                           </div>
                         </div>
+                        <div className="col-md-6">
+                          <div className="form-floating">
+                            <input
+                              className="form-control"
+                              type="text"
+                              value={selectedInventory.valor_primario || ""}
+                              disabled
+                            />
+                            <label htmlFor="">Valores primarios</label>
+                          </div>
+                        </div>
+                      </div>
 
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                type="text"
-                                value={selectedInventory.soporte_docu || ""}
-                                disabled
-                              />
-                              <label htmlFor="">Soporte</label>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                type="text"
-                                value={selectedInventory.destino || ""}
-                                disabled
-                              />
-                              <label htmlFor="">Destino</label>
-                            </div>
+                      <div className="row mb-3">
+                        <div className="col-md-6">
+                          <div className="form-floating">
+                            <input
+                              className="form-control"
+                              type="text"
+                              value={selectedInventory.soporte_docu || ""}
+                              disabled
+                            />
+                            <label htmlFor="">Soporte</label>
                           </div>
                         </div>
+                        <div className="col-md-6">
+                          <div className="form-floating">
+                            <input
+                              className="form-control"
+                              type="text"
+                              value={selectedInventory.destino || ""}
+                              disabled
+                            />
+                            <label htmlFor="">Destino</label>
+                          </div>
+                        </div>
+                      </div>
 
-                        <div className="row mb-3">
-                          <div className="col">
-                            <div className="form-floating">
-                              <input
-                                className="form-control"
-                                type="text"
-                                value={selectedInventory.type || ""}
-                                disabled
-                              />
-                              <label htmlFor="">Tipo de acceso</label>
-                            </div>
+                      <div className="row mb-3">
+                        <div className="col">
+                          <div className="form-floating">
+                            <input
+                              className="form-control"
+                              type="text"
+                              value={selectedInventory.type || ""}
+                              disabled
+                            />
+                            <label htmlFor="">Tipo de acceso</label>
                           </div>
                         </div>
+                      </div>
 
-                        <div className="d-grid gap-2 mt-4">
-                          <Boton type="submit" disabled={isSubmitting}>
-                            {isSubmitting
-                              ? "Enviando..."
-                              : "Confirmar y Guardar"}
-                          </Boton>
-                        </div>
-                      </form>
-                    </div>
+                      <div className="d-grid gap-2 mt-4">
+                        <Boton type="submit" disabled={isSubmitting}>
+                          {isSubmitting ? "Enviando..." : "Confirmar y Guardar"}
+                        </Boton>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
-          </main>
-        </div>
+          </div>
+        </main>
       </div>
-    </body>
+    </div>
   );
 }
 
