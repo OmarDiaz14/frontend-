@@ -165,8 +165,7 @@ export function DatosCatalogo() {
                       <div className="row mb-3">
                         <div className="mb-3">
                           <label>
-                            Ingrese los requeridos para catalogo
-                            (Baja-Historico)
+                            Ingrese destinos para el expediente (Baja-Histórico)
                           </label>
                         </div>
 
@@ -210,8 +209,8 @@ export function DatosCatalogo() {
                       <div className="row mb-3">
                         <div className="mb-3">
                           <label>
-                            Ingrese los requeridos para catálogo (Reservado,
-                            Público, Confidencial)
+                            Ingrese tipos de acceso para el expediente
+                            (Reservado, Público, Confidencial)
                           </label>
                         </div>
 
@@ -255,8 +254,8 @@ export function DatosCatalogo() {
                       <div className="row mb-3">
                         <div className="mb-3">
                           <label>
-                            Ingrese los requeridos para catálogo (Contable,
-                            Físcal, Administrativo, Legal)
+                            Ingrese valores documentales (Contable, Físcal,
+                            Administrativo, Legal)
                           </label>
                         </div>
 

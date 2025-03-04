@@ -188,7 +188,7 @@ export default function Carga_Masiva() {
                 alt="Agregar archivos"
               />
               <p>Arrastre su documento Excel aquí</p>
-              <p>o</p>
+              <p>ó</p>
               <input
                 type="file"
                 id="fileInput"

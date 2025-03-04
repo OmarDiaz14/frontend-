@@ -2,9 +2,9 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import { BarChart } from "@mui/x-charts/BarChart";
+import axios from "axios";
+import { user_profile } from "../../services/user.services";
 
 interface ResizableChartProps {
   width?: number | string;
@@ -23,22 +23,123 @@ const ResizableChart: React.FC<ResizableChartProps> = ({
   marginLeft = "auto",
   marginRight = "auto",
 }) => {
-  const [seriesNb, setSeriesNb] = React.useState(2);
-  const [itemNb, setItemNb] = React.useState(5);
-  const [skipAnimation, setSkipAnimation] = React.useState(false);
+  const [seriesNb, setSeriesNb] = React.useState(4);
+  const [chartData, setChartData] = React.useState<{
+    totalPortadas: number;
+    totalFichas: number;
+    totalCatalogos: number;
+    totalExpedientes: number;
+  }>({
+    totalPortadas: 0,
+    totalFichas: 0,
+    totalCatalogos: 0,
+    totalExpedientes: 0,
+  });
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [error, setError] = React.useState<Error | null>(null);
+  const [yAxisMax, setYAxisMax] = React.useState(10); // Cambié el valor inicial a 10
 
-  const handleItemNbChange = (event: Event, newValue: number | number[]) => {
-    if (typeof newValue !== "number") {
-      return;
-    }
-    setItemNb(newValue);
-  };
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const profile = await user_profile();
+
+        if (profile && profile.id_seccion) {
+          const baseUrl =
+            "https://backend-lga.onrender.com/dashboard/dashboard";
+          const axiosInstance = axios.create({ timeout: 10000 });
+
+          const [
+            portadaResponse,
+            fichaResponse,
+            catalogoResponse,
+            expedienteResponse,
+          ] = await Promise.all([
+            axiosInstance.get(
+              `${baseUrl}/${profile.id_seccion}/get-total-portadas/`
+            ),
+            axiosInstance.get(
+              `${baseUrl}/${profile.id_seccion}/get-total-fichas/`
+            ),
+            axiosInstance.get(
+              `${baseUrl}/${profile.id_seccion}/get-total-catalogos/`
+            ),
+            axiosInstance.get(
+              `${baseUrl}/${profile.id_seccion}/get-total-portadas/`
+            ),
+          ]);
+
+          const newChartData = {
+            totalPortadas: portadaResponse.data || 0,
+            totalFichas: fichaResponse.data || 0,
+            totalCatalogos: catalogoResponse.data || 0,
+            totalExpedientes: expedienteResponse.data || 0,
+          };
+
+          setChartData(newChartData);
+
+          // Calcular el máximo considerando valores mínimos
+          const maxValue = Math.max(
+            10, // Valor mínimo para mostrar
+            newChartData.totalPortadas,
+            newChartData.totalFichas,
+            newChartData.totalCatalogos,
+            newChartData.totalExpedientes
+          );
+
+          // Ajustar el eje Y para mostrar datos pequeños
+          const roundedMax = Math.max(10, Math.ceil(maxValue / 10) * 10);
+          setYAxisMax(roundedMax);
+
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error("Error al cargar los datos:", error);
+        setError(error instanceof Error ? error : new Error(String(error)));
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleSeriesNbChange = (event: Event, newValue: number | number[]) => {
     if (typeof newValue !== "number") {
       return;
     }
     setSeriesNb(newValue);
   };
+
+  const series = [
+    {
+      label: "Total de Portadas",
+      color: "#44ac44",
+      data: [chartData.totalPortadas],
+    },
+    {
+      label: "Total de Fichas",
+      color: "#F1872D",
+      data: [chartData.totalFichas],
+    },
+    {
+      label: "Total de Catálogos",
+      color: "#FFCA1A",
+      data: [chartData.totalCatalogos],
+    },
+    {
+      label: "Total de Expedientes",
+      color: "#446ca4",
+      data: [chartData.totalExpedientes],
+    },
+  ];
+
+  if (isLoading) {
+    return <Box>Cargando...</Box>;
+  }
+
+  if (error) {
+    return <Box color="error">Error: {error.message}</Box>;
+  }
 
   return (
     <Box
@@ -56,41 +157,25 @@ const ResizableChart: React.FC<ResizableChartProps> = ({
     >
       <BarChart
         height={200}
-        series={series
-          .slice(0, seriesNb)
-          .map((s) => ({ ...s, data: s.data.slice(0, itemNb) }))}
-        skipAnimation={skipAnimation}
-      />
-      <FormControlLabel
-        checked={skipAnimation}
-        control={
-          <Checkbox
-            onChange={(event) => setSkipAnimation(event.target.checked)}
-          />
-        }
-        label="skipAnimation"
-        labelPlacement="end"
-      />
-      <Typography id="input-item-number" gutterBottom>
-        Number of items
-      </Typography>
-      <Slider
-        value={itemNb}
-        onChange={handleItemNbChange}
-        valueLabelDisplay="auto"
-        min={1}
-        max={20}
-        aria-labelledby="input-item-number"
+        series={series.slice(0, seriesNb)}
+        yAxis={[
+          {
+            max: yAxisMax,
+            tickMinStep: 1, // Mostrar incluso incrementos pequeños
+            tickNumber: 5, // Controlar número de marcas
+          },
+        ]}
+        skipAnimation={false}
       />
       <Typography id="input-series-number" gutterBottom>
-        Number of series
+        Instrumentos Archivísticos
       </Typography>
       <Slider
         value={seriesNb}
         onChange={handleSeriesNbChange}
         valueLabelDisplay="auto"
         min={1}
-        max={10}
+        max={4}
         aria-labelledby="input-series-number"
       />
     </Box>
@@ -98,59 +183,3 @@ const ResizableChart: React.FC<ResizableChartProps> = ({
 };
 
 export default ResizableChart;
-
-const highlightScope = {
-  highlight: "series",
-  fade: "global",
-} as const;
-
-const series = [
-  {
-    label: "series 1",
-    color: "#44ac44",
-    data: [
-      2423, 2210, 764, 1879, 1478, 1373, 1891, 2171, 620, 1269, 724, 1707, 1188,
-      1879, 626, 1635, 2177, 516, 1793, 1598,
-    ],
-  },
-  {
-    label: "series 2",
-    color: "#84c444",
-    data: [
-      2362, 2254, 1962, 1336, 586, 1069, 2194, 1629, 2173, 2031, 1757, 862,
-      2446, 910, 2430, 2300, 805, 1835, 1684, 2197,
-    ],
-  },
-  {
-    label: "series 3",
-    color: "#F1872D",
-    data: [
-      1145, 1214, 975, 2266, 1768, 2341, 747, 1282, 1780, 1766, 2115, 1720,
-      1057, 2000, 1716, 2253, 619, 1626, 1209, 1786,
-    ],
-  },
-  {
-    label: "series 4",
-    color: "#f2c11a",
-    data: [
-      2361, 979, 2430, 1768, 1913, 2342, 1868, 1319, 1038, 2139, 1691, 935,
-      2262, 1580, 692, 1559, 1344, 1442, 1593, 1889,
-    ],
-  },
-  {
-    label: "series 5",
-    color: "#549bc3",
-    data: [
-      968, 1371, 1381, 1060, 1327, 934, 1779, 1361, 878, 1055, 1737, 2380, 875,
-      2408, 1066, 1802, 1442, 1567, 1552, 1742,
-    ],
-  },
-  {
-    label: "series 6",
-    color: "#446ca4",
-    data: [
-      2316, 1845, 2057, 1479, 1859, 1015, 1569, 1448, 1354, 1007, 799, 1748,
-      1454, 1968, 1129, 1196, 2158, 540, 1482, 880,
-    ],
-  },
-].map((s) => ({ ...s, highlightScope }));

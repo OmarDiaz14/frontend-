@@ -45,6 +45,7 @@ export function AgregarUsuario() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    // Validate all fields are filled
     if (
       !user.first_name.trim() ||
       !user.last_name.trim() ||
@@ -62,6 +63,17 @@ export function AgregarUsuario() {
       });
       return;
     }
+
+    // Check if passwords match
+    if (user.password !== Repass) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Las contraseñas no coinciden",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
