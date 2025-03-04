@@ -165,14 +165,14 @@ export function TableInventory() {
   const columns: GridColDef[] = [
     {
       field: "id_expediente",
-      headerName: "Num. Consecutivo",
+      headerName: "Núm. Consecutivo",
       flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "num_expediente",
-      headerName: "Num. Expediente",
+      headerName: "Núm. Expediente",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -200,14 +200,14 @@ export function TableInventory() {
     },
     {
       field: "num_legajos",
-      headerName: "Num. de legajos",
+      headerName: "Núm. de legajos",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "num_fojas",
-      headerName: "Num. de fojas",
+      headerName: "Núm. de fojas",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -221,14 +221,14 @@ export function TableInventory() {
     },
     {
       field: "soporte_docu",
-      headerName: "Soporte",
+      headerName: "Soporte Documental",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "destino",
-      headerName: "Destino",
+      headerName: "Destino del Expediente",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -263,8 +263,8 @@ export function TableInventory() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray">
-      <main className="max-w-screen-xl mx-auto py-7">
+    <div className="min-h-screen bg-gray pt-16">
+      <main className="max-w-6xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           <h1 className="text-center border-b bg-gray-60">
             Inventario General

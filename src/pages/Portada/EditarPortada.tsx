@@ -3,10 +3,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import { portada_get, portada_put } from "../../services/portada.services";
 import { Boton } from "../../components/Botones/Botones";
 import Swal from "sweetalert2";
-import LogoImg from "../../assets/Tlaxcala.png";
+
 import "../../styles/Styles.css";
 import "sweetalert2/src/sweetalert2.scss";
-import { Seccion_get, serie_get, subserie_get } from "../../services/cuadro.service";
+import {
+  Seccion_get,
+  serie_get,
+  subserie_get,
+} from "../../services/cuadro.service";
 import { seccion, serie, SubSerie } from "../../services/var.cuadro";
 
 interface Portada {
@@ -50,6 +54,10 @@ export const EditarPortada: React.FC = () => {
   const [secciones, setSecciones] = useState<seccion[]>([]);
   const [series, setSeries] = useState<serie[]>([]);
   const [subseries, setSubseries] = useState<SubSerie[]>([]);
+
+  const handleback = () => {
+    navigate("/Portada");
+  };
 
   useEffect(() => {
     const loadPortadaData = async () => {
@@ -185,8 +193,6 @@ export const EditarPortada: React.FC = () => {
       "asunto",
       "fecha_apertura",
       "fecha_cierre",
-      "ficha",
-      "catalogo",
       "num_legajos",
       "num_fojas",
       "valores_secundarios",
@@ -247,7 +253,9 @@ export const EditarPortada: React.FC = () => {
         ...trimmedPortada,
         seccion: Number(trimmedPortada.seccion),
         serie: Number(trimmedPortada.serie),
-        subserie: trimmedPortada.subserie ? Number(trimmedPortada.subserie) : null,
+        subserie: trimmedPortada.subserie
+          ? Number(trimmedPortada.subserie)
+          : null,
       };
 
       const result = await portada_put(id, payload);
@@ -324,114 +332,111 @@ export const EditarPortada: React.FC = () => {
   };
 
   return (
-    <div>
-      <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-        crossOrigin="anonymous"
-      />
-      <img className="Logo_imgRU" src={LogoImg} alt="" width="25%" />
-      <div className="layoutAuthentication">
-        <div className="layoutAuthentication_content">
-          <main>
-            <div className="container-fluid">
-              <div className="row justify-content-center">
-                <div className="col-lg-7">
-                  <div className="card shadow-lg border-0 rounded-lg mt-5">
-                    <div className="card-header">
-                      <h3 className="text-center font-weight-light my-4">
-                        Editar Portada de Expediente
-                      </h3>
-                    </div>
-                    <div className="card-body">
-                      <form onSubmit={handleSubmit}>
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            {renderFormField(
-                              "num_expediente",
-                              "No. Expediente"
-                            )}
-                          </div>
-                          <div className="col-md-6">
-                            {renderFormField("ficha", "Ficha")}
-                          </div>
+    <div className="layoutAuthentication" style={{ paddingTop: "50px" }}>
+      <div className="layoutAuthentication_content">
+        <main>
+          <div className="container-fluid">
+            <div className="row justify-content-center">
+              <div className="col-lg-8 col-md-10 col-sm-10 ">
+                <div className="card shadow-lg border-0 rounded-lg mt-5">
+                  <div
+                    className="card-header"
+                    style={{ backgroundColor: "#171717", color: "#fff" }}
+                  >
+                    <h5
+                      className="text-center font-weight-light my-4"
+                      style={{ fontSize: "20px" }}
+                    >
+                      Editar Portada de Expediente
+                    </h5>
+                  </div>
+                  <div className="card-body">
+                    <form onSubmit={handleSubmit}>
+                      <div className="row mb-3">
+                        <div className="col-md-6">
+                          {renderFormField("num_expediente", "No. Expediente")}
                         </div>
+                        <div className="col-md-6">
+                          {renderFormField("ficha", "Ficha")}
+                        </div>
+                      </div>
 
-                        <div className="form-floating mb-3">
-                          <textarea
-                            className="form-control"
-                            name="asunto"
-                            value={portada.asunto ?? ""}
-                            onChange={handleInputChange}
-                            placeholder="Asunto"
-                          />
-                          <label>Asunto</label>
-                        </div>
+                      <div className="form-floating mb-3">
+                        <textarea
+                          className="form-control"
+                          name="asunto"
+                          value={portada.asunto ?? ""}
+                          onChange={handleInputChange}
+                          placeholder="Asunto"
+                        />
+                        <label>Asunto</label>
+                      </div>
 
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            {renderFormField(
-                              "fecha_apertura",
-                              "Fecha de Apertura",
-                              "date"
-                            )}
-                          </div>
-                          <div className="col-md-6">
-                            {renderFormField(
-                              "fecha_cierre",
-                              "Fecha de Cierre",
-                              "date"
-                            )}
-                          </div>
+                      <div className="row mb-3">
+                        <div className="col-md-6">
+                          {renderFormField(
+                            "fecha_apertura",
+                            "Fecha de Apertura",
+                            "date"
+                          )}
                         </div>
+                        <div className="col-md-6">
+                          {renderFormField(
+                            "fecha_cierre",
+                            "Fecha de Cierre",
+                            "date"
+                          )}
+                        </div>
+                      </div>
 
-                        <div className="form-floating mb-3">
-                          {renderFormField("catalogo", "Catálogo")}
-                        </div>
+                      <div className="form-floating mb-3">
+                        {renderFormField("catalogo", "Catálogo")}
+                      </div>
 
-                        <div className="row mb-3">
-                          <div className="col-md-4">
-                            {renderFormField("num_legajos", "No. Legajos")}
-                          </div>
-                          <div className="col-md-4">
-                            {renderFormField("num_fojas", "No. Fojas")}
-                          </div>
-                          <div className="col-md-4">
-                            {renderFormField(
-                              "valores_secundarios",
-                              "Valores Secundarios"
-                            )}
-                          </div>
+                      <div className="row mb-3">
+                        <div className="col-md-4">
+                          {renderFormField("num_legajos", "No. Legajos")}
                         </div>
+                        <div className="col-md-4">
+                          {renderFormField("num_fojas", "No. Fojas")}
+                        </div>
+                        <div className="col-md-4">
+                          {renderFormField(
+                            "valores_secundarios",
+                            "Valores Secundarios"
+                          )}
+                        </div>
+                      </div>
 
-                        <div className="row mb-3">
-                          <div className="col-md-4">
-                            {renderFormField("seccion", "Sección")}
-                          </div>
-                          <div className="col-md-4">
-                            {renderFormField("serie", "Serie")}
-                          </div>
-                          <div className="col-md-4">
-                            {renderFormField("subserie", "Subserie")}
-                          </div>
+                      <div className="row mb-3">
+                        <div className="col-md-4">
+                          {renderFormField("seccion", "Sección")}
                         </div>
+                        <div className="col-md-4">
+                          {renderFormField("serie", "Serie")}
+                        </div>
+                        <div className="col-md-4">
+                          {renderFormField("subserie", "Subserie")}
+                        </div>
+                      </div>
 
-                        <div className="mt-4 mb-0">
-                          <div className="d-grid">
-                            <Boton type="submit" disabled={isLoading}>
-                              {isLoading ? "Actualizando..." : "Actualizar"}
-                            </Boton>
-                          </div>
+                      <div className="d-flex justify-content-center gap-4 mt-4 mb-2">
+                        <div className="mx-2">
+                          <Boton onClick={handleback}>Atrás</Boton>
                         </div>
-                      </form>
-                    </div>
+                        <div className="mx-2">
+                          <Boton disabled={isLoading}>
+                            {isLoading ? "Creando..." : "Crear"}
+                          </Boton>
+                        </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
-          </main>
-        </div>
+          </div>
+        </main>
       </div>
     </div>
   );

@@ -9,10 +9,13 @@ import {
 } from "../../services/catalogo.service";
 import { Boton } from "../../components/Botones/Botones";
 import { destino, type, valor } from "../../services/var.catalogo";
-import { Seccion_get, serie_get, subserie_get } from "../../services/cuadro.service";
+import {
+  Seccion_get,
+  serie_get,
+  subserie_get,
+} from "../../services/cuadro.service";
 import { seccion, serie, SubSerie } from "../../services/var.cuadro";
 import Swal from "sweetalert2";
-import LogoImg from "../../assets/Tlaxcala.png";
 import "../../styles/Styles.css";
 import "sweetalert2/src/sweetalert2.scss";
 
@@ -25,7 +28,7 @@ interface CatalogoBase {
   valores_documentales: string;
   observaciones: string;
   seccion: number; // Asegúrate de que sea number
-  serie: number;   // Asegúrate de que sea number
+  serie: number; // Asegúrate de que sea number
   subserie: number; // Asegúrate de que sea number
 }
 
@@ -58,7 +61,13 @@ export const EditarCatalogo: React.FC = () => {
   const [series, setSeries] = useState<serie[]>([]);
   const [subseries, setSubseries] = useState<SubSerie[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [fullCatalogoList, setFullCatalogoList] = useState<CatalogoWithId[]>([]);
+  const [fullCatalogoList, setFullCatalogoList] = useState<CatalogoWithId[]>(
+    []
+  );
+
+  const handleback = () => {
+    navigate("/Catálogo");
+  };
 
   useEffect(() => {
     const loadCatalogData = async () => {
@@ -92,7 +101,14 @@ export const EditarCatalogo: React.FC = () => {
         setCatalogo(catalogoBase);
         setFullCatalogoList(response);
 
-        const [destinosData, tiposData, valoresData, seccionesData, seriesData, subseriesData] = await Promise.all([
+        const [
+          destinosData,
+          tiposData,
+          valoresData,
+          seccionesData,
+          seriesData,
+          subseriesData,
+        ] = await Promise.all([
           destino_get(),
           type_get(),
           valor_get(),
@@ -170,7 +186,9 @@ export const EditarCatalogo: React.FC = () => {
       Swal.fire({
         icon: "warning",
         title: "Campos requeridos",
-        text: `Los siguientes campos son obligatorios: ${emptyFields.join(", ")}`,
+        text: `Los siguientes campos son obligatorios: ${emptyFields.join(
+          ", "
+        )}`,
       });
       return false;
     }
@@ -294,141 +312,141 @@ export const EditarCatalogo: React.FC = () => {
   }
 
   return (
-    <body>
-      <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-        crossOrigin="anonymous"
-      />
-      <img className="Logo_imgRU" src={LogoImg} alt="" width="25%" />
-      <div className="layoutAuthentication">
-        <div className="layoutAuthentication_content">
-          <main>
-            <div className="container-fluid">
-              <div className="row justify-content-center">
-                <div className="col-lg-7">
-                  <div className="card shadow-lg border-0 rounded-lg mt-5">
-                    <div className="card-header">
-                      <h3 className="text-center font-weight-light my-4">
-                        Editar Catálogo de Disposición Documental
-                      </h3>
-                    </div>
-                    <div className="card-body">
-                      <form onSubmit={handleSubmit}>
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            {renderFormField("catalogo", "Nombre del Catálogo")}
-                          </div>
-                          <div className="col-md-6">
-                            {renderFormField(
-                              "valores_documentales",
-                              "Valores Documentales",
-                              "select",
-                              valores.map((v) => ({
-                                id: v.id_valores,
-                                value: v.valores,
-                              }))
-                            )}
-                          </div>
+    <div className="layoutAuthentication" style={{ paddingTop: "50px" }}>
+      <div className="layoutAuthentication_content">
+        <main>
+          <div className="container-fluid">
+            <div className="row justify-content-center">
+              <div className="col-lg-8 col-md-10 col-sm-10">
+                <div className="card shadow-lg border-0 rounded-lg mt-5">
+                  <div
+                    className="card-header"
+                    style={{ backgroundColor: "#171717", color: "#fff" }}
+                  >
+                    <h5
+                      className="text-center font-weight-light my-4"
+                      style={{ fontSize: "20px" }}
+                    >
+                      Editar Catálogo de Disposición Documental
+                    </h5>
+                  </div>
+                  <div className="card-body">
+                    <form onSubmit={handleSubmit}>
+                      <div className="row mb-3">
+                        <div className="col-md-6">
+                          {renderFormField("catalogo", "Nombre del Catálogo")}
                         </div>
+                        <div className="col-md-6">
+                          {renderFormField(
+                            "valores_documentales",
+                            "Valores Documentales",
+                            "select",
+                            valores.map((v) => ({
+                              id: v.id_valores,
+                              value: v.valores,
+                            }))
+                          )}
+                        </div>
+                      </div>
 
-                        <div className="form-floating mb-3">
-                          {renderFormField("observaciones", "Observaciones")}
-                        </div>
+                      <div className="form-floating mb-3">
+                        {renderFormField("observaciones", "Observaciones")}
+                      </div>
 
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            {renderFormField(
-                              "archivo_tramite",
-                              "Archivo de Trámite"
-                            )}
-                          </div>
-                          <div className="col-md-6">
-                            {renderFormField(
-                              "archivo_concentracion",
-                              "Archivo de Concentración"
-                            )}
-                          </div>
+                      <div className="row mb-3">
+                        <div className="col-md-6">
+                          {renderFormField(
+                            "archivo_tramite",
+                            "Archivo de Trámite"
+                          )}
                         </div>
+                        <div className="col-md-6">
+                          {renderFormField(
+                            "archivo_concentracion",
+                            "Archivo de Concentración"
+                          )}
+                        </div>
+                      </div>
 
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            {renderFormField(
-                              "type_access",
-                              "Tipo de Acceso",
-                              "select",
-                              tipos.map((t) => ({
-                                id: t.id_type,
-                                value: t.type,
-                              }))
-                            )}
-                          </div>
-                          <div className="col-md-6">
-                            {renderFormField(
-                              "destino_expe",
-                              "Destino del expediente",
-                              "select",
-                              destinos.map((d) => ({
-                                id: d.id_destino,
-                                value: d.destino,
-                              }))
-                            )}
-                          </div>
+                      <div className="row mb-3">
+                        <div className="col-md-6">
+                          {renderFormField(
+                            "type_access",
+                            "Tipo de Acceso",
+                            "select",
+                            tipos.map((t) => ({
+                              id: t.id_type,
+                              value: t.type,
+                            }))
+                          )}
                         </div>
+                        <div className="col-md-6">
+                          {renderFormField(
+                            "destino_expe",
+                            "Destino del expediente",
+                            "select",
+                            destinos.map((d) => ({
+                              id: d.id_destino,
+                              value: d.destino,
+                            }))
+                          )}
+                        </div>
+                      </div>
 
-                        <div className="row mb-3">
-                          <div className="col-md-4">
-                            {renderFormField(
-                              "seccion",
-                              "Sección",
-                              "select",
-                              secciones.map((s) => ({
-                                id: s.id_seccion.toString(),
-                                value: s.seccion,
-                              }))
-                            )}
-                          </div>
-                          <div className="col-md-4">
-                            {renderFormField(
-                              "serie",
-                              "Serie",
-                              "select",
-                              series.map((s) => ({
-                                id: s.id_serie.toString(),
-                                value: s.serie,
-                              }))
-                            )}
-                          </div>
-                          <div className="col-md-4">
-                            {renderFormField(
-                              "subserie",
-                              "Subserie",
-                              "select",
-                              subseries.map((s) => ({
-                                id: s.id_subserie.toString(),
-                                value: s.subserie,
-                              }))
-                            )}
-                          </div>
+                      <div className="row mb-3">
+                        <div className="col-md-4">
+                          {renderFormField(
+                            "seccion",
+                            "Sección",
+                            "select",
+                            secciones.map((s) => ({
+                              id: s.id_seccion.toString(),
+                              value: s.seccion,
+                            }))
+                          )}
                         </div>
+                        <div className="col-md-4">
+                          {renderFormField(
+                            "serie",
+                            "Serie",
+                            "select",
+                            series.map((s) => ({
+                              id: s.id_serie.toString(),
+                              value: s.serie,
+                            }))
+                          )}
+                        </div>
+                        <div className="col-md-4">
+                          {renderFormField(
+                            "subserie",
+                            "Subserie",
+                            "select",
+                            subseries.map((s) => ({
+                              id: s.id_subserie.toString(),
+                              value: s.subserie,
+                            }))
+                          )}
+                        </div>
+                      </div>
 
-                        <div className="mt-4 mb-0">
-                          <div className="d-grid">
-                            <Boton type="submit" disabled={isLoading}>
-                              {isLoading ? "Actualizando..." : "Actualizar"}
-                            </Boton>
-                          </div>
+                      <div className="d-flex justify-content-center gap-4 mt-4 mb-2">
+                        <div className="mx-2">
+                          <Boton onClick={handleback}>Atrás</Boton>
                         </div>
-                      </form>
-                    </div>
+                        <div className="mx-2">
+                          <Boton disabled={isLoading}>
+                            {isLoading ? "Actualizando..." : "Actualizar"}
+                          </Boton>
+                        </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
-          </main>
-        </div>
+          </div>
+        </main>
       </div>
-    </body>
+    </div>
   );
 };

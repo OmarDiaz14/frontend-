@@ -280,7 +280,7 @@ export const ImprimirFicha: React.FC = () => {
       <div className="mt-6 flex justify-center">
         <button
           onClick={generarPDF}
-          className="bg-purple-700 text-white px-6 py-2 rounded-lg hover:bg-purple-800 transition-colors shadow-md"
+          className="bg-blue-700 text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition-colors shadow-md"
         >
           Generar PDF
         </button>
