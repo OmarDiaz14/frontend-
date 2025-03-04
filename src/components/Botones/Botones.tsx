@@ -1,9 +1,14 @@
-import "./Botones.css";
+import "../../styles/Styles.css";
 
-export function Botones() {
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export function Boton({ children, ...props }: Props) {
   return (
     <div className="Contenedor_Boton">
-      <button className="Boton"> Kirby </button>
+      <button className="Boton" {...props}>
+        {" "}
+        {children}{" "}
+      </button>
     </div>
   );
 }

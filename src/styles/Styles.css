@@ -1,0 +1,1199 @@
+/*-------------------------------------------Estilos de Login------------------------------------------------*/
+/* Aplicables a todo el proyecto*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  font-family: "Roboto";
+}
+
+.Contenedor_Login {
+  display: flex;
+  flex-direction: column;
+  margin: 20px auto;
+  max-width: 500px;
+  min-height: 300px;
+  max-height: 700px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px 5px rgba(0, 0, 0, 0.2);
+  margin-top: 50px;
+  padding: 15px 50px;
+}
+
+.Estilo_Logo {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  margin: 10px auto;
+  display: flex;
+}
+
+.Cabeza_Login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.Titulo_Login {
+  color: #000;
+  font-size: 35px;
+  font-weight: 100;
+}
+
+.Linea_Divisora_Login {
+  width: 50px;
+  height: 5px;
+  background: #004c96;
+  border-radius: 9px;
+}
+
+.Contenedor_Inputs {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.Input {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  width: 100%;
+  max-width: 550px;
+  height: 50px;
+  background: #eaeaea;
+  border-radius: 6px;
+}
+
+.Input img {
+  margin: 20px 20px;
+  height: 30px;
+  width: auto;
+}
+
+.Input input {
+  height: 50px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #000;
+  font-size: 19px;
+}
+
+@media (max-width: 768px) {
+  .Contenedor_Login {
+    padding: 30px 15px;
+  }
+
+  .Titulo_Login {
+    font-size: 30px;
+  }
+
+  .Input {
+    width: 100%;
+  }
+}
+
+/*--------------------------------------------------------------------Estilos de botones--------------------------------*/
+
+.Contenedor_Boton {
+  display: flex;
+  justify-content: center; /* Centra el botón horizontalmente */
+  gap: 100px;
+  margin: 60px auto;
+}
+
+.Boton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  max-width: 500px; /* Limitar el tamaño máximo del botón */
+  height: 40px;
+  color: #fff;
+  background: #004c96;
+  font-size: 19px;
+  font-weight: 900;
+  cursor: pointer;
+}
+.Boton:hover {
+  background: #1460aa; /* Cambia el color de fondo al pasar el ratón */
+}
+
+.Atrás {
+  background-color: white;
+  color: black;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid black;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.Atrás :hover {
+  background-color: #334155;
+  color: white;
+}
+
+.Adelante {
+  background-color: #004c96;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.Adelante:hover {
+  background-color: #1460aa;
+  color: white;
+}
+
+/*---------------------------------------------- Estilo de Perfil de usuario -------------------------------------------*/
+.container {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-areas:
+    "header header"
+    "userProfile userDetails"
+    "work_skills timeline_about"
+    "work_skills timeline_about";
+  width: 85%;
+  max-width: 1200px;
+  height: auto;
+  min-height: 90vh;
+  background: var(--glass-bg);
+  padding: var(--p-1-5);
+  margin: 0 auto;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  padding-top: 30px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #004c96;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+}
+
+.Logo_img {
+  grid-area: header;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.userProfile {
+  grid-area: userProfile;
+}
+
+.work_skills {
+  grid-area: work_skills;
+}
+
+.userDetails {
+  grid-area: userDetails;
+}
+
+.timeline_about {
+  grid-area: timeline_about;
+}
+
+.container .card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: var(--p-1-5);
+  color: #004c96;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.container header {
+  padding: 0 var(--p-2-5);
+}
+
+.container header .Logo_img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container header .Logo_img figure img {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.container header .Logo_img span {
+  font-size: var(--xl-fs);
+  font-weight: 700;
+  margin-left: var(--m-0-5);
+  color: #004c96;
+}
+
+.container .userProfile {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.container .Logo_img .profile img,
+.container .userProfile .profile figure img {
+  width: 18rem;
+  height: 18rem;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.container .work_skills {
+  padding: var(--p-1-5);
+}
+
+.work_skills .work .heading,
+.work_skills .skills .heading {
+  position: relative;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+  margin-bottom: var(--m-1-5);
+  margin-top: 30px;
+  margin-left: 30px;
+  font-weight: 600;
+}
+
+.work_skills .work .heading::before,
+.work_skills .skills .heading::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 0.1rem;
+  width: 88%;
+  background: var(--bg6-color);
+}
+
+.work_skills .work .Primary,
+.work_skills .work .secondary {
+  position: relative;
+  margin-top: 10px;
+  margin-left: 30px;
+  font-size: 16px;
+}
+
+.work_skills .work .Primary h1,
+.work_skills .work .secondary h1 {
+  font-size: var(--l-fs);
+  color: #000;
+  margin-bottom: var(--m-0-6);
+  font-weight: 600;
+}
+
+.work_skills .work .Primary p,
+.work_skills .work .secondary p {
+  margin-bottom: var(--m-1-8);
+  font-size: 18px;
+  color: #000;
+  line-height: 1.5rem;
+  margin-top: 7px;
+  margin-left: 0px;
+}
+
+.userDetails .userName {
+  margin-left: 40px;
+  margin-top: 35px;
+}
+
+.userDetails .userName h1 {
+  font-size: 35px;
+  font-weight: 700;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  color: #000;
+}
+
+.userDetails .userName p {
+  font-size: 25px;
+  color: #000;
+  margin-bottom: var(--m-1-8);
+}
+
+.userDetails .rank {
+  position: relative;
+  margin-left: 42px;
+  margin-top: 20px;
+}
+
+.userDetails .rank .heading {
+  font-size: small;
+  color: black;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.timeline_about .tabs ul {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-left: 15px;
+}
+
+.timeline_about .tabs ul::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--bg7-color);
+}
+
+.timeline_about .tabs ul li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-right: var(--m-2-5);
+  padding-bottom: var(--p-0-8);
+  cursor: pointer;
+}
+
+.timeline_about .tabs ul li span {
+  font-size: 20px;
+  margin-left: 22px;
+  color: rgba(0, 0, 0, 0.8);
+  margin-top: 20px;
+  font-weight: 600;
+}
+
+.timeline_about .contact_info ul {
+  margin-bottom: var(--m-1-5);
+}
+
+.timeline_about .contact_info ul li {
+  display: flex;
+  margin: var(--m-0-5) 0;
+  margin-top: 20px;
+  margin-left: 35px;
+}
+
+.timeline_about .contact_info ul li h1 {
+  font-weight: 500;
+  font-size: 16px;
+  min-width: 12rem;
+  color: #000;
+}
+
+.timeline_about .contact_info ul li span {
+  font-size: 18px;
+  color: #000;
+}
+
+.Regresar {
+  display: flex;
+  margin-top: 20px;
+  width: 100%;
+  justify-content: center;
+}
+
+.Regresar a {
+  background-color: #004c96;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-size: var(--m-fs);
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.Regresar a:hover {
+  background-color: #003366;
+}
+
+/*Media Queries para Responsividad*/
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "userProfile"
+      "userDetails"
+      "work_skills"
+      "timeline_about";
+    width: 95%;
+    margin: 0 auto;
+    padding: var(--p-1);
+  }
+
+  .Logo_img {
+    margin-left: 0;
+  }
+
+  .container .userProfile .profile figure img {
+    width: 12rem;
+    height: 12rem;
+  }
+
+  .userDetails .userName {
+    margin-left: 20px;
+  }
+
+  .userDetails .rank {
+    margin-left: 20px;
+  }
+
+  .work_skills .work .heading,
+  .work_skills .skills .heading {
+    margin-left: 20px;
+  }
+
+  .work_skills .work .Primary,
+  .work_skills .work .secondary {
+    margin-left: 20px;
+  }
+
+  .timeline_about .tabs ul {
+    margin-left: 10px;
+  }
+
+  .timeline_about .contact_info ul li {
+    margin-left: 20px;
+  }
+
+  .Regresar {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--p-0-5);
+  }
+
+  .container .userProfile .profile figure img {
+    width: 10rem;
+    height: 10rem;
+    border-width: 3px;
+  }
+
+  .userDetails .userName h1 {
+    font-size: 30px;
+  }
+
+  .userDetails .userName p {
+    font-size: 22px;
+  }
+
+  .Regresar a {
+    padding: 10px 20px;
+  }
+}
+/*------------------------------------------- Estilo Cuadro General ----------------------------------*/
+
+.Body_Cuadro {
+  font-size: 16px;
+  color: #2c2c2c;
+}
+
+.Body_Cuadro a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.brandLogo {
+  width: 100px;
+  position: static;
+  margin-left: 40%;
+}
+
+.H_Title {
+  max-width: 600px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+.Header_Title {
+  margin-bottom: 20px;
+  font-size: 2.1rem;
+}
+
+.multisteps-form_form {
+  position: relative;
+}
+
+.multisteps-form_panel {
+  position: relative;
+  margin-left: 30%;
+  width: 50%;
+}
+
+.Entrar {
+  width: 100%;
+}
+
+/*------------------------------Dashboard Tabla-------------------------------*/
+
+.Contenedor_Tabla {
+  margin: 70px;
+  padding: 2rem;
+  padding-bottom: 0;
+}
+
+.Card_Tabla {
+  background-color: #fff;
+  border: 1px solid #eaeaea;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.Tabla {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.Tabla th,
+.Tabla td {
+  padding: 10px 15px;
+  text-align: center;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.Tabla th {
+  color: white;
+  font-weight: bold;
+  background-color: #2a2a2a;
+}
+
+.Tabla td {
+  color: black;
+}
+
+.Campo_Busqueda {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+  transition: border-color 0.3s;
+}
+
+.Campo_Busqueda:focus {
+  border-color: #1460aa;
+  outline: none;
+}
+
+.Estado_Tabla.proceso {
+  color: #065fa8;
+}
+
+.Estado_Tabla.finalizado {
+  color: #ff9a02;
+}
+.Estado_Tabla.nuevo {
+  color: #1460aa;
+}
+
+/*--------------------------------------Dashboard Gráficos ----------------------------------------------------------------------*/
+.Titulo {
+  font-size: 20px;
+  font-weight: inherit;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.chart-container {
+  width: 40%;
+  margin: 0 auto;
+  margin-left: 100px;
+  margin-top: 60px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-custom {
+  padding: 30px;
+}
+
+.chart-body {
+  height: 300px;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.legend {
+  display: flex;
+  justify-content: space-around;
+}
+
+/*-----------------------------------------Cards-----------------------------------------------*/
+
+.Contenedor_Card {
+  display: flex;
+  justify-content: space-around;
+  height: 350px;
+  padding: 75px;
+  padding-bottom: 20px;
+}
+
+.Card_Card {
+  width: 30%;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: transform 0.2s;
+}
+
+.Card_Card:hover {
+  transform: scale(1.05); /* Efecto hover */
+}
+
+.Imagen_Card {
+  width: 65%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/*--------------------------------------Contenedor de Página multipasos----------------------------*/
+/* Variables globales */
+:root {
+  --primary-color: #171717;
+  --secondary-color: #171717;
+  --background-color: #f4f4f9;
+  --white: #ffffff;
+  --light-gray: #f9f9f9;
+  --border-color: #ccc;
+  --text-color: #333;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos generales */
+body {
+  font-family: inherit;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Contenedor principal */
+.Contendor_ControladorPasos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+/* Estilos para pasos */
+.Pasos,
+.Pasos_Display {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 1.5rem;
+}
+
+.Pasos_Display {
+  align-items: flex-start;
+  margin-top: 2rem;
+}
+
+.C_PasosExpediente {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  padding: 0 2rem;
+  margin-bottom: 3rem;
+}
+
+.C_Pasos_Pasos {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  flex: 1;
+}
+
+.Número_Display {
+  width: 3rem;
+  height: 3rem;
+  background-color: var(--secondary-color);
+  border-radius: 50%;
+  transition: background-color 0.5s ease-in-out;
+  border: 2px solid #eaeaea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-weight: bold;
+  font-size: 1rem;
+  position: relative;
+  z-index: 3;
+}
+
+.Número_.Número_Display {
+  background-color: #c884d7;
+}
+
+.Descripción_Display {
+  text-align: center;
+  width: 100%;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-color);
+  margin-top: 0.5rem;
+}
+
+.Linea_Display {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--text-color);
+  z-index: 1;
+  transform: translateY(-50%);
+}
+
+/* Estilos para pasos seleccionados */
+.Paso_Seleccionado .Número_Display {
+  background-color: var(--secondary-color);
+}
+
+.Número_Seleccionado {
+  color: var(--white);
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.texto_seleccionado {
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+.II_texto_seleccionado {
+  color: #666;
+}
+
+.Linea_Seleccionada {
+  background-color: var(--secondary-color);
+}
+
+.II_Linea_Seleccionada {
+  background-color: #c884d7;
+}
+
+/* Estilos para botones de navegación */
+.Botones_Navegacion {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.Boton_Anterior,
+.Boton_Siguiente {
+  padding: 0.5rem 1rem;
+  background-color: var(--secondary-color);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.Boton_Anterior {
+  margin-right: auto;
+}
+
+.Boton_Siguiente {
+  margin-left: auto;
+}
+
+.Boton_Anterior:disabled,
+.Boton_Siguiente:disabled,
+.Boton_Atrás_Seleccionado {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Estilos para formularios */
+.Contenedor_Ficha {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: var(--light-gray);
+}
+
+.Ficha,
+.Contenedor_CrearExpediente {
+  background-color: var(--white);
+  border-radius: 15px;
+  box-shadow: 0 8px 16px var(--shadow-color);
+  padding: 20px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.Contenedor_CrearExpediente {
+  max-width: 80%;
+  margin: 2rem auto;
+}
+
+.Header_Logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.Header_Title {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+}
+
+.Contenedor_Formulario form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.Contenedor_Formulario label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: var(--primary-color);
+}
+
+.Contenedor_Formulario input[type="text"],
+.Contenedor_Formulario select {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.Contenedor_Formulario input[type="text"]:focus,
+.Contenedor_Formulario select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 8px rgba(101, 37, 123, 0.3);
+  outline: none;
+}
+
+.Contenedor_Formulario select {
+  cursor: pointer;
+}
+
+.Contenedor_Formulario select option {
+  padding: 10px;
+}
+
+.Contenedor_Formulario input[type="text"]::placeholder,
+.Contenedor_Formulario select {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.Seccion_Ficha,
+.Serie_Ficha,
+.SubSerie_Ficha {
+  background-color: var(--white);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: var(--white);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 10px;
+  align-self: center;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #2a2a2a;
+}
+
+/*---------------------------------------------------Estilo Registro de usuarios-------------------------------------*/
+
+.Logo_imgRU {
+  margin-left: 36%;
+  margin-top: 1%;
+  position: static;
+}
+
+.layoutAuthentication {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.layoutAuthentication .layoutAuthentication_content {
+  min-width: 0;
+  flex-grow: 1;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .Ficha {
+    padding: 10px;
+  }
+
+  .Header_Title {
+    font-size: 1.5rem;
+  }
+
+  .Contenedor_Formulario form {
+    gap: 10px;
+  }
+
+  button {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Estilos para las tablas */
+
+.grid-container {
+  display: grid;
+  gap: 80px;
+  width: 100%;
+  margin-top: 50px;
+  justify-content: center;
+}
+
+.grid-item {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (min-width: 992px) {
+  .grid-container {
+    grid-template-columns: repeat(12, 1fr);
+    .grid-item {
+      grid-column: span 12;
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .grid-container {
+    grid-template-columns: repeat(12, 1fr);
+  }
+  .grid-item {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 767px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+  .grid-item {
+    grid-column: span 1;
+  }
+}
+
+.table-title {
+  font-size: 1.1rem;
+  color: black;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/*--------------------------------------------------Contendor de Drag and Drop ---------------------------------------------------------------------*/
+
+/* Main container styles */
+.CargaMasiva {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Drag and drop area */
+.mainDD {
+  text-align: center;
+  width: 100%;
+  height: 300px;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  font-size: 16px;
+  position: relative;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.mainDD:hover {
+  border-color: #007bff;
+}
+
+/* Styles for active dragging state */
+.dragging {
+  border-color: #007bff;
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Center content in the drag area */
+.divCenterDD {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.divCenterDD img {
+  margin-bottom: 15px;
+}
+
+.divCenterDD p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+/* Drag overlay container */
+.containerDragging {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #333;
+  font-size: 18px;
+  z-index: 300;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Upload button */
+.upload-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.upload-btn:hover {
+  background-color: #0069d9;
+}
+
+/* Status messages */
+.status-message {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.status-message.loading {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  color: #495057;
+}
+
+.status-message.success {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+.status-message.error {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .mainDD {
+    height: 200px;
+  }
+
+  .divCenterDD {
+    padding: 10px;
+  }
+
+  .divCenterDD img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainDD {
+    height: 180px;
+  }
+
+  .containerDragging {
+    font-size: 16px;
+    padding: 15px;
+  }
+}
