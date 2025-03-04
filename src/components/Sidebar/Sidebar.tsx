@@ -206,7 +206,7 @@ const LinksArray: MenuItem[] = [
     label: "Inventario",
     icon: <MdOutlineInventory />,
     to: "/Subir_Documentos",
-    requiredRoles: [Roles.Admin, Roles.JefeArea],
+    requiredRoles: [Roles.Admin, Roles.JefeArea, Roles.Personal],
     subMenu: [
       {
         label: "Agregar Expediente a Inventario  ",
