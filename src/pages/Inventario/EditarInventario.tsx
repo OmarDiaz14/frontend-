@@ -220,7 +220,7 @@ export const EditarInventario: React.FC = () => {
                       className="text-center font-weight-light my-4"
                       style={{ fontSize: "20px" }}
                     >
-                      Editar Portada de Expediente
+                      Validación de Expediente
                     </h5>
                   </div>
                   <div className="card-body">
@@ -334,7 +334,7 @@ export const EditarInventario: React.FC = () => {
                         </div>
                         <div className="mx-2">
                           <Boton disabled={isLoading}>
-                            {isLoading ? "Actualizando..." : "Actualizar"}
+                            {isLoading ? "Autorizando..." : "Autorizar"}
                           </Boton>
                         </div>
                       </div>
