@@ -264,7 +264,7 @@ export function Rutas() {
       <Route
         path="/ImprimirPortada/:id"
         element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <ImprimirPortada />
           ) : (
             <Navigate to="/Home" />
@@ -274,7 +274,7 @@ export function Rutas() {
       <Route
         path="/ImprimirFicha/:id"
         element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <ImprimirFicha />
           ) : (
             <Navigate to="/Home" />
