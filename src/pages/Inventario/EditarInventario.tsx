@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 
 interface Inventario {
   acceso: string;
-  descripsion: string;
+  descripcion: string;
   destino: string;
   expediente: string;
   fecha_fin: string;
@@ -27,7 +27,7 @@ interface Inventario {
 
 const INITIAL_INVENTARIO: Inventario = {
   acceso: "",
-  descripsion: "",
+  descripcion: "",
   destino: "",
   expediente: "",
   fecha_fin: "",
@@ -119,7 +119,7 @@ export const EditarInventario: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    if (name === "descripsion" || name === "observaciones") {
+    if (name === "descripcion" || name === "observaciones") {
       setInventario((prev) => ({
         ...prev,
         [name]: value,
@@ -128,7 +128,7 @@ export const EditarInventario: React.FC = () => {
   };
 
   const validateForm = (): boolean => {
-    if (!inventario.descripsion?.trim() || !inventario.observaciones?.trim()) {
+    if (!inventario.descripcion?.trim() || !inventario.observaciones?.trim()) {
       Swal.fire({
         icon: "warning",
         title: "Campos requeridos",
@@ -151,7 +151,7 @@ export const EditarInventario: React.FC = () => {
       const updatePayload = {
         expediente: inventario.expediente,
         serie: inventario.serie,
-        descripsion: inventario.descripsion.trim(),
+        descripcion: inventario.descripcion.trim(),
         observaciones: inventario.observaciones.trim(),
       };
       console.log("Full request details:", {
@@ -309,8 +309,8 @@ export const EditarInventario: React.FC = () => {
                       <div className="form-floating mb-3">
                         <textarea
                           className="form-control"
-                          name="descripsion"
-                          value={inventario.descripsion}
+                          name="descripcion"
+                          value={inventario.descripcion}
                           onChange={handleInputChange}
                           placeholder="Descripción"
                         />

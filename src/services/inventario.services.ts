@@ -9,7 +9,7 @@ interface InventarioFormAuth {
 interface inventario{
   serie: string;
   expediente: string;
-  descripsion: string;
+  descripcion: string;
   observaciones: string;
 }
 
