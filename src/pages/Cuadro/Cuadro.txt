@@ -1,4 +1,3 @@
-import Logo from "../../assets/Tlaxcala.png";
 import { Boton } from "../../components/Botones/Botones";
 import { useState } from "react";
 import { seccion_post } from "../../services/cuadro.service";
@@ -35,10 +34,6 @@ export function Cuadro() {
 
       {/*Imagen de tlaxcala*/}
       <header className="Header_Logo">
-        <div className="brandLogo">
-          <img src={Logo} alt="Logo" width={300} />
-        </div>
-
         <div className="H_Title">
           <h1 className="Header_Title">
             Cuadro General de Clasificación Archivistica

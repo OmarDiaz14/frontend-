@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-interface CardProps {
+export interface CardProps {
   imageSrc: string;
   redirectUrl: string;
   title: string;
@@ -21,74 +21,48 @@ export const Card: React.FC<CardProps> = ({
   };
 
   return (
-    <div className="w-full p-4 md:p-6">
-      <div
-        onClick={handleClick}
-        className="group cursor-pointer bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1 h-full"
-      >
-        <div className="relative flex flex-col h-full">
-          {/* Cambiado object-cover por object-contain y ajustado el contenedor */}
-          <div className="w-full h-64 md:h-72 lg:h-80 relative bg-gray-100">
-            <img
-              src={imageSrc}
-              alt={title}
-              className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-            />
-            {/* Overlay ajustado para cubrir toda la imagen */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-70 group-hover:opacity-60 transition-opacity duration-300" />
-          </div>
-
-          {/* Contenedor de texto ajustado */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent pt-12">
-            <div className="relative z-10">
-              <h3 className="text-xl md:text-2xl font-bold mb-3 text-white tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                {title}
-              </h3>
-              {subtitle && (
-                <p className="text-base md:text-lg text-gray-100 font-medium tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                  {subtitle}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
+    <div
+      onClick={handleClick}
+      className="group relative cursor-pointer bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:scale-105 flex flex-col border border-gray-100"
+    >
+      <div className="relative h-56 w-full flex items-center justify-center overflow-hidden">
+        <img
+          src={imageSrc}
+          alt={title}
+          className="w-full h-full object-contain hover:object-scale-down transition-all duration-300"
+          style={{
+            maxHeight: "100%",
+            maxWidth: "100%",
+            objectFit: "contain",
+          }}
+        />
+        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
       </div>
-    </div>
-  );
-};
 
-interface CardGridProps {
-  cards: CardProps[];
-  columns?: 2 | 3 | 4;
-}
+      <div className="p-5 flex-grow">
+        <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors">
+          {title}
+        </h3>
+        {subtitle && (
+          <p className="text-sm text-gray-600 line-clamp-3">{subtitle}</p>
+        )}
+      </div>
 
-export const CardGrid: React.FC<CardGridProps> = ({ cards, columns = 4 }) => {
-  const getGridCols = () => {
-    switch (columns) {
-      case 2:
-        return "grid-cols-1 sm:grid-cols-2";
-      case 3:
-        return "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
-      case 4:
-      default:
-        return "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4";
-    }
-  };
-
-  return (
-    <div className="container mx-auto p-4 md:p-8">
-      <div
-        className={`
-          grid 
-          ${getGridCols()} 
-          gap-8 
-          md:gap-12 
-          lg:gap-16
-        `}
-      >
-        {cards.map((card, index) => (
-          <Card key={index} {...card} />
-        ))}
+      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-8 w-8 text-white bg-black/40 rounded-full p-2"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M13 7l5 5m0 0l-5 5m5-5H6"
+          />
+        </svg>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ import { Box, IconButton, Tooltip } from "@mui/material";
 import { Plus, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
-import SearchFilteriInventario from "./SearchInventario";
+//import SearchFilteriInventario from "./SearchInventario";
 import { iPortada } from "../../services/var.portada";
 import { portada_get } from "../../services/portada.services";
 import { useNavigate } from "react-router-dom";
@@ -165,14 +165,14 @@ export function TableInventory() {
   const columns: GridColDef[] = [
     {
       field: "id_expediente",
-      headerName: "Num. Consecutivo",
+      headerName: "Núm. Consecutivo",
       flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "num_expediente",
-      headerName: "Num. Expediente",
+      headerName: "Núm. Expediente",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -200,14 +200,14 @@ export function TableInventory() {
     },
     {
       field: "num_legajos",
-      headerName: "Num. de legajos",
+      headerName: "Núm. de legajos",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "num_fojas",
-      headerName: "Num. de fojas",
+      headerName: "Núm. de fojas",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -221,14 +221,14 @@ export function TableInventory() {
     },
     {
       field: "soporte_docu",
-      headerName: "Soporte",
+      headerName: "Soporte Documental",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "destino",
-      headerName: "Destino",
+      headerName: "Destino del Expediente",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -263,14 +263,11 @@ export function TableInventory() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray">
-      <main className="max-w-screen-xl mx-auto py-7">
+    <div className="min-h-screen bg-gray pt-16">
+      <main className="max-w-6xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-          <h1 className="text-center border-b bg-gray-60">
-            Inventario General
-          </h1>
           <div className="p-4 border-b flex justify-between items-center bg-gray-50">
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               <Tooltip title="Agregar Inventario">
                 <span>
                   <IconButton
@@ -304,18 +301,18 @@ export function TableInventory() {
             </div>
           </div>
 
-          <SearchFilteriInventario
+          {/*   <SearchFilteriInventario
             onFilterChange={handleFilterChange}
             iInventario={iInventario}
-          />
+          /> */}
 
           <Box
             sx={{
               height: 600,
               width: "100%",
               "& .table-header": {
-                backgroundColor: "#f8fafc",
-                color: "#1f2937",
+                backgroundColor: "#000",
+                color: "#ffffff",
                 fontWeight: 600,
               },
               "& .MuiDataGrid-root": {

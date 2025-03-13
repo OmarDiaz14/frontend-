@@ -203,14 +203,14 @@ export function InventoryAuth() {
   const columns: GridColDef[] = [
     {
       field: "num_consecutivo",
-      headerName: "Num. Consecutivo",
+      headerName: "Núm. Consecutivo",
       flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "num_expediente",
-      headerName: "Num. Expediente",
+      headerName: "Núm. Expediente",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -238,14 +238,14 @@ export function InventoryAuth() {
     },
     {
       field: "legajos",
-      headerName: "Num. de legajos",
+      headerName: "Núm. de legajos",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "fojas",
-      headerName: "Num. de fojas",
+      headerName: "Núm. de fojas",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -301,8 +301,8 @@ export function InventoryAuth() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray">
-      <main className="max-w-7xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gray pt-16">
+      <main className="max-w-5xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           <div className="p-4 border-b flex justify-between items-center bg-gray-50">
             <div className="flex gap-2">
@@ -344,8 +344,8 @@ export function InventoryAuth() {
               height: 600,
               width: "100%",
               "& .table-header": {
-                backgroundColor: "#f8fafc",
-                color: "#1f2937",
+                backgroundColor: "#000",
+                color: "#ffffff",
                 fontWeight: 600,
               },
               "& .MuiDataGrid-root": {

@@ -112,166 +112,129 @@ export function TableGuia() {
   const columns: GridColDef[] = [
     {
       field: "id_guia",
-      headerName: "ID Guia",
+      headerName: "Núm. Guía",
       flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "descripcion",
-      headerName: "Descripcion",
-      flex: 1.5,
-      minWidth: 200,
+      headerName: "Descripción",
+      flex: 1,
+      minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "volumen",
-      headerName: "Volumen",
-      flex: 1.2,
+      headerName: "Volúmen",
+      flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "ubicacion_fisica",
-      headerName: "Ubicacion fisica",
-      flex: 1.2,
+      headerName: "Ubicación Física",
+      flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "serie",
       headerName: "Serie",
-      flex: 1.2,
+      flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "seccion",
-      headerName: "Seccion",
-      flex: 1.2,
+      headerName: "Sección",
+      flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "num_expediente",
-      headerName: "Numero de expediente",
-      flex: 1.2,
+      headerName: "Número de expediente",
+      flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "fecha_inicio",
       headerName: "Fecha de inicio",
-      flex: 1.2,
+      flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "fecha_fin",
       headerName: "Fecha de fin",
-      flex: 1.2,
+      flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray">
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-          {/* Toolbar */}
-          <div className="p-4 border-b flex justify-between items-center bg-gray-50">
-            <div className="flex gap-2">
-              <Tooltip title="Ver detalles">
-                <span>
-                  <IconButton
-                    onClick={handleView}
-                    size="small"
-                    className="text-blue-600 hover:text-blue-800"
-                    disabled={selectedRows.length !== 1 || isLoading}
-                  >
-                    <Eye className="h-5 w-5" />
-                  </IconButton>
-                </span>
-              </Tooltip>
-
-              <Tooltip title="Editar">
-                <span>
-                  <IconButton
-                    onClick={handleEdit}
-                    size="small"
-                    className="text-green-600 hover:text-green-800"
-                    disabled={selectedRows.length !== 1 || isLoading}
-                  >
-                    <Pencil className="h-5 w-5" />
-                  </IconButton>
-                </span>
-              </Tooltip>
-
-              <Tooltip title="Eliminar">
-                <span>
-                  <IconButton
-                    onClick={handleDelete}
-                    size="small"
-                    className="text-red-600 hover:text-red-800"
-                    disabled={selectedRows.length !== 1 || isLoading}
-                  >
-                    <Trash2 className="h-5 w-5" />
-                  </IconButton>
-                </span>
-              </Tooltip>
-            </div>
-          </div>
-
-          <SearchFilteriGuia
-            onFilterChange={handleFilterChange}
-            iGuia={iGuia}
-          />
-
-          <Box
-            sx={{
-              height: 600,
-              width: "100%",
-              "& .table-header": {
-                backgroundColor: "#f8fafc",
-                color: "#1f2937",
-                fontWeight: 600,
+    <div
+      className="card  border-0 "
+      style={{ width: "100%", maxWidth: "1200px" }}
+    >
+      <div className="card-body">
+        <Box
+          sx={{
+            height: 400,
+            width: "100%",
+            "& .table-header": {
+              backgroundColor: "#171717",
+              color: "#ffffff",
+              fontWeight: 600,
+              fontSize: "16px",
+            },
+            "& .MuiDataGrid-root": {
+              border: "none",
+              "& .MuiDataGrid-cell": {
+                borderBottom: "1px solid #f1f5f9",
               },
-              "& .MuiDataGrid-root": {
-                border: "none",
-                "& .MuiDataGrid-cell": {
-                  borderBottom: "1px solid #f1f5f9",
-                },
-                "& .MuiDataGrid-columnHeaders": {
-                  borderBottom: "2px solid #e2e8f0",
-                },
-                "& .MuiDataGrid-virtualScroller": {
-                  backgroundColor: "#ffffff",
-                },
+              "& .MuiDataGrid-columnHeaders": {
+                borderBottom: "2px solid #e2e8f0",
+              },
+              "& .MuiDataGrid-virtualScroller": {
+                backgroundColor: "#ffffff",
+              },
+              "& .MuiDataGrid-footerContainer": {
+                borderTop: "2px solid #e2e8f0",
+              },
+            },
+            "@media (max-width: 768px)": {
+              height: 300,
+              "& .MuiDataGrid-columnHeaderTitle": {
+                fontSize: "12px",
+              },
+              "& .MuiDataGrid-cell": {
+                fontSize: "12px",
+              },
+            },
+          }}
+        >
+          <DataGrid
+            rows={filteredGuia}
+            columns={columns}
+            getRowId={(x) => x.id_guia}
+            onRowSelectionModelChange={(newSelection) => {
+              setSelectedRows(newSelection);
+            }}
+            density="comfortable"
+            initialState={{
+              pagination: {
+                paginationModel: { pageSize: 10 },
               },
             }}
-          >
-            <DataGrid
-              rows={filteredGuia}
-              columns={columns}
-              getRowId={(x) => x.id_guia}
-              onRowSelectionModelChange={(newSelection) => {
-                setSelectedRows(newSelection);
-              }}
-              density="comfortable"
-              initialState={{
-                pagination: {
-                  paginationModel: { pageSize: 10 },
-                },
-              }}
-              pageSizeOptions={[5, 10, 25, 50]}
-              className="w-full"
-              checkboxSelection
-              loading={isLoading}
-            />
-          </Box>
-        </div>
-      </main>
+            pageSizeOptions={[5, 10, 25]}
+            loading={isLoading}
+          />
+        </Box>
+      </div>
     </div>
   );
 }

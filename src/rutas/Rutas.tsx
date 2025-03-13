@@ -25,7 +25,7 @@ import { Subir_Documentos } from "../pages/Subir_Documentos/Subir_Documentos";
 import { EditarCatalogo } from "../pages/Catálogo/EditarCatalogo.tsx";
 import { EditarPortada } from "../pages/Portada/EditarPortada.tsx";
 import { EditarFicha } from "../pages/Ficha/EditarFicha.tsx";
-
+import Carga_Masiva from "../pages/Cuadro/cargamasiva.tsx";
 import { TableGuia } from "../pages/Guia_Documental/TableGuia";
 import { TableSeccion } from "../pages/Cuadro/TableSeccion";
 import { TableSerie } from "../pages/Cuadro/TableSerie";
@@ -211,7 +211,6 @@ export function Rutas() {
           )
         }
       />
-
       <Route
         path="/Carga"
         element={
@@ -222,7 +221,6 @@ export function Rutas() {
           )
         }
       />
-
       <Route
         path="/ShowData"
         element={
@@ -233,7 +231,6 @@ export function Rutas() {
           )
         }
       />
-
       <Route
         path="/Editar_Portada/:id"
         element={
@@ -244,7 +241,6 @@ export function Rutas() {
           )
         }
       />
-
       <Route
         path="/Editar_Ficha/:id"
         element={
@@ -255,7 +251,6 @@ export function Rutas() {
           )
         }
       />
-
       <Route
         path="/Editar_Catálogo/:id"
         element={
@@ -269,25 +264,23 @@ export function Rutas() {
       <Route
         path="/ImprimirPortada/:id"
         element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <ImprimirPortada />
           ) : (
             <Navigate to="/Home" />
           )
         }
       />
-
       <Route
         path="/ImprimirFicha/:id"
         element={
-          hasRole([Roles.Admin, Roles.JefeArea]) ? (
+          hasRole([Roles.Admin, Roles.JefeArea, Roles.Personal]) ? (
             <ImprimirFicha />
           ) : (
             <Navigate to="/Home" />
           )
         }
       />
-
       <Route
         path="/TableSeccion"
         element={
@@ -370,7 +363,6 @@ export function Rutas() {
           )
         }
       />
-
       <Route
         path="/imprimirInventario"
         element={
@@ -381,6 +373,7 @@ export function Rutas() {
           )
         }
       />
+      <Route path="cargamasiva" element={<Carga_Masiva />} />"
     </Routes>
   );
 }

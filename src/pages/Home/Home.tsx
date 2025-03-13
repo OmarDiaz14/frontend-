@@ -1,23 +1,48 @@
+import CardsDashboard from "../../components/Cards/cardsDashboard";
+import CardsInstrumentos from "../../components/Cards/cards_Instrumentos";
+import Grafico from "../../components/Graficos/dgrafico";
 import { Logo } from "../../components/Logo";
-import { Tabla } from "../../components/Tablas/Tabla";
-import { GraficoExpedientes } from "../../components/dashboard/Charts";
-import { TableInventory } from "../Inventario/TableInventario";
-
 export function Home() {
-  // Datos de ejemplo para los expedientes en gráfico de pie.
-  const expedientesNuevos = 10;
-  const expedientesEnProceso = 5;
-  const expedientesFinalizados = 3;
-
   return (
-    <main id="Home" className="Home">
-      <Logo />
-      <Tabla />
-      <GraficoExpedientes
-        nuevos={expedientesNuevos}
-        enProceso={expedientesEnProceso}
-        finalizados={expedientesFinalizados}
-      />
-    </main>
+    <div
+      className="Principal"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        backgroundColor: "#f5f5f5",
+        padding: "20px",
+        paddingTop: "7%",
+      }}
+    >
+      <main
+        id="Home"
+        className="Home"
+        style={{ width: "100%", maxWidth: "1200px" }}
+      >
+        <CardsDashboard />
+        <CardsInstrumentos />
+      </main>
+
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "1200px",
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "40px",
+        }}
+      >
+        <Grafico
+          width="84%"
+          height={400}
+          marginBottom={20}
+          marginLeft="auto"
+          marginRight="auto"
+        />
+      </div>
+    </div>
   );
 }

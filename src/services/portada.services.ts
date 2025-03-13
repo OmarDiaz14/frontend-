@@ -14,7 +14,7 @@ interface portada {
   subserie: number | null;
 }
 
-export const portada_post = async ( data: portada) => {
+export const portada_post = async (data: portada) => {
   try {
     console.log("sending data:", data);
     console.log(
@@ -23,7 +23,7 @@ export const portada_post = async ( data: portada) => {
     );
     const response = await api.post("/portada/portada/", data);
     return response.data;
-  } catch (error:any) {
+  } catch (error: any) {
     console.error("Full error:", error);
     console.error("Error response:", error.response);
     console.error("Error request", error.request);

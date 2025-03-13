@@ -25,10 +25,10 @@ export function Finalinventory() {
     try {
       const items = await inventario_get();
       const validItems = items.filter(
-        (item: { descripsion: string; observaciones: string }) =>
-          item.descripsion &&
+        (item: { descripcion: string; observaciones: string }) =>
+          item.descripcion &&
           item.observaciones &&
-          item.descripsion.trim() !== "" &&
+          item.descripcion.trim() !== "" &&
           item.observaciones.trim() !== ""
       );
       setiInventario(validItems);
@@ -53,9 +53,9 @@ export function Finalinventory() {
     (filteredData: iInventario[]): void => {
       const validFilteredData = filteredData.filter(
         (item) =>
-          item.descripsion &&
+          item.descripcion &&
           item.observaciones &&
-          item.descripsion.trim() !== "" &&
+          item.descripcion.trim() !== "" &&
           item.observaciones.trim() !== ""
       );
       setFilteredInventory(validFilteredData);
@@ -152,14 +152,14 @@ export function Finalinventory() {
   const columns: GridColDef[] = [
     {
       field: "num_consecutivo",
-      headerName: "Num. Consecutivo",
+      headerName: "Núm. Consecutivo",
       flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "num_expediente",
-      headerName: "Num. Expediente",
+      headerName: "Núm. Expediente",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -187,28 +187,28 @@ export function Finalinventory() {
     },
     {
       field: "legajos",
-      headerName: "Num. de legajos",
+      headerName: "Núm. de legajos",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "fojas",
-      headerName: "Num. de fojas",
+      headerName: "Núm. de fojas",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "valores_primarios",
-      headerName: "Valores primarios",
+      headerName: "Valores Primarios",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "soporte",
-      headerName: "Soporte",
+      headerName: "Soporte Documental",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -228,8 +228,8 @@ export function Finalinventory() {
       headerClassName: "table-header",
     },
     {
-      field: "descripsion",
-      headerName: "Descripsion",
+      field: "descripcion",
+      headerName: "Descripción",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -244,8 +244,8 @@ export function Finalinventory() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gray-50 pt-16">
+      <main className="max-w-6xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           <div className="p-4 border-b flex justify-between items-center bg-gray-50">
             <div className="flex gap-2">
@@ -264,8 +264,8 @@ export function Finalinventory() {
               height: 600,
               width: "100%",
               "& .table-header": {
-                backgroundColor: "#f8fafc",
-                color: "#1f2937",
+                backgroundColor: "#000",
+                color: "#ffffff",
                 fontWeight: 600,
               },
               "& .MuiDataGrid-root": {

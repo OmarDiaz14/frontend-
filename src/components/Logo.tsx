@@ -1,8 +1,6 @@
-import Logo_Tlaxcala from "../assets/Tlaxcala.png";
+import MBN from "../assets/MBN.png";
 import "../styles/Styles.css";
 
 export function Logo() {
-  return (
-    <img src={Logo_Tlaxcala} alt="Logo Tlaxcala" className="Estilo_Logo" />
-  );
+  return <img src={MBN} alt="Logo" className="Estilo_Logo" />;
 }
