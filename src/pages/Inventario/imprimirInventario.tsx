@@ -13,7 +13,7 @@ interface User {
 
 interface Inventario {
   acceso: string;
-  descripsion: string;
+  descripcion: string;
   destino: string;
   expediente: string;
   fecha_fin: string;
@@ -129,7 +129,7 @@ const ImprimirInventario = () => {
       inventario.soporte,
       inventario.destino,
       inventario.acceso,
-      inventario.descripsion,
+      inventario.descripcion,
       inventario.observaciones,
     ]);
 
@@ -221,7 +221,7 @@ const ImprimirInventario = () => {
                     <td className="px-4 py-2">{inventario.soporte}</td>
                     <td className="px-4 py-2">{inventario.destino}</td>
                     <td className="px-4 py-2">{inventario.acceso}</td>
-                    <td className="px-4 py-2">{inventario.descripsion}</td>
+                    <td className="px-4 py-2">{inventario.descripcion}</td>
                     <td className="px-4 py-2">{inventario.observaciones}</td>
                   </tr>
                 ))}
