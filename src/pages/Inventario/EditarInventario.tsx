@@ -49,6 +49,10 @@ export const EditarInventario: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [availableIds, setAvailableIds] = useState<string[]>([]);
 
+  const handleback = () => {
+    navigate("/InventoryAuth");
+  };
+
   useEffect(() => {
     const loadInventarioData = async () => {
       if (!id) {
@@ -201,137 +205,146 @@ export const EditarInventario: React.FC = () => {
   );
 
   return (
-    <div>
-      <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-        crossOrigin="anonymous"
-      />
-      <img className="Logo_imgRU" src={Logo} alt="" width="25%" />
-      <div className="layoutAuthentication">
-        <div className="layoutAuthentication_content">
-          <main>
-            <div className="container-fluid">
-              <div className="row justify-content-center">
-                <div className="col-lg-7">
-                  <div className="card shadow-lg border-0 rounded-lg mt-5">
-                    <div className="card-header">
-                      <h3 className="text-center font-weight-light my-4">
-                        Editar Portada de Expediente
-                      </h3>
-                    </div>
-                    <div className="card-body">
-                      <form onSubmit={handleSubmit}>
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            {renderReadOnlyField(
-                              "No. Expediente",
-                              inventario.expediente
-                            )}
-                          </div>
-                          <div className="col-md-6">
-                            {renderReadOnlyField(
-                              "Expediente",
-                              inventario.num_expediente
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            {renderReadOnlyField("Serie", inventario.serie)}
-                          </div>
-                          <div className="col-md-6">
-                            {renderReadOnlyField(
-                              "Fecha de inicio",
-                              inventario.fecha_inicio
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            {renderReadOnlyField(
-                              "Fecha de fin",
-                              inventario.fecha_fin
-                            )}
-                          </div>
-                          <div className="col-md-6">
-                            {renderReadOnlyField(
-                              "Num. de legajos",
-                              inventario.legajos
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            {renderReadOnlyField(
-                              "Num. de fojas",
-                              inventario.fojas
-                            )}
-                          </div>
-                          <div className="col-md-6">
-                            {renderReadOnlyField(
-                              "Valores primarios",
-                              inventario.valores_primarios
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            {renderReadOnlyField("Soporte", inventario.soporte)}
-                          </div>
-                          <div className="col-md-6">
-                            {renderReadOnlyField("Destino", inventario.destino)}
-                          </div>
-                        </div>
-                        <div className="col-mb3">
+    <div className="layoutAuthentication" style={{ paddingTop: "50px " }}>
+      <div className="layoutAuthentication_content">
+        <main>
+          <div className="container-fluid">
+            <div className="row justify-content-center">
+              <div className="col-lg-8 col-md-10 col-sm-10">
+                <div className="card shadow-lg border-0 rounded-lg mt-5">
+                  <div
+                    className="card-header"
+                    style={{ backgroundColor: "#171717", color: "#fff" }}
+                  >
+                    <h5
+                      className="text-center font-weight-light my-4"
+                      style={{ fontSize: "20px" }}
+                    >
+                      Validación de Expediente
+                    </h5>
+                  </div>
+                  <div className="card-body">
+                    <form onSubmit={handleSubmit}>
+                      <div className="row mb-3">
+                        <div className="col-md-6">
                           {renderReadOnlyField(
-                            "Tipo de acceso",
-                            inventario.acceso
+                            "ID de Expediente",
+                            inventario.expediente
                           )}
                         </div>
-
-                        <div className="form-floating mb-3">
-                          <textarea
-                            className="form-control"
-                            name="descripsion"
-                            value={inventario.descripsion}
-                            onChange={handleInputChange}
-                            placeholder="descripsion"
-                          />
-                          <label>Descripsion</label>
+                        <div className="col-md-6">
+                          {renderReadOnlyField(
+                            "Número de Expediente",
+                            inventario.num_expediente
+                          )}
                         </div>
+                      </div>
 
-                        <div className="form-floating mb-3">
-                          <textarea
-                            className="form-control"
-                            name="observaciones"
-                            value={inventario.observaciones}
-                            onChange={handleInputChange}
-                            placeholder="Observaciones"
-                          />
-                          <label>Observaciones</label>
+                      <div className="row mb-3">
+                        <div className="col-md-6">
+                          {renderReadOnlyField(
+                            "Número de Serie",
+                            inventario.serie
+                          )}
                         </div>
+                        <div className="col-md-6">
+                          {renderReadOnlyField(
+                            "Fecha de inicio",
+                            inventario.fecha_inicio
+                          )}
+                        </div>
+                      </div>
 
-                        <div className="mt-4 mb-0">
-                          <div className="d-grid">
-                            <Boton type="submit" disabled={isLoading}>
-                              {isLoading ? "Actualizando..." : "Actualizar"}
-                            </Boton>
-                          </div>
+                      <div className="row mb-3">
+                        <div className="col-md-6">
+                          {renderReadOnlyField(
+                            "Fecha de fin",
+                            inventario.fecha_fin
+                          )}
                         </div>
-                      </form>
-                    </div>
+                        <div className="col-md-6">
+                          {renderReadOnlyField(
+                            "Número de legajos",
+                            inventario.legajos
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="row mb-3">
+                        <div className="col-md-6">
+                          {renderReadOnlyField(
+                            "Número de fojas",
+                            inventario.fojas
+                          )}
+                        </div>
+                        <div className="col-md-6">
+                          {renderReadOnlyField(
+                            "Valores Primarios",
+                            inventario.valores_primarios
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="row mb-3">
+                        <div className="col-md-6">
+                          {renderReadOnlyField(
+                            "Soporte Documental",
+                            inventario.soporte
+                          )}
+                        </div>
+                        <div className="col-md-6">
+                          {renderReadOnlyField(
+                            "Destino del Expediente",
+                            inventario.destino
+                          )}
+                        </div>
+                      </div>
+                      <div className="col-mb3">
+                        {renderReadOnlyField(
+                          "Tipo de Acceso",
+                          inventario.acceso
+                        )}
+                      </div>
+
+                      <div className="form-floating mb-3">
+                        <textarea
+                          className="form-control"
+                          name="descripsion"
+                          value={inventario.descripsion}
+                          onChange={handleInputChange}
+                          placeholder="Descripción"
+                        />
+                        <label>Descripción</label>
+                      </div>
+
+                      <div className="form-floating mb-3">
+                        <textarea
+                          className="form-control"
+                          name="observaciones"
+                          value={inventario.observaciones}
+                          onChange={handleInputChange}
+                          placeholder="Observaciones"
+                        />
+                        <label>Observaciones</label>
+                      </div>
+
+                      <div className="d-flex justify-content-center gap-4 mt-4 mb-2">
+                        <div className="mx-2">
+                          <Boton onClick={handleback}>Atrás</Boton>
+                        </div>
+                        <div className="mx-2">
+                          <Boton disabled={isLoading}>
+                            {isLoading ? "Autorizando..." : "Autorizar"}
+                          </Boton>
+                        </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
-          </main>
-        </div>
+          </div>
+        </main>
       </div>
     </div>
   );

@@ -47,7 +47,7 @@ const ResizableChart: React.FC<ResizableChartProps> = ({
         if (profile && profile.id_seccion) {
           const baseUrl =
             "https://backend-lga.onrender.com/dashboard/dashboard";
-          const axiosInstance = axios.create({ timeout: 10000 });
+          const axiosInstance = axios.create({});
 
           const [
             portadaResponse,

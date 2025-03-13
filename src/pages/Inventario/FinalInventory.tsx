@@ -152,14 +152,14 @@ export function Finalinventory() {
   const columns: GridColDef[] = [
     {
       field: "num_consecutivo",
-      headerName: "Num. Consecutivo",
+      headerName: "Núm. Consecutivo",
       flex: 1,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "num_expediente",
-      headerName: "Num. Expediente",
+      headerName: "Núm. Expediente",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -187,28 +187,28 @@ export function Finalinventory() {
     },
     {
       field: "legajos",
-      headerName: "Num. de legajos",
+      headerName: "Núm. de legajos",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "fojas",
-      headerName: "Num. de fojas",
+      headerName: "Núm. de fojas",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "valores_primarios",
-      headerName: "Valores primarios",
+      headerName: "Valores Primarios",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
     },
     {
       field: "soporte",
-      headerName: "Soporte",
+      headerName: "Soporte Documental",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",
@@ -229,7 +229,7 @@ export function Finalinventory() {
     },
     {
       field: "descripsion",
-      headerName: "Descripsion",
+      headerName: "Descripción",
       flex: 1.2,
       minWidth: 150,
       headerClassName: "table-header",

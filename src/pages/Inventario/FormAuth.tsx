@@ -5,12 +5,19 @@ import { useState } from "react";
 import { invetario_post } from "../../services/inventario.services";
 import Swal from "sweetalert2";
 import { Inventario, InventarioFormAuth } from "../../services/var.inven";
+import { useNavigate } from "react-router-dom";
 
 export function FormAuth() {
   const [showDiv, setShowDiv] = useState(false);
   const { state } = useLocation();
   const { selectedInventory } = state || {};
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleback = () => {
+    navigate("/TableInventory");
+  };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -61,7 +68,7 @@ export function FormAuth() {
       <div className="layoutAuthentication_content">
         <main>
           <div className="container-fluid">
-            <div className="row justify-content-center">
+            <div className="row justify-content-center  pt-10">
               <div className="col-lg-8 col-md-10 col-sm-10">
                 <div className="card shadow-lg border-0 rounded-lg mt-5">
                   <div
@@ -217,10 +224,15 @@ export function FormAuth() {
                         </div>
                       </div>
 
-                      <div className="d-grid gap-2 mt-4">
-                        <Boton type="submit" disabled={isSubmitting}>
-                          {isSubmitting ? "Enviando..." : "Confirmar y Guardar"}
-                        </Boton>
+                      <div className="d-flex justify-content-center gap-4 mt-4 mb-2">
+                        <div className="mx-2">
+                          <Boton onClick={handleback}>Atrás</Boton>
+                        </div>
+                        <div className="mx-2">
+                          <Boton type="submit" disabled={isSubmitting}>
+                            {isSubmitting ? "Autorizando.." : "Autorizar"}
+                          </Boton>
+                        </div>
                       </div>
                     </form>
                   </div>
