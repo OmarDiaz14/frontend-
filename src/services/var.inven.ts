@@ -1,7 +1,7 @@
 export interface iInventario {
     num_consecutivo: string;
     serie: string;
-    descripsion: string;
+    descripcion: string;
     observaciones: string;
     expediente: string;
 }
@@ -9,7 +9,7 @@ export interface iInventario {
 export class Inventario implements iInventario{
     num_consecutivo: string = "";
     serie: string = "";
-    descripsion: string = "";
+    descripcion: string = "";
     observaciones: string = "";
     expediente: string = "";
 }

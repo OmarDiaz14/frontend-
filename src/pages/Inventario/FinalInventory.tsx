@@ -25,10 +25,10 @@ export function Finalinventory() {
     try {
       const items = await inventario_get();
       const validItems = items.filter(
-        (item: { descripsion: string; observaciones: string }) =>
-          item.descripsion &&
+        (item: { descripcion: string; observaciones: string }) =>
+          item.descripcion &&
           item.observaciones &&
-          item.descripsion.trim() !== "" &&
+          item.descripcion.trim() !== "" &&
           item.observaciones.trim() !== ""
       );
       setiInventario(validItems);
@@ -53,9 +53,9 @@ export function Finalinventory() {
     (filteredData: iInventario[]): void => {
       const validFilteredData = filteredData.filter(
         (item) =>
-          item.descripsion &&
+          item.descripcion &&
           item.observaciones &&
-          item.descripsion.trim() !== "" &&
+          item.descripcion.trim() !== "" &&
           item.observaciones.trim() !== ""
       );
       setFilteredInventory(validFilteredData);
@@ -228,7 +228,7 @@ export function Finalinventory() {
       headerClassName: "table-header",
     },
     {
-      field: "descripsion",
+      field: "descripcion",
       headerName: "Descripción",
       flex: 1.2,
       minWidth: 150,
